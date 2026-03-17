@@ -1,0 +1,46 @@
+﻿        .qr-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .qr-tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: var(--input-bg);
+            border-radius: 8px;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .qr-tab-btn.active {
+            background: var(--qr-primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(0, 122, 255, 0.3);
+        }
+
+        .qr-tab-content {
+            display: none;
+        }
+
+        .qr-tab-content.active {
+            display: block;
+        }
+
+        #qrcode {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        #qrcode img,
+        #qrcode canvas {
+            padding: 15px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+

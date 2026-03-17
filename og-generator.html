@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>OG Thumbnail Generator</title>
+<style>
+  body { margin: 0; background: #111; display: flex; flex-direction: column; align-items: center; padding: 30px; font-family: sans-serif; color: #fff; }
+  h2 { color: #a855f7; margin-bottom: 10px; }
+  p { color: #888; font-size: 13px; margin-bottom: 20px; }
+  canvas { border-radius: 12px; box-shadow: 0 20px 60px rgba(168,85,247,0.4); }
+  button {
+    margin-top: 20px; padding: 12px 28px;
+    background: linear-gradient(135deg, #a855f7, #5e5ce6);
+    color: #fff; border: none; border-radius: 10px;
+    font-size: 15px; font-weight: 700; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(168,85,247,0.4);
+  }
+  button:hover { opacity: 0.9; transform: translateY(-1px); }
+</style>
+</head>
+<body>
+  <h2>⚡ Vibe Studio — OG 썸네일 생성기</h2>
+  <p>아래 이미지를 <strong>우클릭 → 다른 이름으로 저장</strong>하거나, 다운로드 버튼을 클릭하세요.</p>
+  <canvas id="c" width="1200" height="630"></canvas>
+  <button onclick="download()">📥 og-thumbnail.png 다운로드</button>
+
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1200, H = 630;
+
+// 1. 배경
+const bg = ctx.createLinearGradient(0, 0, W, H);
+bg.addColorStop(0, '#050507');
+bg.addColorStop(0.5, '#0a0a12');
+bg.addColorStop(1, '#050507');
+ctx.fillStyle = bg;
+ctx.fillRect(0, 0, W, H);
+
+// 2. 격자 배경
+ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+ctx.lineWidth = 1;
+for (let x = 0; x < W; x += 48) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+for (let y = 0; y < H; y += 48) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+
+// 3. 발광 orb (좌측 상단)
+const orb1 = ctx.createRadialGradient(200, 150, 0, 200, 150, 350);
+orb1.addColorStop(0, 'rgba(168,85,247,0.25)');
+orb1.addColorStop(1, 'rgba(168,85,247,0)');
+ctx.fillStyle = orb1;
+ctx.fillRect(0, 0, W, H);
+
+// 4. 발광 orb (우측 하단)
+const orb2 = ctx.createRadialGradient(1050, 500, 0, 1050, 500, 300);
+orb2.addColorStop(0, 'rgba(99,102,241,0.2)');
+orb2.addColorStop(1, 'rgba(99,102,241,0)');
+ctx.fillStyle = orb2;
+ctx.fillRect(0, 0, W, H);
+
+// 5. 로고 박스 (번개 아이콘)
+const logoX = 420, logoY = 195, logoSize = 80;
+const logoGrad = ctx.createLinearGradient(logoX, logoY, logoX + logoSize, logoY + logoSize);
+logoGrad.addColorStop(0, '#a855f7');
+logoGrad.addColorStop(1, '#5e5ce6');
+ctx.fillStyle = logoGrad;
+roundRect(ctx, logoX, logoY, logoSize, logoSize, 20);
+
+// 번개 SVG path 그리기
+ctx.fillStyle = '#ffffff';
+ctx.save();
+ctx.translate(logoX + 14, logoY + 10);
+ctx.scale(2.2, 2.2);
+const p = new Path2D('M13 2L3 14H12L11 22L21 10H12L13 2Z');
+ctx.fill(p);
+ctx.restore();
+
+// 6. 메인 타이틀
+ctx.textAlign = 'center';
+const titleGrad = ctx.createLinearGradient(0, 250, 0, 340);
+titleGrad.addColorStop(0, '#ffffff');
+titleGrad.addColorStop(1, '#a5b4fc');
+ctx.fillStyle = titleGrad;
+ctx.font = 'bold 92px -apple-system, BlinkMacSystemFont, Arial, sans-serif';
+ctx.fillText('Vibe Studio', W / 2, 310);
+
+// 7. 서브타이틀
+ctx.fillStyle = 'rgba(168,85,247,0.85)';
+ctx.font = '500 32px -apple-system, BlinkMacSystemFont, Arial, sans-serif';
+ctx.fillText('macOS 스타일 웹 생산성 툴킷', W / 2, 370);
+
+// 8. 기능 태그들
+const tags = ['맞춤법 검사', 'QR 생성', 'PDF 변환', '탱그램', '서버 상태'];
+const tagY = 440;
+let tagTotalW = 0;
+const tagPad = 20, tagH = 42, tagGap = 14;
+const tagWidths = tags.map(t => ctx.measureText(t).width + tagPad * 2);
+tagWidths.forEach(w => tagTotalW += w + tagGap);
+tagTotalW -= tagGap;
+let tagX = (W - tagTotalW) / 2;
+
+ctx.font = '600 18px -apple-system, BlinkMacSystemFont, Arial, sans-serif';
+tags.forEach((tag, i) => {
+  const tw = tagWidths[i];
+  ctx.fillStyle = 'rgba(168,85,247,0.12)';
+  roundRect(ctx, tagX, tagY, tw, tagH, 100);
+  ctx.strokeStyle = 'rgba(168,85,247,0.3)';
+  ctx.lineWidth = 1;
+  roundRectStroke(ctx, tagX, tagY, tw, tagH, 100);
+  ctx.fillStyle = 'rgba(200,180,255,0.8)';
+  ctx.textAlign = 'center';
+  ctx.fillText(tag, tagX + tw / 2, tagY + 27);
+  tagX += tw + tagGap;
+});
+
+// 9. 하단 브랜드
+ctx.textAlign = 'center';
+ctx.fillStyle = 'rgba(255,255,255,0.25)';
+ctx.font = '400 18px -apple-system, BlinkMacSystemFont, Arial, sans-serif';
+ctx.fillText('vibestudio.prisincera.com  ·  Powered by PriSincera', W / 2, 580);
+
+// 10. 하단 라인 장식
+const lineGrad = ctx.createLinearGradient(0, 600, W, 600);
+lineGrad.addColorStop(0, 'transparent');
+lineGrad.addColorStop(0.3, 'rgba(168,85,247,0.5)');
+lineGrad.addColorStop(0.7, 'rgba(99,102,241,0.5)');
+lineGrad.addColorStop(1, 'transparent');
+ctx.strokeStyle = lineGrad;
+ctx.lineWidth = 1;
+ctx.beginPath(); ctx.moveTo(0, 605); ctx.lineTo(W, 605); ctx.stroke();
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.fill();
+}
+function roundRectStroke(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.lineTo(x + w - r, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+  ctx.lineTo(x + w, y + h - r);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+  ctx.lineTo(x + r, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+  ctx.lineTo(x, y + r);
+  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.closePath();
+  ctx.stroke();
+}
+
+function download() {
+  const a = document.createElement('a');
+  a.download = 'og-thumbnail.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>

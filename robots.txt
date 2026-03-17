@@ -1,0 +1,11 @@
+# Vibe Studio - robots.txt
+# https://vibestudio.prisincera.com/
+
+User-agent: *
+Allow: /
+
+# 관리자 페이지 크롤링 차단
+Disallow: /apps/admin/
+
+# Sitemap 위치 안내
+Sitemap: https://vibestudio.prisincera.com/sitemap.xml

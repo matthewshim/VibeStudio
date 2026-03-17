@@ -1,0 +1,52 @@
+
+                <div class="sys-grid">
+                    <div class="sys-card" style="border-top: 4px solid var(--server-primary);">
+                        <h3><i data-lucide="cpu" style="width:16px;"></i> CPU USAGE</h3>
+                        <div class="main-stat" style="font-size: 2.5rem; font-weight: 800; margin: 10px 0;">
+                            <span id="srv-cpu">0</span><span
+                                style="font-size: 1rem; color: var(--text-muted); margin-left: 5px;">%</span>
+                        </div>
+                        <div style="height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="srv-cpu-bar"
+                                style="height: 100%; width: 0%; background: var(--server-primary); transition: width 0.5s ease;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sys-card" style="border-top: 4px solid #3b82f6;">
+                        <h3><i data-lucide="database" style="width:16px;"></i> MEMORY</h3>
+                        <div class="main-stat" style="font-size: 2.5rem; font-weight: 800; margin: 10px 0;">
+                            <span id="srv-mem">0</span><span
+                                style="font-size: 1rem; color: var(--text-muted); margin-left: 5px;">%</span>
+                        </div>
+                        <div class="sys-item" style="border:none; padding:0; margin-bottom: 5px;"><span
+                                class="sys-value" id="srv-mem-detail" style="font-size: 11px;">0 GB / 0 GB</span></div>
+                        <div style="height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="srv-mem-bar"
+                                style="height: 100%; width: 0%; background: #3b82f6; transition: width 0.5s ease;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sys-card" style="border-top: 4px solid #a855f7;">
+                        <h3><i data-lucide="hard-drive" style="width:16px;"></i> DISK STORAGE</h3>
+                        <div class="main-stat" style="font-size: 2.5rem; font-weight: 800; margin: 10px 0;">
+                            <span id="srv-disk">0</span><span
+                                style="font-size: 1rem; color: var(--text-muted); margin-left: 5px;">%</span>
+                        </div>
+                        <div class="sys-item" style="border:none; padding:0; margin-bottom: 5px;"><span
+                                class="sys-value" id="srv-disk-detail" style="font-size: 11px;">0 GB / 0 GB</span></div>
+                        <div style="height: 6px; background: rgba(0,0,0,0.1); border-radius: 3px; overflow: hidden;">
+                            <div id="srv-disk-bar"
+                                style="height: 100%; width: 0%; background: #a855f7; transition: width 0.5s ease;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sys-card">
+                    <h3><i data-lucide="clock" style="width:16px;"></i> System Uptime & Status</h3>
+                    <div class="sys-item"><span class="sys-label">Uptime</span> <span class="sys-value"
+                            id="srv-uptime">-</span></div>
+                    <div class="sys-item"><span class="sys-label">Last Updated</span> <span class="sys-value"
+                            id="srv-updated">-</span></div>
+                    <div class="sys-item"><span class="sys-label">Status</span> <span class="sys-value"
+                            style="color: var(--server-primary);">Connected 🟢</span></div>
+                </div>

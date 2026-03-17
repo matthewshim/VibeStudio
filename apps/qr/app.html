@@ -1,0 +1,24 @@
+
+<div class="content-box">
+    <div class="qr-tabs">
+        <button class="qr-tab-btn active" onclick="switchQrTab(event, 'generate')">생성기</button>
+        <button class="qr-tab-btn" onclick="switchQrTab(event, 'scan')">해독기</button>
+    </div>
+    <div id="tab-generate" class="qr-tab-content active">
+        <input type="text" id="qrTextInput" class="mac-input" placeholder="URL이나 텍스트를 입력하세요">
+        <button class="mac-btn" style="background: var(--qr-primary);" onclick="generateQR()">
+            <i data-lucide="zap" style="width: 20px;"></i> QR코드 만들기
+        </button>
+        <div id="qrcode"></div>
+    </div>
+    <div id="tab-scan" class="qr-tab-content">
+        <label class="pdf-upload-box" for="actualFileInput">
+            <i data-lucide="image-plus"
+                style="width: 36px; height: 36px; color: var(--text-muted);"></i>
+            <div style="font-weight: 600;">QR코드 이미지 업로드</div>
+        </label>
+        <input type="file" id="actualFileInput" accept="image/*" style="display:none;">
+        <div id="scanResult"
+            style="margin-top:15px; text-align:center; font-weight:600; font-size:15px;"></div>
+    </div>
+</div>

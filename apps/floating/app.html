@@ -1,0 +1,143 @@
+    <!-- 사전예약 플로팅 UI -->
+    <div class="floating-container">
+        <div class="registration-panel" id="regPanel">
+            <!-- 헤더 -->
+            <div class="reg-header">
+                <div>
+                    <h2>PRE-REGISTRATION</h2>
+                    <div class="reg-header-sub">Vibe Studio 얼리 엑세스</div>
+                </div>
+                <div class="reg-close-btn" onclick="toggleRegPanel()" title="닫기">
+                    <i data-lucide="x" style="width:14px; height:14px;"></i>
+                </div>
+            </div>
+
+            <!-- 탭 제거 (체크박스 통합형으로 변경) -->
+
+            <!-- 콘텐츠 영역 -->
+            <div class="reg-content">
+
+                <!-- Vibe Studio Fan 신청 뷰 -->
+                <div id="reg-webapp" class="reg-view active">
+
+                    <!-- [1] 신청 항목 선택 (상단 이동 + 가로 나열) -->
+                    <div
+                        style="font-size: 13px; font-weight: 800; color: var(--text-main); margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="check-circle-2" style="width:16px; height:16px; color: var(--sys-primary);"></i>
+                        어떤 소식을 받아볼까요?
+                    </div>
+
+                    <div class="fan-picker">
+                        <label class="fan-chip active" id="chip-webapp">
+                            <input type="checkbox" class="agree-item req" id="applyWebapp" checked
+                                onchange="toggleFanChip('webapp', this)">
+                            <i data-lucide="layers"></i>
+                            <span>웹앱 사전예약</span>
+                        </label>
+                        <label class="fan-chip" id="chip-content">
+                            <input type="checkbox" class="agree-item" id="applyContent"
+                                onchange="toggleFanChip('content', this)">
+                            <i data-lucide="mail"></i>
+                            <span>컨텐츠 구독</span>
+                        </label>
+                        <label class="fan-chip" id="chip-coffee">
+                            <input type="checkbox" class="agree-item" id="applyCoffee"
+                                onchange="toggleFanChip('coffee', this)">
+                            <i data-lucide="coffee"></i>
+                            <span>커피챗 예약</span>
+                        </label>
+                    </div>
+
+                    <!-- [2] 이메일 인증 영역 -->
+                    <div class="reg-input-row">
+                        <input type="email" class="mac-input" id="emailAddr" placeholder="이메일 주소 (example@email.com)"
+                            onkeydown="if(event.key==='Enter') sendCode()">
+                        <button class="reg-send-btn" onclick="sendCode()" id="sendBtn">인증 발송</button>
+                    </div>
+
+                    <!-- 인증번호 -->
+                    <div class="verify-row">
+                        <input type="text" class="mac-input" id="verifyCode" placeholder="인증번호 6자리" maxlength="6"
+                            onkeydown="if(event.key==='Enter') verifyCode()">
+                        <span class="timer-badge" id="timer">10:00</span>
+                        <button class="reg-verify-btn" onclick="verifyCode()" id="verifyBtn">확인</button>
+                    </div>
+
+                    <!-- 알림 영역 -->
+                    <div class="notify-area" id="regNotify">
+                        <i data-lucide="info" style="width:15px; height:15px; flex-shrink:0;"></i>
+                        <span id="regNotifyText">이메일 주소를 입력하세요.</span>
+                    </div>
+
+                    <div class="consent-section">
+                        <label class="consent-item all-agree-row">
+                            <input type="checkbox" id="agreeAll" onchange="toggleAllAgree(this)">
+                            <div class="consent-label">
+                                <span class="consent-text" style="font-weight:700;">전체 동의 (필수 항목 및 선택 동의)</span>
+                            </div>
+                        </label>
+                        <label class="consent-item">
+                            <input type="checkbox" class="agree-item req" id="agreeAge">
+                            <div class="consent-label">
+                                <span class="consent-text"><span style="color:#5e5ce6; font-weight:700;">[필수]</span> 만
+                                    15세 이상입니다.</span>
+                            </div>
+                        </label>
+                        <label class="consent-item">
+                            <input type="checkbox" class="agree-item req" id="agreePrivacy">
+                            <div class="consent-label">
+                                <span class="consent-text"><span style="color:#5e5ce6; font-weight:700;">[필수]</span>
+                                    개인정보 수집 및 이용 동의</span>
+                                <span class="view-detail"
+                                    onclick="event.preventDefault(); alert('서비스 준비 중입니다.')">자세히보기</span>
+                            </div>
+                        </label>
+                        <label class="consent-item">
+                            <input type="checkbox" class="agree-item" id="agreeMarketing">
+                            <div class="consent-label">
+                                <span class="consent-text"><span style="color:#a78bfa; font-weight:700;">[선택]</span> 광고성
+                                    정보 수신 동의</span>
+                                <span class="view-detail"
+                                    onclick="event.preventDefault(); alert('서비스 준비 중입니다.')">자세히보기</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <!-- CTA 버튼 -->
+                    <button class="reg-cta-btn" onclick="submitReg()" id="regCtaBtn">
+                        Vibe Studio Fan 신청하기 🚀
+                    </button>
+                </div>
+
+                <!-- ② 컨텐츠 구독 -->
+                <div id="reg-content" class="reg-view">
+                    <div class="reg-coming-soon">
+                        <div class="cs-icon" style="background: rgba(167,139,250,0.12);">
+                            <i data-lucide="mail" style="width:28px; height:28px; color:#a78bfa;"></i>
+                        </div>
+                        <h3>컨텐츠 구독예약</h3>
+                        <p>Vibe Studio의 프리미엄 컨텐츠<br>구독 서비스를 곧 만나보세요.<br><br>런칭 알림을 먼저 받으실 분들을<br>위한 사전 구독 신청을 준비 중입니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ③ 커피챗 예약 -->
+                <div id="reg-coffee" class="reg-view">
+                    <div class="reg-coming-soon">
+                        <div class="cs-icon" style="background: rgba(255,159,10,0.12);">
+                            <i data-lucide="coffee" style="width:28px; height:28px; color:#ff9f0a;"></i>
+                        </div>
+                        <h3>커피챗 예약</h3>
+                        <p>전문가와의 1:1 커피챗으로<br>Vibe Studio를 깊이 경험해보세요.<br><br>일정 선택 및 예약 기능을<br>준비하고 있습니다.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PRE-REGISTER 사이드 버튼 -->
+        <div class="floating-bookmark" id="regBookmark" onclick="toggleRegPanel()">
+            PRE-REGISTER
+        </div>
+    </div>
+

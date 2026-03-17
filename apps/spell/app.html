@@ -1,0 +1,55 @@
+
+                <div class="spell-container">
+                    <div class="spell-input-area" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div id="charCount"
+                            style="font-size: 13px; font-weight: 600; color: var(--text-muted); padding-left: 15px;">공백
+                            포함: 0자 | 공백 제외: 0자 | 0 bytes</div>
+                        <textarea id="spellInputText" class="mac-input" style="flex: 1; margin-bottom: 0;"
+                            placeholder="검사할 내용을 입력하세요..."></textarea>
+                    </div>
+                    <div class="spell-result-area" style="display: flex; flex-direction: column; gap: 10px;">
+                        <div class="spell-footer" style="justify-content: flex-start; gap: 10px; padding: 0; padding-left: 15px;">
+                            <span style="font-weight: 700; color: var(--text-main);">교정 결과</span>
+                            <span id="spellErrorCount"
+                                style="font-size: 12px; background: rgba(0,0,0,0.1); padding: 2px 8px; border-radius: 10px;">오류
+                                0개</span>
+                        </div>
+                        <div class="spell-result-box" id="spellResultBox" style="flex: 1; overflow-y: auto;">
+                            <div class="spell-empty">
+                                <i data-lucide="check-circle" style="width: 48px; height: 48px; opacity: 0.2;"></i>
+                                <p>내용을 입력하고 검사하기를 눌러주세요.</p>
+                            </div>
+                        </div>
+                        <div id="spellColorGuide" class="spell-guide" style="display: none;">
+                            <div class="guide-item"><span class="guide-dot" style="background:#ff5757;"></span>맞춤법</div>
+                            <div class="guide-item"><span class="guide-dot" style="background:#b22af8;"></span>표준어의심
+                            </div>
+                            <div class="guide-item"><span class="guide-dot" style="background:#02c73c;"></span>띄어쓰기
+                            </div>
+                            <div class="guide-item"><span class="guide-dot" style="background:#2facea;"></span>통계적교정
+                            </div>
+                        </div>
+                        <div id="spellNotice" class="spell-notice" style="display: none;">
+                            <i data-lucide="info" style="width: 14px; height: 14px;"></i>
+                            <div style="display: flex; flex-direction: column; gap: 4px;">
+                                <span>맞춤법 검사 결과는 국어 맞춤법/문법 규정을 준수하며, 일부 통계적 교정이 포함될 수 있습니다.</span>
+                                <span style="font-size: 10px; opacity: 0.7;">Provider: NAVER Speller API
+                                    Implementation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="spell-action-center">
+                    <button class="mac-btn" style="background: var(--text-muted); width: 140px;"
+                        onclick="clearSpellInput()">
+                        <i data-lucide="refresh-ccw" style="width: 16px;"></i> 초기화
+                    </button>
+                    <button class="mac-btn" style="background: var(--spell-primary); width: 160px;" id="spellCheckBtn"
+                        onclick="runSpellCheck()">
+                        <i data-lucide="zap" style="width: 18px;"></i> 검사하기
+                    </button>
+                    <button class="mac-btn" style="background: #10b981; display: none; width: 140px;" id="allFixBtn"
+                        onclick="applyAllCorrections()">
+                        <i data-lucide="check-check" style="width: 18px;"></i> 모두 수정
+                    </button>
+                </div>

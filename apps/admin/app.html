@@ -1,0 +1,300 @@
+<div class="admin-container">
+
+    <!-- ── 로그인 뷰 ──────────────────────────────────── -->
+    <div id="admin-login" class="admin-sub-view">
+        <div class="admin-login-view">
+            <div class="admin-login-card">
+                <i data-lucide="shield-check"
+                    style="width: 48px; height: 48px; color: var(--sys-primary); margin-bottom: 14px;"></i>
+                <h2>관리자 인증</h2>
+                <input type="text" id="admin-id" class="mac-input" placeholder="아이디" autofocus>
+                <input type="password" id="admin-pw" class="mac-input" placeholder="비밀번호">
+                <button class="mac-btn" onclick="tryAdminLogin()"
+                    style="background: var(--sys-primary); color: white;">로그인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── 관리자 패널 뷰 ─────────────────────────────── -->
+    <div id="admin-panel" class="admin-sub-view" style="display:none;">
+
+        <!-- 탭 네비게이션 -->
+        <div class="admin-tabs">
+            <button class="admin-tab active" id="tab-stats" onclick="showAdminTab('stats')">
+                <i data-lucide="bar-chart-2" style="width:14px;height:14px;"></i> 통계
+            </button>
+            <button class="admin-tab" id="tab-fans" onclick="showAdminTab('fans')">
+                <i data-lucide="users" style="width:14px;height:14px;"></i> Fan 목록
+            </button>
+            <button class="admin-tab" id="tab-settings" onclick="showAdminTab('settings')">
+                <i data-lucide="shield" style="width:14px;height:14px;"></i> 관리자 설정
+            </button>
+            <button class="admin-tab" id="tab-webapp" onclick="showAdminTab('webapp')">
+                <i data-lucide="layout-grid" style="width:14px;height:14px;"></i> 웹앱 설정
+            </button>
+            <div class="admin-tab-spacer"></div>
+            <button class="admin-btn danger" onclick="adminLogout()">
+                <i data-lucide="log-out" style="width:12px;height:12px;"></i> 로그아웃
+            </button>
+        </div>
+
+        <!-- ① 통계 뷰 -->
+        <div id="admin-view-stats" class="admin-panel-view active">
+            <!-- 날짜 필터 -->
+            <div class="stats-filter-bar">
+                <div class="stats-filter-presets">
+                    <button class="stats-preset active" onclick="setStatPreset(7, this)">7일</button>
+                    <button class="stats-preset" onclick="setStatPreset(14, this)">14일</button>
+                    <button class="stats-preset" onclick="setStatPreset(30, this)">30일</button>
+                </div>
+                <div class="stats-filter-custom">
+                    <input type="date" id="stats-from" class="stats-date-input">
+                    <span style="opacity:0.5;font-size:12px;">~</span>
+                    <input type="date" id="stats-to" class="stats-date-input">
+                    <button class="admin-btn primary" onclick="loadStats()" style="height:32px;padding:0 12px;font-size:12px;">
+                        <i data-lucide="search" style="width:12px;height:12px;"></i> 조회
+                    </button>
+                </div>
+            </div>
+
+            <!-- 요약 카드 -->
+            <div class="stats-summary-grid" id="stats-summary">
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">방문 수</div>
+                    <div class="stats-summary-value" id="sum-visit">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">Fan 신규 등록</div>
+                    <div class="stats-summary-value" id="sum-fan-reg">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">전체 Fan 수</div>
+                    <div class="stats-summary-value" id="sum-total-fan">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">앱 실행 (합계)</div>
+                    <div class="stats-summary-value" id="sum-apps">—</div>
+                </div>
+            </div>
+
+            <!-- 차트: 방문 추이 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="trending-up" style="width:15px;height:15px;color:var(--sys-primary);"></i>
+                    일별 방문 수
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="chart-visit"></canvas>
+                </div>
+            </div>
+
+            <!-- 차트: 앱별 실행 수 (바 차트) -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="layout-grid" style="width:15px;height:15px;color:#a855f7;"></i>
+                    앱별 실행 수
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="chart-apps"></canvas>
+                </div>
+            </div>
+
+            <!-- 일별 상세 테이블 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="table" style="width:15px;height:15px;color:#34d399;"></i>
+                    일별 상세 데이터
+                </div>
+                <div class="admin-table-container" style="margin-top:10px;">
+                    <table class="admin-table" id="stats-detail-table">
+                        <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>방문</th>
+                                <th>신규 Fan</th>
+                                <th>탱그램</th>
+                                <th>파친코</th>
+                                <th>서버 모니터</th>
+                                <th>시스템</th>
+                                <th>PDF</th>
+                                <th>QR</th>
+                                <th>클랩미터</th>
+                                <th>맞춤법</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-detail-body">
+                            <tr><td colspan="11" style="text-align:center;padding:30px;color:var(--text-muted);">날짜를 선택하고 조회하세요</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ② Fan 목록 뷰 -->
+        <div id="admin-view-fans" class="admin-panel-view">
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(94,92,230,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="users" style="width: 20px; height: 20px; color: var(--sys-primary);"></i>
+                    </div>
+                    Fan 목록
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAdminList()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- PC: 테이블 -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>이메일 주소</th>
+                            <th>신청 항목</th>
+                            <th>마케팅</th>
+                            <th>완료 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-list-body">
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                데이터를 불러오는 중...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile: 카드 리스트 -->
+            <div class="admin-card-list" id="admin-card-list">
+                <div style="text-align:center; padding: 40px 0; color: var(--text-muted); font-size:14px;">
+                    데이터를 불러오는 중...
+                </div>
+            </div>
+        </div>
+
+        <!-- ③ 관리자 설정 뷰 -->
+        <div id="admin-view-settings" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(168,85,247,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="shield" style="width: 20px; height: 20px; color: #a855f7;"></i>
+                    </div>
+                    관리자 설정
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAdminAccounts()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- 계정 추가 폼 -->
+            <div class="acct-add-card">
+                <div class="acct-add-title">
+                    <i data-lucide="user-plus" style="width:16px;height:16px;color:#a855f7;"></i>
+                    새 관리자 계정 추가
+                </div>
+                <div class="acct-add-form">
+                    <div class="acct-field-group">
+                        <label class="acct-label">아이디</label>
+                        <input type="text" id="new-admin-id" class="acct-input" placeholder="3~50자 영문/숫자" autocomplete="off">
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">이름</label>
+                        <input type="text" id="new-admin-name" class="acct-input" placeholder="표시 이름 (선택)" autocomplete="off">
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">비밀번호</label>
+                        <div class="acct-pw-wrap">
+                            <input type="password" id="new-admin-pw" class="acct-input" placeholder="최소 4자 이상" autocomplete="new-password">
+                            <button class="acct-pw-toggle" type="button" onclick="toggleNewPw(this)" title="비밀번호 표시">
+                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">권한</label>
+                        <select id="new-admin-role" class="acct-input acct-select">
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Super Admin</option>
+                        </select>
+                    </div>
+                    <button class="acct-add-btn" onclick="addAdminAccount()">
+                        <i data-lucide="plus" style="width:15px;height:15px;"></i>
+                        계정 추가
+                    </button>
+                </div>
+                <div id="acct-add-msg" class="acct-msg" style="display:none;"></div>
+            </div>
+
+            <!-- 계정 목록 -->
+            <div class="acct-list-block">
+                <div class="acct-list-title">
+                    <i data-lucide="users" style="width:15px;height:15px;color:var(--sys-primary);"></i>
+                    관리자 계정 목록
+                    <span id="acct-count-badge" class="acct-count-badge">—</span>
+                </div>
+
+                <!-- PC Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>아이디</th>
+                                <th>이름</th>
+                                <th>권한</th>
+                                <th>생성일</th>
+                                <th>수정일</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acct-table-body">
+                            <tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">불러오는 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card -->
+                <div class="admin-card-list" id="acct-card-list">
+                    <div style="text-align:center;padding:30px 0;color:var(--text-muted);font-size:14px;">불러오는 중...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ④ 웹앱 설정 뷰 -->
+        <div id="admin-view-webapp" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(52,211,153,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="layout-grid" style="width: 20px; height: 20px; color: #34d399;"></i>
+                    </div>
+                    웹앱 설정
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAppSettings()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <p style="font-size:13px;color:var(--text-muted);margin:0 0 18px;line-height:1.6;">
+                독(Dock)에 노출할 웹앱을 선택하세요. OFF로 설정된 앱은 메인 화면 독에서 숨겨집니다.
+            </p>
+
+            <!-- 앱 토글 카드 목록 -->
+            <div id="webapp-toggle-list" class="webapp-toggle-list">
+                <div style="text-align:center;padding:40px;color:var(--text-muted);">불러오는 중...</div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

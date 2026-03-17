@@ -1,0 +1,51 @@
+
+<div class="sys-grid">
+    <div class="sys-card">
+        <h3><i data-lucide="monitor" style="width:16px;"></i> Display & Screen</h3>
+        <div class="sys-item"><span class="sys-label">Current Resolution</span> <span class="sys-value"
+                id="sys-window-res" style="color:var(--sys-primary);">로딩중...</span></div>
+        <div class="sys-item"><span class="sys-label">Screen Size</span> <span class="sys-value"
+                id="sys-screen-res"></span></div>
+        <div class="sys-item"><span class="sys-label">Color Depth</span> <span class="sys-value"
+                id="sys-color-depth"></span></div>
+        <div class="sys-item"><span class="sys-label">Pixel Ratio</span> <span class="sys-value"
+                id="sys-pixel-ratio"></span></div>
+    </div>
+    <div class="sys-card">
+        <h3><i data-lucide="layout-template" style="width:16px;"></i> Software Info</h3>
+        <div class="sys-item"><span class="sys-label">Platform (OS)</span> <span class="sys-value"
+                id="sys-os"></span></div>
+        <div class="sys-item"><span class="sys-label">Browser Engine</span> <span class="sys-value"
+                id="sys-browser"></span></div>
+        <div class="sys-item"><span class="sys-label">Language</span> <span class="sys-value"
+                id="sys-lang"></span></div>
+        <div class="sys-item"><span class="sys-label">Timezone</span> <span class="sys-value"
+                id="sys-timezone"></span></div>
+    </div>
+    <div class="sys-card">
+        <h3><i data-lucide="cpu" style="width:16px;"></i> Hardware & Network</h3>
+        <div class="sys-item"><span class="sys-label">Logical CPU Cores</span> <span class="sys-value"
+                id="sys-cpu"></span></div>
+        <div class="sys-item"><span class="sys-label">Device Memory</span> <span class="sys-value"
+                id="sys-ram"></span></div>
+        <div class="sys-item"><span class="sys-label">Network Status</span> <span class="sys-value"
+                id="sys-network"></span></div>
+    </div>
+    <div class="sys-card">
+        <h3><i data-lucide="settings-2" style="width:16px;"></i> Features Support</h3>
+        <div class="sys-item"><span class="sys-label">Online Status</span> <span class="sys-value"
+                id="sys-online">Online</span></div>
+        <div class="sys-item"><span class="sys-label">Cookies Enabled</span> <span class="sys-value"
+                id="sys-cookie"></span></div>
+        <div class="sys-item"><span class="sys-label">Do Not Track</span> <span class="sys-value"
+                id="sys-dnt"></span>
+        </div>
+        <div class="sys-item"><span class="sys-label">Touch Support</span> <span class="sys-value"
+                id="sys-touch"></span></div>
+    </div>
+</div>
+<!-- Raw User Agent -->
+<div class="sys-card" style="margin-top: 20px;">
+    <h3><i data-lucide="file-code-2" style="width:16px;"></i> Raw User Agent</h3>
+    <div class="sys-ua-box" id="sys-ua"></div>
+</div>
