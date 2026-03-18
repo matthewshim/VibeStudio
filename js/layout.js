@@ -71,7 +71,7 @@
         +   '<nav class="shared-footer-nav">'
         +     '<a href="about.html">About</a>'
         +     '<a href="contact.html">Contact</a>'
-        +     '<button type="button" id="sharedAdminBtn">Administrator</button>'
+        +     '<a href="index.html?admin=1">Administrator</a>'
         +   '</nav>'
         + '</div>'
         + '<div class="shared-footer-copy">'
@@ -85,14 +85,6 @@
     // ── 6. Inject footer ──────────────────────────────────────
     var footerEl = document.getElementById('site-footer');
     if (footerEl) footerEl.innerHTML = FOOTER_HTML;
-
-    // Administrator: addEventListener (CSP-safe, no inline onclick)
-    var adminBtn = document.getElementById('sharedAdminBtn');
-    if (adminBtn) {
-        adminBtn.addEventListener('click', function () {
-            window.location.href = 'index.html?admin=1';
-        });
-    }
 
     // ── 7. Theme icon init ────────────────────────────────────
     var storedTheme = localStorage.getItem('vibe-theme')
