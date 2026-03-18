@@ -137,9 +137,11 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding-top: 89px;    /* GNB */
-            padding-bottom: 88px; /* 푸터 높이 */
-            padding-left: 82px;   /* 좌측 독 공간 */
+            /* 헤더(22px)와 동일한 여백 통일 */
+            padding-top: 78px;    /* GNB 56px + 22px 간격 */
+            padding-bottom: 110px; /* 푸터 88px + 22px 간격 */
+            padding-left: 104px;  /* 독 82px + 22px 간격 */
+            padding-right: 22px;  /* 우측 22px 헤더 패딩과 동일 */
             box-sizing: border-box;
         }
 
@@ -410,8 +412,8 @@
         }
         .nav-center .nav-sep { margin: 0 2px; }
         @media (max-width: 768px) { .nav-center { display: none; } }
-        /* Mobile clock 유지 */
-        #mac-clock { font-size: 12px; opacity: 0.7; letter-spacing: -0.2px; }
+        /* PC 헤더 시계 숨김 */
+        #mac-clock { display: none !important; }
 
         /* ── 햄버거 메뉴 버튼 (모바일에서만 보임) ── */
         .hamburger-btn {
@@ -592,9 +594,9 @@
         .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
         .mac-window {
-            width: 90%;
-            max-width: 850px;
-            /* 부모(desktop-wrapper)의 패딩된 영역을 꽉 채움 */
+            width: 100%;
+            max-width: 100%;
+            /* desktop-wrapper 패딩이 여백을 담당 — 윈도우는 가용 영역 완전 점유 */
             height: 100%;
             max-height: 100%;
             min-height: 280px;
@@ -933,18 +935,65 @@
         }
 
         .dock-dot {
-            width: 4px;
-            height: 4px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: var(--text-main);
             opacity: 0;
             transition: opacity 0.3s;
             position: absolute;
-            right: -7px;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: -7px;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .dock-item.active .dock-dot { opacity: 1; }
+
+        /* 실타입 공유 버튼 (titlebar 우측) */
+        .window-share-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-muted);
+            opacity: 0.6;
+            padding: 6px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.15s, background 0.15s;
+        }
+        .window-share-btn:hover {
+            opacity: 1;
+            background: rgba(168,85,247,0.12);
+        }
+        /* 공유 토스트 */
+        .share-toast {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%) translateY(8px);
+            background: rgba(30,25,50,0.92);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168,85,247,0.4);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 99999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.22s, transform 0.22s;
+            white-space: nowrap;
+        }
+        .share-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
 
         /* 📱 반응형 (Mobile 모드) */
 
@@ -1386,6 +1435,10 @@
             <div class="window-title" id="windowTitle">
                 <i data-lucide="zap" id="windowIcon" style="width:16px;"></i> <span id="windowTitleText">Vibe Studio</span>
             </div>
+            <!-- 공유 버튼 -->
+            <button class="window-share-btn" id="windowShareBtn" onclick="shareCurrentApp()" title="이 앱 공유하기" aria-label="앱 링크 복사">
+                <i data-lucide="share-2" style="width:15px;height:15px;"></i>
+            </button>
         </div>
         <div class="mac-content-area">
             <div id="app-tangram" class="app-view"></div>
@@ -1669,9 +1722,76 @@
             if (new URLSearchParams(location.search).get('admin') === '1') {
                 setTimeout(() => { if (window.openAdmin) window.openAdmin(); }, 600);
             }
+            // ?app=appname 파라미터로 직접 앱 진입 지원
+            const appParam = new URLSearchParams(location.search).get('app');
+            if (appParam) {
+                const appMap = {
+                    spell:   ['Spell Check',     '#a78bfa', 'languages'],
+                    qr:      ['QR Master',        '#007aff', 'qr-code'],
+                    pdf:     ['PDF Splitter',     '#ff3b30', 'scissors'],
+                    tangram: ['Tangram',           '#ff6b35', 'puzzle'],
+                    pachinko:['Pachinko v5.1',    '#ff2d55', 'gamepad-2'],
+                    server:  ['Server Monitor',   '#34d399', 'server'],
+                    meter:   ['Clap Meter',        '#ff9500', 'mic'],
+                    sys:     ['System Info',       '#7b78ff', 'activity']
+                };
+                const info = appMap[appParam];
+                if (info) setTimeout(() => switchApp(appParam, info[0], info[1], info[2]), 500);
+            }
             applyAppSettings();
-            setTimeout(initOrbit, 150); // DOM 렌더 완료 후 실행
+            setTimeout(initOrbit, 150);
         });
+
+        /* ── 공유하기 ───────────────────────────────────── */
+        const APP_TITLES = {
+            spell: '맞춤법 검사 — 무료 한국어 교정',
+            qr: 'QR Master — QR코드 생성',
+            pdf: 'PDF Splitter — 페이지 분리',
+            tangram: 'Tangram — 칠교놀이 퍼즐',
+            pachinko: 'Pachinko — 미니 아케이드',
+            server: 'Server Monitor — 서버 상태',
+            meter: 'Clap Meter — 소음 코 측정',
+            sys: 'System Info — 시스템 정보'
+        };
+
+        function shareCurrentApp() {
+            const app = window.currentApp || '';
+            const label = APP_TITLES[app] ? `Vibe Studio | ${APP_TITLES[app]}` : 'Vibe Studio';
+            const url = `${location.origin}${location.pathname}${app ? '?app=' + app : ''}`;
+            if (navigator.share) {
+                navigator.share({ title: label, url }).catch(() => copyShareUrl(url));
+            } else {
+                copyShareUrl(url);
+            }
+        }
+
+        function copyShareUrl(url) {
+            if (navigator.clipboard?.writeText) {
+                navigator.clipboard.writeText(url).then(() => showShareToast('🔗 링크가 복사되었습니다!'));
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = url;
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                showShareToast('🔗 링크가 복사되었습니다!');
+            }
+        }
+
+        function showShareToast(msg) {
+            let t = document.getElementById('shareToast');
+            if (!t) {
+                t = document.createElement('div');
+                t.id = 'shareToast';
+                t.className = 'share-toast';
+                document.body.appendChild(t);
+            }
+            t.textContent = msg;
+            t.classList.add('show');
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+        }
         window.addEventListener('resize', () => {
             clearTimeout(window._orbitTimer);
             window._orbitTimer = setTimeout(initOrbit, 80);
