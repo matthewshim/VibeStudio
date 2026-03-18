@@ -962,24 +962,24 @@
         }
         [data-theme="light"] .window-share-btn { color: rgba(0,0,0,0.5); }
         [data-theme="light"] .window-share-btn:hover { color: #1d1d1f; background: rgba(0,0,0,0.07); }
-        /* -- Share popover: JS가 버튼을 기준으로 위치 계산 -- */
+        /* -- Share popover: JS가 버튼 기준 위치 계산 -- */
         .share-popover {
             position: fixed;
-            width: 292px;
-            /* outro-card 톤: 다크 글래스 + 인디고 그라데이션 */
-            background: linear-gradient(135deg, rgba(12,8,22,0.97) 60%, rgba(129,140,248,0.08) 100%);
-            backdrop-filter: blur(28px) saturate(200%);
-            -webkit-backdrop-filter: blur(28px) saturate(200%);
-            border: 1px solid rgba(129,140,248,0.25);
-            border-radius: 18px;
-            padding: 18px;
+            width: 300px;
+            background: rgba(8, 8, 20, 0.98);
+            backdrop-filter: blur(32px) saturate(200%);
+            -webkit-backdrop-filter: blur(32px) saturate(200%);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px;
+            padding: 20px;
             z-index: 99999;
             box-shadow:
-                0 20px 60px rgba(0,0,0,0.6),
-                0 0 0 1px rgba(129,140,248,0.08) inset;
+                0 24px 80px rgba(0,0,0,0.75),
+                0 0 0 1px rgba(255,255,255,0.04) inset,
+                0 0 40px rgba(99,102,241,0.08);
             display: none;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
         @media (max-width: 768px) {
             .share-popover {
@@ -989,67 +989,96 @@
         }
         .share-popover.open {
             display: flex;
-            animation: sharePopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+            animation: sharePopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         @keyframes sharePopIn {
-            from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+            from { opacity: 0; transform: translateY(-6px) scale(0.96); }
             to   { opacity: 1; transform: translateY(0)    scale(1); }
         }
-        .share-popover-header {
+        /* 배지 (SEND A SIGNAL 스타일) */
+        .share-popover-badge {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            font-weight: 800;
-            letter-spacing: -0.4px;
-            /* outro-card h2 톤: 흰 → 인디고 그라데이션 */
-            background: linear-gradient(135deg, #fff 40%, #818cf8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            gap: 7px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
         }
+        .share-popover-badge-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            background: #6366f1;
+            flex-shrink: 0;
+            box-shadow: 0 0 6px rgba(99,102,241,0.6);
+        }
+        /* 타이틀 */
+        .share-popover-title {
+            font-size: 17px;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #fff;
+            line-height: 1.25;
+            margin-top: -2px;
+        }
+        /* URL 박스 */
         .share-popover-url-row {
             display: flex;
             align-items: center;
-            background: rgba(129,140,248,0.06);
-            border: 1px solid rgba(129,140,248,0.18);
-            border-radius: 10px;
-            padding: 9px 12px;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 12px;
+            padding: 11px 14px;
+        }
+        .share-popover-url-row i,
+        .share-popover-url-row svg {
+            width: 14px !important;
+            height: 14px !important;
+            color: rgba(99,102,241,0.85) !important;
+            stroke: rgba(99,102,241,0.85) !important;
+            flex-shrink: 0;
         }
         .share-popover-url-row #sharePopoverUrl {
             flex: 1;
-            font-size: 11px;
-            color: rgba(255,255,255,0.45);
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.5);
             font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
             user-select: all;
         }
+        /* 복사 버튼 (메일 보내기 스타일) */
         .share-popover-copy {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 7px;
-            /* outro-card strong 톤: 인디고 → 스카이블루 */
-            background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
+            gap: 8px;
+            background: #6366f1;
             border: none;
-            border-radius: 11px;
-            padding: 11px 18px;
+            border-radius: 12px;
+            padding: 12px 18px;
             color: #fff;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
             letter-spacing: -0.3px;
             cursor: pointer;
-            transition: opacity 0.15s, transform 0.12s;
-            box-shadow: 0 4px 18px rgba(129,140,248,0.35);
+            transition: opacity 0.15s, transform 0.15s, box-shadow 0.2s;
+            box-shadow: 0 4px 20px rgba(99,102,241,0.4);
         }
-        .share-popover-copy:hover  { opacity: 0.9; transform: scale(0.99); }
-        .share-popover-copy:active { transform: scale(0.97); }
+        .share-popover-copy:hover {
+            opacity: 0.93;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 26px rgba(99,102,241,0.52);
+        }
+        .share-popover-copy:active { transform: scale(0.98); opacity: 0.88; }
         .share-popover-copy.copied {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-            box-shadow: 0 4px 18px rgba(52,211,153,0.38);
+            background: #10b981;
+            box-shadow: 0 4px 20px rgba(16,185,129,0.42);
         }
 
         /* 📱 반응형 (Mobile 모드) */
@@ -1972,16 +2001,20 @@
 
     <!-- Share Popover -->
     <div class="share-popover" id="sharePopover" role="dialog" aria-label="앱 링크 공유">
-        <div class="share-popover-header">
-            <i data-lucide="share-2" style="width:14px;height:14px;flex-shrink:0;stroke:url(#share-icon-grad);"></i>
-            <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="share-icon-grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#818cf8"/><stop offset="100%" stop-color="#38bdf8"/></linearGradient></defs></svg>
-            웹앱 공유하기
+        <!-- 배지 + 타이틀 -->
+        <div class="share-popover-badge">
+            <span class="share-popover-badge-dot"></span>
+            Vibe Studio
         </div>
+        <div class="share-popover-title">웹앱 공유하기</div>
+        <!-- URL 박스 -->
         <div class="share-popover-url-row">
+            <i data-lucide="link-2"></i>
             <span id="sharePopoverUrl"></span>
         </div>
+        <!-- 복사 버튼 -->
         <button class="share-popover-copy" id="sharePopoverCopyBtn" onclick="copyShareLink()">
-            <i data-lucide="link-2" style="width:14px;height:14px;flex-shrink:0;"></i>
+            <i data-lucide="copy" style="width:14px;height:14px;flex-shrink:0;"></i>
             <span id="shareCopyText">링크 복사</span>
         </button>
     </div>
