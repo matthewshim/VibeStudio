@@ -1825,12 +1825,18 @@
             const floatDur   = [4.8, 5.4, 4.2, 5.9, 4.5, 5.1, 4.0, 5.7];
             const floatDel   = [0, -1.2, -2.5, -0.8, -1.7, -3.3, -0.5, -2.1];
 
+            // 노드별 웨이포인트 파라미터 (수직 오프셋, t1, t2 위치)
+            // 수직 오프셋 부호가 다르면 서로 다른 방향에 배치 → 삼각형 네트워크 느낌
+            const perpOff = [42, -56, 48, -38, 52, -44, 62, -47];
+            const t1Pos   = [0.35, 0.38, 0.42, 0.36, 0.40, 0.37, 0.44, 0.39];
+            const t2Pos   = [0.64, 0.68, 0.65, 0.62, 0.67, 0.63, 0.70, 0.66];
+
             nodes.forEach((node, i) => {
-                const rad    = baseAngles[i] * Math.PI / 180;
-                const sinA   = Math.sin(rad);
-                const ry     = sinA < 0 ? ry_up : ry_down;
-                const nx     = cx      + rx * rMult[i] * Math.cos(rad);
-                const ny     = cy_logo + ry * rMult[i] * sinA;
+                const rad  = baseAngles[i] * Math.PI / 180;
+                const sinA = Math.sin(rad);
+                const ry   = sinA < 0 ? ry_up : ry_down;
+                const nx   = cx      + rx * rMult[i] * Math.cos(rad);
+                const ny   = cy_logo + ry * rMult[i] * sinA;
 
                 const nw = 90, nh = 105;
                 node.style.left      = (nx - nw / 2) + 'px';
@@ -1840,63 +1846,86 @@
                 // ── 연결 좌표 계산 ──
                 const hubR = Math.min(44, W * 0.05);
                 const edgeR = 37;
-                const dist  = Math.hypot(nx - cx, ny - cy_logo);
+                const dist = Math.hypot(nx - cx, ny - cy_logo);
                 const ux = (nx - cx) / dist;
                 const uy = (ny - cy_logo) / dist;
 
-                const x1 = cx + ux * hubR,    y1 = cy_logo + uy * hubR;
-                const x2 = nx - ux * edgeR,   y2 = ny - uy * edgeR;
+                const x1 = cx + ux * hubR,   y1 = cy_logo + uy * hubR;  // 허브 엣지
+                const x2 = nx - ux * edgeR,  y2 = ny - uy * edgeR;      // 아이콘 엣지
+                const lx = x2 - x1, ly = y2 - y1;                       // 선분 벡터
 
-                // ── 글로우 레이어 ──
-                const glowLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                glowLine.setAttribute('x1', x1); glowLine.setAttribute('y1', y1);
-                glowLine.setAttribute('x2', x2); glowLine.setAttribute('y2', y2);
-                glowLine.setAttribute('stroke-linecap', 'round');
-                glowLine.setAttribute('class', 'orbit-glow-line');
-                glowLine.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
-                svg.appendChild(glowLine);
+                // ── 수직 방향 (선의 법선) ──
+                const perpX = -uy, perpY = ux;
+                const pOff  = perpOff[i];
 
-                // ── 주 연결선 ──
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', x1); line.setAttribute('y1', y1);
-                line.setAttribute('x2', x2); line.setAttribute('y2', y2);
-                line.setAttribute('stroke-linecap', 'round');
-                line.setAttribute('class', 'orbit-main-line');
-                line.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
-                svg.appendChild(line);
+                // ── 중간 웨이포인트: 선 위가 아닌 수직 방향으로 분산 ──
+                const wp1x = x1 + lx * t1Pos[i] + perpX * pOff;
+                const wp1y = y1 + ly * t1Pos[i] + perpY * pOff;
 
-                // ── 허브 쪽 파티클 점 ──
-                const dotHub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dotHub.setAttribute('cx', x1);
-                dotHub.setAttribute('cy', y1);
-                dotHub.setAttribute('class', 'orbit-dot-hub');
-                dotHub.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
-                svg.appendChild(dotHub);
+                const wp2x = x1 + lx * t2Pos[i] - perpX * pOff * 0.55;  // 반대 방향
+                const wp2y = y1 + ly * t2Pos[i] - perpY * pOff * 0.55;
 
-                // ── 앱 아이콘 쪽 파티클 점 ──
-                const dotNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dotNode.setAttribute('cx', x2);
-                dotNode.setAttribute('cy', y2);
-                dotNode.setAttribute('class', 'orbit-dot-node');
-                dotNode.style.animationDelay = `${-(i * 0.35 + 0.15).toFixed(2)}s`;
-                svg.appendChild(dotNode);
+                // ── 3개 선분으로 꺾인 경로: hub→wp1, wp1→wp2, wp2→node ──
+                const segments = [
+                    [x1, y1, wp1x, wp1y],
+                    [wp1x, wp1y, wp2x, wp2y],
+                    [wp2x, wp2y, x2, y2]
+                ];
 
-                // ── Hover 인터랙션: 선+점 동시 active ──
+                const glowLines = [], mainLines = [];
+                segments.forEach(([ax, ay, bx, by], si) => {
+                    const delay = `${-(i * 0.4 + si * 0.12).toFixed(2)}s`;
+
+                    const gl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    gl.setAttribute('x1', ax); gl.setAttribute('y1', ay);
+                    gl.setAttribute('x2', bx); gl.setAttribute('y2', by);
+                    gl.setAttribute('stroke-linecap', 'round');
+                    gl.setAttribute('class', 'orbit-glow-line');
+                    gl.style.animationDelay = delay;
+                    svg.appendChild(gl);
+                    glowLines.push(gl);
+
+                    const ml = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                    ml.setAttribute('x1', ax); ml.setAttribute('y1', ay);
+                    ml.setAttribute('x2', bx); ml.setAttribute('y2', by);
+                    ml.setAttribute('stroke-linecap', 'round');
+                    ml.setAttribute('class', 'orbit-main-line');
+                    ml.style.animationDelay = delay;
+                    svg.appendChild(ml);
+                    mainLines.push(ml);
+                });
+
+                // ── 중간 웨이포인트 파티클 점 (끝점 제외, 중간에만) ──
+                const dotWp1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotWp1.setAttribute('cx', wp1x);
+                dotWp1.setAttribute('cy', wp1y);
+                dotWp1.setAttribute('class', 'orbit-dot-hub');
+                dotWp1.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
+                svg.appendChild(dotWp1);
+
+                const dotWp2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotWp2.setAttribute('cx', wp2x);
+                dotWp2.setAttribute('cy', wp2y);
+                dotWp2.setAttribute('class', 'orbit-dot-node');
+                dotWp2.style.animationDelay = `${-(i * 0.35 + 0.18).toFixed(2)}s`;
+                svg.appendChild(dotWp2);
+
+                // ── Hover: 전체 경로+점 동시 활성화 ──
                 node.addEventListener('mouseenter', () => {
-                    glowLine.classList.add('active');
-                    line.classList.add('active');
-                    dotHub.classList.add('active');
-                    dotNode.classList.add('active');
+                    glowLines.forEach(l => l.classList.add('active'));
+                    mainLines.forEach(l => l.classList.add('active'));
+                    dotWp1.classList.add('active');
+                    dotWp2.classList.add('active');
                 });
                 node.addEventListener('mouseleave', () => {
-                    glowLine.classList.remove('active');
-                    line.classList.remove('active');
-                    dotHub.classList.remove('active');
-                    dotNode.classList.remove('active');
+                    glowLines.forEach(l => l.classList.remove('active'));
+                    mainLines.forEach(l => l.classList.remove('active'));
+                    dotWp1.classList.remove('active');
+                    dotWp2.classList.remove('active');
                 });
             });
 
-            // ── SVG 필터 정의 (없으면 추가) ──
+            // ── SVG 필터 정의 ──
             if (!svg.querySelector('#orbitGlow')) {
                 const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
                 defs.innerHTML = `
@@ -1911,15 +1940,16 @@
                 svg.insertBefore(defs, svg.firstChild);
             }
 
-            // ── 중심 허브 파티클 점 (로고 중심 뒤) ──
+            // ── 중심 허브 파티클 점 ──
             const hubCenter = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
             hubCenter.setAttribute('cx', cx);
             hubCenter.setAttribute('cy', cy_logo);
-            hubCenter.setAttribute('r', '5');
-            hubCenter.setAttribute('fill', 'rgba(168,85,247,0.6)');
+            hubCenter.setAttribute('r', '4');
+            hubCenter.setAttribute('fill', 'rgba(168,85,247,0.55)');
             hubCenter.setAttribute('filter', 'url(#orbitGlow)');
             hubCenter.setAttribute('class', 'orbit-center');
             svg.appendChild(hubCenter);
+
 
         }
 
