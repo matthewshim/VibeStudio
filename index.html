@@ -124,30 +124,29 @@
             background: var(--bg-main);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             color: var(--text-main);
-            overflow: hidden;          /* 스크롤 없음 — 푸터는 fixed로 고정 */
+            overflow-x: hidden;
+            overflow-y: auto;
             transition: background 0.5s ease;
         }
+        /* 앱 실행 중에는 스크롤 차단 */
+        body.app-active {
+            overflow: hidden;
+        }
 
-        /* PC 본문 영역: GNB ~ Dock 사이 중앙 정렬 */
+        /* ── 홈 메인 컨텐츠 래퍼 (스크롤) ── */
         .desktop-wrapper {
             width: 100%;
-            height: 100dvh;
+            min-height: 100dvh;
             position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            /* 메인 화면: 독 없음 → 상하좌우 22px 균일 여백 */
-            padding-top: 78px;
-            padding-bottom: 110px;
-            padding-left: 22px;
-            padding-right: 22px;
+            display: block;
             box-sizing: border-box;
-            transition: padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+            transition: opacity 0.5s, filter 0.5s;
         }
-        /* 앱 실행 시 독 공간 확보 */
+        /* 앱 실행 시 홈 숨김 */
         body.app-active .desktop-wrapper {
-            padding-left: 104px;
+            opacity: 0;
+            pointer-events: none;
+            filter: blur(12px);
         }
 
         #vibe-canvas {
@@ -187,30 +186,23 @@
             100% { transform: translate(100px, 100px) scale(1.2); }
         }
 
+        /* ── Hero 섹션 (상단 Vibe Studio 브랜딩) ── */
         .desktop-branding {
-            position: fixed;
-            top: 50%;
-            left: 50%; /* 독 숨김 후 진짜 카로 중앙 */
-            transform: translate(-50%, -50%);
-            z-index: 60;
+            position: relative;
+            z-index: 10;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 1;
+            padding: clamp(80px, 12vw, 120px) 24px clamp(48px, 8vw, 72px);
+            transition: opacity 0.6s, filter 0.6s;
             user-select: none;
-            pointer-events: none;  /* 자체는 클릭 차단 */
+            min-height: 45dvh;
         }
-
-        /* About 버튼은 클릭 허용 */
-        .desktop-branding .about-link-btn { pointer-events: auto; }
-
         .desktop-branding.dimmed {
             opacity: 0;
-            transform: translate(-50%, -50%) scale(0.85);
-            filter: blur(25px);
+            filter: blur(20px);
         }
 
         .brand-group {
@@ -1290,7 +1282,97 @@
         }
         .mac-btn:active { transform: scale(0.97); }
 
-        /* ── Orbit Layer — Hub & Spoke 컴셋 ──────────────── */
+        /* ── 홈 카드 그리드 시스템 ── */
+        :root {
+            --card-hover-border: rgba(129,140,248,0.38);
+        }
+        [data-theme="dark"] {
+            --card-hover-border: rgba(168,85,247,0.38);
+        }
+
+        .apps-home-section {
+            position: relative;
+            z-index: 10;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 28px clamp(80px, 12dvh, 140px);
+        }
+        .apps-home-label {
+            text-align: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            opacity: 0.7;
+        }
+        .apps-home-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+        /* 카드: about.html .app-card 동일 hover 스타일 */
+        .app-home-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 22px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            cursor: pointer;
+            text-align: left;
+            text-decoration: none;
+            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
+                        border-color 0.2s ease,
+                        box-shadow 0.2s ease;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            width: 100%; border: none;
+            color: var(--text-main);
+            font-family: inherit;
+        }
+        .app-home-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 24px 56px rgba(0,0,0,0.4), 0 0 36px rgba(129,140,248,0.1);
+        }
+        [data-theme="light"] .app-home-card {
+            border: 1px solid var(--glass-border);
+        }
+        [data-theme="light"] .app-home-card:hover {
+            box-shadow: 0 14px 36px rgba(0,0,0,0.12), 0 0 20px rgba(94,92,230,0.08);
+        }
+        .app-home-icon {
+            width: 54px; height: 54px;
+            border-radius: 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; line-height: 1;
+            flex-shrink: 0;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+        }
+        .app-home-info { flex: 1; min-width: 0; }
+        .app-home-name {
+            font-size: 1rem; font-weight: 800;
+            letter-spacing: -0.3px;
+            margin: 0 0 5px;
+            color: var(--text-main);
+        }
+        .app-home-desc {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin: 0;
+            word-break: keep-all;
+        }
+        /* 모바일 반응형 */
+        @media (max-width: 768px) {
+            .apps-home-grid { grid-template-columns: 1fr; gap: 12px; }
+            .apps-home-section { padding: 0 16px clamp(60px, 10dvh, 100px); }
+        }
+        /* 독 아이콘 이모지 스타일 */
+        .fake-orbit { display: none; }
         .orbit-layer {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
@@ -1299,138 +1381,9 @@
             transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), filter 0.8s;
         }
         .orbit-layer.dimmed { opacity: 0; filter: blur(20px); pointer-events: none; }
-        .orbit-svg {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%; overflow: visible;
-        }
-        /* ── 파티클 노드 연결선 시스템 (배경 파티클과 동일한 유기적 펄스) ── */
-        @keyframes orbitLinePulse {
-            0%, 100% { stroke-opacity: 0.12; }
-            50%       { stroke-opacity: 0.45; }
-        }
-        @keyframes orbitGlowPulse {
-            0%, 100% { stroke-opacity: 0.03; }
-            50%       { stroke-opacity: 0.18; }
-        }
-
-        /* 점 opacity+크기 펄스 — 배경 파티클 반경 1.2~2.7px 기준에 맞춤 */
-        @keyframes dotPulse {
-            0%, 100% { opacity: 0.30; r: 1.5px; }
-            50%       { opacity: 0.85; r: 2.2px; }
-        }
-        @keyframes dotPulse2 {
-            0%, 100% { opacity: 0.35; r: 1.8px; }
-            50%       { opacity: 0.90; r: 2.6px; }
-        }
-
-        /* 웨이포인트 점 2D 드리프트 — 배경 파티클 이동과 동일한 유기적 느낌 */
-        @keyframes dotDriftA {
-            0%   { transform: translate(0px,   0px); }
-            20%  { transform: translate(2.5px, -2px); }
-            45%  { transform: translate(-1.5px,-3px); }
-            70%  { transform: translate(-2px,  1.5px); }
-            100% { transform: translate(0px,   0px); }
-        }
-        @keyframes dotDriftB {
-            0%   { transform: translate(0px,   0px); }
-            25%  { transform: translate(-3px,  1.5px); }
-            55%  { transform: translate(2px,   3px); }
-            80%  { transform: translate(1.5px,-1.5px); }
-            100% { transform: translate(0px,   0px); }
-        }
-        @keyframes dotDriftC {
-            0%   { transform: translate(0px,   0px); }
-            30%  { transform: translate(1.5px, 3px); }
-            60%  { transform: translate(-2.5px,0.5px); }
-            85%  { transform: translate(1px,  -2.5px); }
-            100% { transform: translate(0px,   0px); }
-        }
-        @keyframes dotDriftD {
-            0%   { transform: translate(0px,   0px); }
-            35%  { transform: translate(-1px, -2.5px); }
-            65%  { transform: translate(3px,   1px); }
-            90%  { transform: translate(-0.5px,2.5px); }
-            100% { transform: translate(0px,   0px); }
-        }
-
-        /* 주 연결선 — hover 없음, 항상 펄스 */
-        .orbit-main-line {
-            stroke: rgba(139,92,246,0.5);
-            stroke-width: 0.85px;
-            animation: orbitLinePulse 3.2s ease-in-out infinite;
-        }
-
-        /* 글로우 레이어 */
-        .orbit-glow-line {
-            stroke: rgba(192,132,252,0.10);
-            stroke-width: 4px;
-            animation: orbitGlowPulse 3.2s ease-in-out infinite;
-        }
-
-        /* 웨이포인트 파티클 점 — 배경 파티클과 동일 크기+움직임 */
-        .orbit-dot-hub, .orbit-dot-node {
-            transform-box: fill-box;
-            transform-origin: center;
-        }
-        .orbit-dot-hub {
-            fill: rgba(139,92,246,0.72);
-        }
-        .orbit-dot-node {
-            fill: rgba(139,92,246,0.78);
-        }
-
-        /* ── 노드 개별 부유 애니메이션 ── */
-        @keyframes nodeFloat {
-            0%, 100% { transform: translateY(0px); }
-            50%       { transform: translateY(-10px); }
-        }
-
-        .orbit-node {
-            position: absolute;
-            pointer-events: auto;
-            display: flex; flex-direction: column;
-            align-items: center; gap: 10px;
-            background: transparent; border: none; padding: 0;
-            cursor: pointer; width: 90px; text-align: center;
-        }
-        .orbit-node-circle {
-            width: 66px; height: 66px;
-            border-radius: 18px;
-            display: flex; align-items: center; justify-content: center;
-            border: 1.5px solid rgba(255,255,255,0.22);
-            box-shadow: 0 6px 22px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18);
-            font-size: 28px; line-height: 1; position: relative;
-            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s;
-        }
-        .orbit-node-circle::after {
-            content: ''; position: absolute; inset: 0; border-radius: 18px;
-            background: rgba(255,255,255,0.07); pointer-events: none;
-        }
-        .orbit-node:hover .orbit-node-circle {
-            transform: scale(1.18);
-            border-color: rgba(255,255,255,0.60);
-            box-shadow: 0 0 30px rgba(168,85,247,0.65), 0 0 0 7px rgba(168,85,247,0.14), 0 12px 36px rgba(0,0,0,0.45);
-        }
-        .orbit-node:active .orbit-node-circle { transform: scale(0.88); }
-        .orbit-node-name {
-            font-size: 13px; font-weight: 700;
-            color: rgba(255,255,255,0.82); white-space: nowrap;
-            text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 0 14px rgba(0,0,0,0.5);
-            transition: color 0.2s ease, text-shadow 0.2s ease;
-        }
-        .orbit-node:hover .orbit-node-name {
-            color: rgba(255,255,255,1);
-            text-shadow: 0 1px 4px rgba(0,0,0,0.7), 0 0 14px rgba(168,85,247,0.7), 0 0 28px rgba(168,85,247,0.35);
-        }
         /* 독 아이콘 이모지 스타일 */
         .dock-icon { font-size: 26px !important; }
         .dock-icon i, .dock-icon svg { display: none; }
-        @media (max-width: 768px) {
-            .orbit-node { width: 70px; }
-            .orbit-node-circle { width: 52px; height: 52px; font-size: 22px; border-radius: 14px; }
-            .orbit-node-circle::after { border-radius: 14px; }
-            .orbit-node-name { font-size: 11px; }
-        }
     </style>
 </head>
 
@@ -1525,42 +1478,93 @@
         </div>
     </div>
 
-    <!-- ── Orbit Layer: Hub & Spoke 컨셋 (어드민 on/off 연동) ── -->
-    <div class="orbit-layer" id="orbitLayer" aria-label="Vibe Studio 앱 목록">
-        <svg class="orbit-svg" id="orbitSvg" aria-hidden="true"></svg>
-        <button class="orbit-node" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#c4b5fd,#8b5cf6)">✍️</div>
-            <span class="orbit-node-name">맞춤법 검사</span>
-        </button>
-        <button class="orbit-node" data-app-key="qr" onclick="switchApp('qr','QR Master','#007aff','qr-code')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#40b3ff,#007aff)">🔗</div>
-            <span class="orbit-node-name">QR Master</span>
-        </button>
-        <button class="orbit-node" data-app-key="pdf" onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff6b63,#ff3b30)">📄</div>
-            <span class="orbit-node-name">PDF Splitter</span>
-        </button>
-        <button class="orbit-node" data-app-key="tangram" onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff8c5a,#ff6b35)">🧩</div>
-            <span class="orbit-node-name">Tangram</span>
-        </button>
-        <button class="orbit-node" data-app-key="pachinko" onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff5274,#d81b60)">🎰</div>
-            <span class="orbit-node-name">Pachinko</span>
-        </button>
-        <button class="orbit-node" data-app-key="server" onclick="switchApp('server','Server Monitor','#34d399','server')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#34d399,#10b981)">🖥️</div>
-            <span class="orbit-node-name">Server Monitor</span>
-        </button>
-        <button class="orbit-node" data-app-key="meter" onclick="switchApp('meter','Clap Meter','#ff9500','mic')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ffcc00,#ff9500)">👏</div>
-            <span class="orbit-node-name">Clap Meter</span>
-        </button>
-        <button class="orbit-node" data-app-key="sys" onclick="switchApp('sys','System Info','#7b78ff','activity')">
-            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#8b89ff,#5e5ce6)">⚙️</div>
-            <span class="orbit-node-name">System Info</span>
-        </button>
-    </div>
+    <!-- ── 웹앱 소개 카드 그리드 (SEO 최적화) ── -->
+    <section class="apps-home-section" aria-label="Vibe Studio 웹앱 목록">
+        <p class="apps-home-label">Web Applications</p>
+        <div class="apps-home-grid">
+
+            <button class="app-home-card" data-app-key="spell"
+                onclick="switchApp('spell','Spell Check','#a78bfa','languages')"
+                aria-label="맞춤법 검사 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#c4b5fd,#8b5cf6)">✍️</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">맞춤법 검사</h2>
+                    <p class="app-home-desc">무료 한국어 맞춤법 검사 및 교정 서비스. 문서 작성 전 빠르게 확인하세요.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="qr"
+                onclick="switchApp('qr','QR Master','#007aff','qr-code')"
+                aria-label="QR Master 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#40b3ff,#007aff)">🔗</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">QR Master</h2>
+                    <p class="app-home-desc">링크를 QR코드로 무료 즉시 생성. 설치 없이 브라우저에서 바로 사용.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="pdf"
+                onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')"
+                aria-label="PDF Splitter 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#ff6b63,#ff3b30)">📄</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">PDF Splitter</h2>
+                    <p class="app-home-desc">무료 PDF 페이지 분리 및 변환 도구. 원하는 페이지만 추출하세요.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="tangram"
+                onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')"
+                aria-label="Tangram 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#ff8c5a,#ff6b35)">🧩</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">Tangram</h2>
+                    <p class="app-home-desc">두뇌 자극 칠교놀이 퍼즐 게임. 7개 조각을 맞춰 다양한 도형을 완성하세요.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="pachinko"
+                onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')"
+                aria-label="Pachinko 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#ff5274,#d81b60)">🎰</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">Pachinko</h2>
+                    <p class="app-home-desc">잭팟 & 뷰 터트리기 브라우저 미니 아케이드 게임. 짜릿한 한판 즐겨보세요.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="server"
+                onclick="switchApp('server','Server Monitor','#34d399','server')"
+                aria-label="Server Monitor 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#34d399,#10b981)">🖥️</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">Server Monitor</h2>
+                    <p class="app-home-desc">실시간 서버 및 API 상태 모니터링 대시보드. 서비스 가동 여부를 한눈에.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="meter"
+                onclick="switchApp('meter','Clap Meter','#ff9500','mic')"
+                aria-label="Clap Meter 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#ffcc00,#ff9500)">👏</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">Clap Meter</h2>
+                    <p class="app-home-desc">마이크 실시간 소음 및 호응도 측정 도구. 발표·강연 분위기를 시각화.</p>
+                </div>
+            </button>
+
+            <button class="app-home-card" data-app-key="sys"
+                onclick="switchApp('sys','System Info','#7b78ff','activity')"
+                aria-label="System Info 앱 열기">
+                <div class="app-home-icon" style="background:linear-gradient(160deg,#8b89ff,#5e5ce6)">⚙️</div>
+                <div class="app-home-info">
+                    <h2 class="app-home-name">System Info</h2>
+                    <p class="app-home-desc">시스템 정보 조회 및 모니터링 도구. CPU·메모리·네트워크 상태 확인.</p>
+                </div>
+            </button>
+
+        </div>
+    </section>
 
     <div class="mac-menu-bar">
         <!-- 햄버거 (모바일에서만) -->
@@ -1992,7 +1996,6 @@
                 if (info) setTimeout(() => switchApp(appParam, info[0], info[1], info[2]), 500);
             }
             applyAppSettings();
-            setTimeout(initOrbit, 150);
         });
 
         /* ── 공유하기 ───────────────────────────────────── */
@@ -2093,8 +2096,7 @@
             document.getElementById('shareCopyText').textContent = '링크 복사';
         }
         window.addEventListener('resize', () => {
-            clearTimeout(window._orbitTimer);
-            window._orbitTimer = setTimeout(initOrbit, 80);
+            // 레이아웃 리사이즈 시 필요한 처리
         });
 
         // 앱 설정 로드 후 독 버튼 표시/숨김 적용
@@ -2108,9 +2110,9 @@
                     // 독 버튼
                     const btn = document.querySelector(`.dock-item[data-app-key="${s.app_key}"]`);
                     if (btn) btn.style.display = display;
-                    // Orbit 노드 (어드민 on/off 동시 적용)
-                    const node = document.querySelector(`.orbit-node[data-app-key="${s.app_key}"]`);
-                    if (node) node.style.display = display;
+                    // 홈 카드
+                    const card = document.querySelector(`.app-home-card[data-app-key="${s.app_key}"]`);
+                    if (card) card.style.display = display;
                 });
             } catch (e) { /* 설정 로드 실패 시 모두 표시 유지 */ }
         }
