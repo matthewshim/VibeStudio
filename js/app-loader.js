@@ -79,6 +79,7 @@ async function switchApp(appName, titleText, color, iconName) {
     }
 
     currentApp = physicalApp;
+    window.currentApp = physicalApp; // 공유 팝오버 딥링크용 전역 노출
 
     // 3. Show window immediately
     const win = document.getElementById('macWindow');
@@ -184,6 +185,7 @@ window.closeApp = function() {
     // 3. Remove from loaded set so it reloads fresh next time
     loadedApps.delete(currentApp);
     currentApp = null;
+    window.currentApp = null;
 };
 
 // Initial Load
