@@ -1303,69 +1303,48 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; overflow: visible;
         }
-        /* ── 파티클 노드 연결선 시스템 ── */
+        /* ── 파티클 노드 연결선 시스템 (배경과 동일한 유기적 펄스) ── */
         @keyframes orbitLinePulse {
-            0%, 100% { stroke-opacity: 0.18; }
-            50%       { stroke-opacity: 0.50; }
+            0%, 100% { stroke-opacity: 0.12; }
+            50%       { stroke-opacity: 0.45; }
+        }
+        @keyframes orbitGlowPulse {
+            0%, 100% { stroke-opacity: 0.04; }
+            50%       { stroke-opacity: 0.20; }
         }
         @keyframes dotPulse {
-            0%, 100% { opacity: 0.5; }
-            50%       { opacity: 1.0; }
+            0%, 100% { opacity: 0.38; r: 3px; }
+            50%       { opacity: 0.90; r: 4px; }
+        }
+        @keyframes dotPulse2 {
+            0%, 100% { opacity: 0.42; r: 3.5px; }
+            50%       { opacity: 0.95; r: 4.5px; }
         }
 
-        /* 주 연결선 */
+        /* 주 연결선 — transition 없음(hover 없음) */
         .orbit-main-line {
-            stroke: rgba(139,92,246,0.45);
-            stroke-width: 0.9px;
-            transition: stroke 0.28s ease, stroke-width 0.28s ease, stroke-opacity 0.28s ease;
+            stroke: rgba(139,92,246,0.5);
+            stroke-width: 0.85px;
             animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
-        .orbit-main-line.active {
-            stroke: rgba(255,255,255,0.82) !important;
-            stroke-width: 1.8px !important;
-            stroke-opacity: 1 !important;
-            animation: none;
-            filter: url(#orbitGlow);
-        }
 
-        /* 글로우 레이어 */
+        /* 글로우 레이어 — 배경 shadow 느낌 */
         .orbit-glow-line {
-            stroke: rgba(192,132,252,0.08);
-            stroke-width: 3px;
-            transition: stroke 0.28s ease, stroke-width 0.28s ease, stroke-opacity 0.28s ease;
-            animation: orbitLinePulse 3.2s ease-in-out infinite;
-        }
-        .orbit-glow-line.active {
-            stroke: rgba(255,255,255,0.22) !important;
-            stroke-width: 8px !important;
-            stroke-opacity: 1 !important;
-            animation: none;
+            stroke: rgba(192,132,252,0.12);
+            stroke-width: 4px;
+            animation: orbitGlowPulse 3.2s ease-in-out infinite;
         }
 
-        /* 연결점 (양 끝 파티클 노드) */
+        /* 웨이포인트 파티클 점 */
         .orbit-dot-hub {
-            fill: rgba(139,92,246,0.72);
+            fill: rgba(139,92,246,0.75);
             r: 3px;
-            transition: r 0.28s cubic-bezier(0.34,1.56,0.64,1), fill 0.28s ease, opacity 0.28s ease;
             animation: dotPulse 2.8s ease-in-out infinite;
-        }
-        .orbit-dot-hub.active {
-            r: 5px !important;
-            fill: rgba(255,255,255,0.92) !important;
-            animation: none;
-            filter: url(#orbitGlow);
         }
         .orbit-dot-node {
-            fill: rgba(139,92,246,0.82);
+            fill: rgba(139,92,246,0.85);
             r: 3.5px;
-            transition: r 0.28s cubic-bezier(0.34,1.56,0.64,1), fill 0.28s ease, opacity 0.28s ease;
-            animation: dotPulse 2.8s ease-in-out infinite;
-        }
-        .orbit-dot-node.active {
-            r: 5px !important;
-            fill: rgba(255,255,255,0.92) !important;
-            animation: none;
-            filter: url(#orbitGlow);
+            animation: dotPulse2 2.8s ease-in-out infinite;
         }
 
         /* ── 노드 개별 부유 애니메이션 ── */
@@ -1397,14 +1376,19 @@
         }
         .orbit-node:hover .orbit-node-circle {
             transform: scale(1.18);
-            border-color: rgba(255,255,255,0.55);
-            box-shadow: 0 0 28px rgba(168,85,247,0.55), 0 0 0 6px rgba(168,85,247,0.12), 0 10px 32px rgba(0,0,0,0.4);
+            border-color: rgba(255,255,255,0.60);
+            box-shadow: 0 0 30px rgba(168,85,247,0.65), 0 0 0 7px rgba(168,85,247,0.14), 0 12px 36px rgba(0,0,0,0.45);
         }
         .orbit-node:active .orbit-node-circle { transform: scale(0.88); }
         .orbit-node-name {
             font-size: 13px; font-weight: 700;
-            color: rgba(255,255,255,0.88); white-space: nowrap;
+            color: rgba(255,255,255,0.82); white-space: nowrap;
             text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 0 14px rgba(0,0,0,0.5);
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .orbit-node:hover .orbit-node-name {
+            color: rgba(255,255,255,1);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.7), 0 0 14px rgba(168,85,247,0.7), 0 0 28px rgba(168,85,247,0.35);
         }
         /* 독 아이콘 이모지 스타일 */
         .dock-icon { font-size: 26px !important; }
@@ -1866,6 +1850,10 @@
                 const wp2x = x1 + lx * t2Pos[i] - perpX * pOff * 0.55;  // 반대 방향
                 const wp2y = y1 + ly * t2Pos[i] - perpY * pOff * 0.55;
 
+                // ── 노드별 라인 duration (유기적 느낌 — 배경 파티클과 동일) ──
+                const lineDurs = [3.1, 2.9, 3.5, 2.7, 3.3, 2.8, 3.0, 3.4];
+                const dotDurs  = [2.6, 3.0, 2.4, 2.9, 2.7, 3.2, 2.5, 2.8];
+
                 // ── 3개 선분으로 꺾인 경로: hub→wp1, wp1→wp2, wp2→node ──
                 const segments = [
                     [x1, y1, wp1x, wp1y],
@@ -1873,27 +1861,27 @@
                     [wp2x, wp2y, x2, y2]
                 ];
 
-                const glowLines = [], mainLines = [];
                 segments.forEach(([ax, ay, bx, by], si) => {
-                    const delay = `${-(i * 0.4 + si * 0.12).toFixed(2)}s`;
+                    const delay = `${-(i * 0.4 + si * 0.15).toFixed(2)}s`;
+                    const dur   = `${(lineDurs[i] + si * 0.09).toFixed(2)}s`;
 
                     const gl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                     gl.setAttribute('x1', ax); gl.setAttribute('y1', ay);
                     gl.setAttribute('x2', bx); gl.setAttribute('y2', by);
                     gl.setAttribute('stroke-linecap', 'round');
                     gl.setAttribute('class', 'orbit-glow-line');
-                    gl.style.animationDelay = delay;
+                    gl.style.animationDelay    = delay;
+                    gl.style.animationDuration = dur;
                     svg.appendChild(gl);
-                    glowLines.push(gl);
 
                     const ml = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                     ml.setAttribute('x1', ax); ml.setAttribute('y1', ay);
                     ml.setAttribute('x2', bx); ml.setAttribute('y2', by);
                     ml.setAttribute('stroke-linecap', 'round');
                     ml.setAttribute('class', 'orbit-main-line');
-                    ml.style.animationDelay = delay;
+                    ml.style.animationDelay    = delay;
+                    ml.style.animationDuration = dur;
                     svg.appendChild(ml);
-                    mainLines.push(ml);
                 });
 
                 // ── 중간 웨이포인트 파티클 점 (끝점 제외, 중간에만) ──
@@ -1901,29 +1889,19 @@
                 dotWp1.setAttribute('cx', wp1x);
                 dotWp1.setAttribute('cy', wp1y);
                 dotWp1.setAttribute('class', 'orbit-dot-hub');
-                dotWp1.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
+                dotWp1.style.animationDelay    = `${-(i * 0.35).toFixed(2)}s`;
+                dotWp1.style.animationDuration = `${dotDurs[i]}s`;
                 svg.appendChild(dotWp1);
 
                 const dotWp2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 dotWp2.setAttribute('cx', wp2x);
                 dotWp2.setAttribute('cy', wp2y);
                 dotWp2.setAttribute('class', 'orbit-dot-node');
-                dotWp2.style.animationDelay = `${-(i * 0.35 + 0.18).toFixed(2)}s`;
+                dotWp2.style.animationDelay    = `${-(i * 0.35 + 0.22).toFixed(2)}s`;
+                dotWp2.style.animationDuration = `${(dotDurs[i] + 0.18).toFixed(2)}s`;
                 svg.appendChild(dotWp2);
-
-                // ── Hover: 전체 경로+점 동시 활성화 ──
-                node.addEventListener('mouseenter', () => {
-                    glowLines.forEach(l => l.classList.add('active'));
-                    mainLines.forEach(l => l.classList.add('active'));
-                    dotWp1.classList.add('active');
-                    dotWp2.classList.add('active');
-                });
-                node.addEventListener('mouseleave', () => {
-                    glowLines.forEach(l => l.classList.remove('active'));
-                    mainLines.forEach(l => l.classList.remove('active'));
-                    dotWp1.classList.remove('active');
-                    dotWp2.classList.remove('active');
-                });
+                // ※ hover 인터랙션은 CSS의 .orbit-node:hover 룰로만 처리
+                //   (아이콘 + 텍스트에만 적용, 선/점은 항상 펄스 애니메이션)
             });
 
             // ── SVG 필터 정의 ──
