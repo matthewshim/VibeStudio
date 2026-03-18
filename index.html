@@ -210,13 +210,13 @@
             flex-direction: column;
             align-items: center;
             animation: floatBranding 8s ease-in-out infinite;
-            margin-bottom: 30px;
+            margin-bottom: 12px;
         }
 
         .css-logo-box {
-            width: clamp(100px, 18vw, 150px);
-            height: clamp(100px, 18vw, 150px);
-            margin-bottom: 30px;
+            width: clamp(62px, 10vw, 86px);
+            height: clamp(62px, 10vw, 86px);
+            margin-bottom: 14px;
             border-radius: 28%;
             display: flex;
             justify-content: center;
@@ -225,7 +225,7 @@
             background: linear-gradient(135deg, #a855f7 0%, #6366f1 50%, #d946ef 100%);
             background-size: 200% 200%;
             animation: gradientFlow 4s ease infinite;
-            box-shadow: 0 25px 60px rgba(139, 92, 246, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.5);
+            box-shadow: 0 16px 40px rgba(139, 92, 246, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.5);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.25);
@@ -251,11 +251,11 @@
 
         .branding-title {
             font-weight: 900;
-            font-size: clamp(3rem, 8vw, 6.5rem);
-            letter-spacing: -0.06em;
-            line-height: 0.9;
+            font-size: clamp(1.5rem, 3vw, 2.4rem);
+            letter-spacing: -0.05em;
+            line-height: 1;
             color: var(--text-main);
-            text-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
             margin: 0;
         }
 
@@ -266,11 +266,11 @@
 
         .typing-container {
             font-family: ui-monospace, monospace;
-            font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+            font-size: clamp(0.85rem, 1.6vw, 1.1rem);
             color: var(--sys-primary);
-            min-height: 50px;
+            min-height: 36px;
             font-weight: 600;
-            margin-top: 25px;
+            margin-top: 10px;
             opacity: 0.75;
         }
 
@@ -1150,48 +1150,40 @@
             position: absolute;
             pointer-events: auto;
             display: flex; flex-direction: column;
-            align-items: center; gap: 6px;
-            padding: 12px 14px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(18px) saturate(180%);
-            -webkit-backdrop-filter: blur(18px) saturate(180%);
-            border: 1px solid var(--glass-border);
-            border-radius: 18px;
-            cursor: pointer;
-            color: var(--text-main);
-            min-width: 84px;
-            text-align: center;
-            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+            align-items: center; gap: 8px;
+            background: transparent; border: none; padding: 0;
+            cursor: pointer; width: 76px; text-align: center;
         }
-        .orbit-node:hover {
-            border-color: rgba(168,85,247,0.55);
-            transform: scale(1.08) translateY(-3px);
-            box-shadow: 0 14px 36px rgba(168,85,247,0.28);
-            z-index: 1;
-        }
-        .orbit-node:active { transform: scale(0.95); }
-        .orbit-node-icon {
-            width: 40px; height: 40px; border-radius: 12px;
+        .orbit-node-circle {
+            width: 54px; height: 54px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 20px; line-height: 1;
+            border: 1.5px solid rgba(255,255,255,0.2);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
+            font-size: 22px; line-height: 1; position: relative;
+            transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s;
         }
+        .orbit-node-circle::after {
+            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            background: rgba(255,255,255,0.07); pointer-events: none;
+        }
+        .orbit-node:hover .orbit-node-circle {
+            transform: scale(1.22);
+            border-color: rgba(255,255,255,0.5);
+            box-shadow: 0 0 24px rgba(168,85,247,0.5), 0 0 0 5px rgba(168,85,247,0.14), 0 8px 28px rgba(0,0,0,0.35);
+        }
+        .orbit-node:active .orbit-node-circle { transform: scale(0.9); }
         .orbit-node-name {
-            font-size: 11px; font-weight: 700;
-            letter-spacing: -0.2px; white-space: nowrap;
-            color: var(--text-main);
-        }
-        .orbit-node-desc {
-            font-size: 9px; color: var(--text-muted);
-            white-space: nowrap; line-height: 1.3;
+            font-size: 10px; font-weight: 600;
+            color: var(--text-muted); white-space: nowrap;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
         }
         /* 독 아이콘 이모지 스타일 */
         .dock-icon { font-size: 26px !important; }
-        .dock-icon i, .dock-icon svg { display: none; } /* lucide 숨김 */
+        .dock-icon i, .dock-icon svg { display: none; }
         @media (max-width: 768px) {
-            .orbit-node { min-width: 68px; padding: 9px 10px; }
-            .orbit-node-desc { display: none; }
-            .orbit-node-icon { width: 32px; height: 32px; font-size: 16px; }
-            .orbit-node-name { font-size: 10px; }
+            .orbit-node { width: 58px; }
+            .orbit-node-circle { width: 44px; height: 44px; font-size: 18px; }
+            .orbit-node-name { font-size: 9px; }
         }
     </style>
 </head>
@@ -1242,98 +1234,40 @@
             </a>
             <a class="nav-drawer-item" href="contact.html" onclick="closeNavDrawer()">
                 <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                </div>
-                Contact
-            </a>
-        </div>
-
-        <!-- 드로어 푸터 (PC 푸터와 동일 정보) -->
-        <div class="nav-drawer-footer">
-            <div class="nav-drawer-footer-brand">
-                <svg viewBox="0 0 24 24" style="width:12px;height:12px;" fill="none" stroke="currentColor" stroke-width="2.5">
-                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" stroke="none"/>
-                </svg>
-                Vibe Studio
-            </div>
-            <div class="nav-drawer-footer-copy">
-                &copy; 2026 Vibe Studio. All rights reserved.<br>
-                Powered by <strong>Prisincera</strong>
-            </div>
-        </div>
-    </nav>
-
-    <canvas id="vibe-canvas"></canvas>
-    <div class="mesh-gradient" id="meshBg">
-        <div class="mesh-ball" style="width: 600px; height: 600px; background: #a855f7; top: -10%; left: -10%;"></div>
-        <div class="mesh-ball" style="width: 500px; height: 500px; background: #5e5ce6; bottom: -20%; right: -10%;"></div>
-    </div>
-
-    <!-- 본문 영역 (정확히 100dvh 격리) -->
-    <div class="desktop-wrapper">
-
-    <div class="desktop-branding" id="desktopBranding">
-        <div class="brand-group">
-            <div class="css-logo-box">
-                <svg class="lightning-svg" viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#fff" /></svg>
-            </div>
-            <h1 class="branding-title">Vibe Studio</h1>
-        </div>
-        <div class="typing-container" id="type-box">
-            <span id="prompt-text"></span><span class="cursor"></span>
-        </div>
-        <a class="about-link-btn" href="about.html">
-            <i data-lucide="info"></i>
-            About Vibe Studio
-        </a>
-
-    </div>
-
-    <!-- ── Orbit Layer: Hub & Spoke 컴셋 (어드민 on/off 연동) ── -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"    <!-- ── Orbit Layer: Hub & Spoke 콘셋 (어드민 on/off 연동) ── -->
     <div class="orbit-layer" id="orbitLayer" aria-label="Vibe Studio 앱 목록">
         <svg class="orbit-svg" id="orbitSvg" aria-hidden="true"></svg>
         <button class="orbit-node" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#c4b5fd,#8b5cf6)">✍️</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#c4b5fd,#8b5cf6)">✍️</div>
             <span class="orbit-node-name">맞춤법 검사</span>
-            <span class="orbit-node-desc">무료 한국어 교정</span>
         </button>
         <button class="orbit-node" data-app-key="qr" onclick="switchApp('qr','QR Master','#007aff','qr-code')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#40b3ff,#007aff)">🔗</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#40b3ff,#007aff)">🔗</div>
             <span class="orbit-node-name">QR Master</span>
-            <span class="orbit-node-desc">QR코드 즉시 생성</span>
         </button>
         <button class="orbit-node" data-app-key="pdf" onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff6b63,#ff3b30)">📄</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff6b63,#ff3b30)">📄</div>
             <span class="orbit-node-name">PDF Splitter</span>
-            <span class="orbit-node-desc">페이지 분리 변환</span>
         </button>
         <button class="orbit-node" data-app-key="tangram" onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff8c5a,#ff6b35)">🧩</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff8c5a,#ff6b35)">🧩</div>
             <span class="orbit-node-name">Tangram</span>
-            <span class="orbit-node-desc">칠교놀이 퍼즐</span>
         </button>
         <button class="orbit-node" data-app-key="pachinko" onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff5274,#d81b60)">🎰</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ff5274,#d81b60)">🎰</div>
             <span class="orbit-node-name">Pachinko</span>
-            <span class="orbit-node-desc">잭팟 미니게임</span>
         </button>
         <button class="orbit-node" data-app-key="server" onclick="switchApp('server','Server Monitor','#34d399','server')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#34d399,#10b981)">🖥️</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#34d399,#10b981)">🖥️</div>
             <span class="orbit-node-name">Server Monitor</span>
-            <span class="orbit-node-desc">서버 상태 대시보드</span>
         </button>
         <button class="orbit-node" data-app-key="meter" onclick="switchApp('meter','Clap Meter','#ff9500','mic')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ffcc00,#ff9500)">👏</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#ffcc00,#ff9500)">👏</div>
             <span class="orbit-node-name">Clap Meter</span>
-            <span class="orbit-node-desc">소음 측정기</span>
         </button>
         <button class="orbit-node" data-app-key="sys" onclick="switchApp('sys','System Info','#7b78ff','activity')">
-            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#8b89ff,#5e5ce6)">⚙️</div>
+            <div class="orbit-node-circle" style="background:linear-gradient(145deg,#8b89ff,#5e5ce6)">⚙️</div>
             <span class="orbit-node-name">System Info</span>
-            <span class="orbit-node-desc">시스템 정보</span>
         </button>
     </div>
 
@@ -1578,43 +1512,52 @@
             const navH = 89, dockH = 215;
             const W = window.innerWidth, H = window.innerHeight;
             const cx = W / 2;
-            const availH = H - navH - dockH;
-            const cy = navH + availH * 0.46;
+            // cy = branding의 CSS top:50% 실제 위치와 일치
+            const cy = H * 0.5;
 
-            // 반경: 화면 크기에 따라 동적 조절 (min 110, max 210)
-            const r = Math.min(Math.max(Math.min(W * 0.18, availH * 0.44), 110), 210);
+            // 반경: 네비게이션/독 업보 반경 안적으로 동적 조절
+            const topClear  = cy - navH - 62;   // 네비게이션 보호 여백
+            const botClear  = H - dockH - cy - 42; // 독 보호 여백
+            const r = Math.min(
+                Math.max(Math.min(W * 0.17, topClear, botClear), 120),
+                215
+            );
 
-            // 8앱 각도 (시계 방향, 위에서 시작, 독 영역 회피)
-            // spell, qr, pdf, tangram, pachinko, server, meter, sys
-            const angles = [-100, -48, 2, 50, 98, 146, 194, -152];
+            // 8앱 각도 — 60°∼120° 독 영역 회피, 각 노드 최소 35° 간격 보장
+            // spell(-90°상단), qr(-45°), pdf(0°), tangram(40°),
+            // [50°~125° = 독영역], pachinko(130°), server(170°), meter(-150°), sys(-115°)
+            const angles = [-90, -45, 0, 40, 130, 170, -150, -115];
 
             nodes.forEach((node, i) => {
-                const rad = (angles[i] || 0) * Math.PI / 180;
-                const nx = cx + r * Math.cos(rad);
-                const ny = cy + r * Math.sin(rad);
+                const rad = angles[i] * Math.PI / 180;
+                const nx  = cx + r * Math.cos(rad);
+                const ny  = cy + r * Math.sin(rad);
 
-                // 노드 위치 설정
-                const nw = node.offsetWidth  || 84;
-                const nh = node.offsetHeight || 72;
+                // 원형 노드 크기: 54px 원 + 레이블 ~22px
+                const nw = 76, nh = 80;
                 node.style.left = (nx - nw / 2) + 'px';
                 node.style.top  = (ny - nh / 2) + 'px';
 
-                // 연결선 그리기
+                // 연결선: 실선, 중심에서 노드 원 가장자리까지
+                const edgeR  = 27; // 원 반지름 (54/2)
+                const dist   = Math.hypot(nx - cx, ny - cy);
+                const ux = (nx - cx) / dist, uy = (ny - cy) / dist;
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', cx); line.setAttribute('y1', cy);
-                line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+                line.setAttribute('x1', cx + ux * 6);  // 중심에서 약간 먹도
+                line.setAttribute('y1', cy + uy * 6);
+                line.setAttribute('x2', nx - ux * edgeR); // 노드 가장자리
+                line.setAttribute('y2', ny - uy * edgeR);
                 line.setAttribute('class', 'orbit-line');
-                line.setAttribute('stroke', 'rgba(168,85,247,0.2)');
+                line.setAttribute('stroke', 'rgba(168,85,247,0.25)');
                 line.setAttribute('stroke-width', '1');
-                line.setAttribute('stroke-dasharray', '5,4');
                 line.setAttribute('stroke-linecap', 'round');
                 svg.appendChild(line);
             });
 
-            // 중심 도트 (바이브 스튜디오 위치)
+            // 중심 글로우 돈 (점답 표시)
             const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', '5');
-            dot.setAttribute('fill', 'rgba(168,85,247,0.55)');
+            dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', '6');
+            dot.setAttribute('fill', 'rgba(168,85,247,0.6)');
             dot.setAttribute('class', 'orbit-center');
             svg.appendChild(dot);
         }
