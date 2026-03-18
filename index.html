@@ -1132,6 +1132,62 @@
             transition: transform 0.1s, opacity 0.2s;
         }
         .mac-btn:active { transform: scale(0.97); }
+
+        /* ── SEO App Grid ──────────────────────────────── */
+        .seo-app-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            max-width: 720px;
+            margin-top: 28px;
+            padding: 0 12px;
+        }
+        .seo-app-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            cursor: pointer;
+            text-align: left;
+            color: var(--text-main);
+            transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+        }
+        .seo-app-card:hover {
+            border-color: rgba(168,85,247,0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(168,85,247,0.18);
+        }
+        .seo-app-card:active { transform: scale(0.97); }
+        .seo-app-icon {
+            width: 34px; height: 34px;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: 16px; line-height: 1;
+        }
+        .seo-app-info {
+            display: flex; flex-direction: column; gap: 2px; min-width: 0;
+        }
+        .seo-app-info strong {
+            font-size: 12px; font-weight: 700;
+            letter-spacing: -0.2px; white-space: nowrap;
+            color: var(--text-main);
+        }
+        .seo-app-info span {
+            font-size: 10px; color: var(--text-muted);
+            white-space: nowrap;
+        }
+        @media (max-width: 600px) {
+            .seo-app-grid { gap: 6px; max-width: 360px; }
+            .seo-app-info span { display: none; }
+            .seo-app-card { padding: 8px 11px; }
+        }
     </style>
 </head>
 
@@ -1228,6 +1284,42 @@
             <i data-lucide="info"></i>
             About Vibe Studio
         </a>
+
+        <!-- SEO 앱 카드 그리드: 크롤링용 + 어드민 패널 on/off 연동 -->
+        <div class="seo-app-grid" id="seoAppGrid">
+            <button class="seo-app-card" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#c4b5fd,#8b5cf6)">✍️</div>
+                <div class="seo-app-info"><strong>맞춤법 검사</strong><span>무료 한국어 맞춤법 교정</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="qr" onclick="switchApp('qr','QR Master','#007aff','qr-code')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#40b3ff,#007aff)">🔗</div>
+                <div class="seo-app-info"><strong>QR Master</strong><span>QR코드 무료 즉시 생성</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="pdf" onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff6b63,#ff3b30)">📄</div>
+                <div class="seo-app-info"><strong>PDF Splitter</strong><span>PDF 페이지 분리 변환</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="tangram" onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff8c5a,#ff6b35)">🧩</div>
+                <div class="seo-app-info"><strong>Tangram</strong><span>두뇌 자극 칠교놀이 퍼즐</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="pachinko" onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff5274,#d81b60)">🎰</div>
+                <div class="seo-app-info"><strong>Pachinko</strong><span>잭팟 브라우저 미니게임</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="server" onclick="switchApp('server','Server Monitor','#34d399','server')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#34d399,#10b981)">🖥️</div>
+                <div class="seo-app-info"><strong>Server Monitor</strong><span>실시간 서버 상태 대시보드</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="meter" onclick="switchApp('meter','Clap Meter','#ff9500','mic')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ffcc00,#ff9500)">👏</div>
+                <div class="seo-app-info"><strong>Clap Meter</strong><span>실시간 마이크 소음 측정</span></div>
+            </button>
+            <button class="seo-app-card" data-app-key="sys" onclick="switchApp('sys','System Info','#7b78ff','activity')">
+                <div class="seo-app-icon" style="background:linear-gradient(160deg,#8b89ff,#5e5ce6)">⚙️</div>
+                <div class="seo-app-info"><strong>System Info</strong><span>시스템 정보 모니터링</span></div>
+            </button>
+        </div>
     </div>
 
     <div class="mac-menu-bar">
@@ -1474,10 +1566,13 @@
                 const data = await res.json();
                 if (!data.success || !data.settings.length) return;
                 data.settings.forEach(s => {
+                    const display = parseInt(s.enabled) === 0 ? 'none' : '';
+                    // 독 버튼
                     const btn = document.querySelector(`.dock-item[data-app-key="${s.app_key}"]`);
-                    if (btn) {
-                        btn.style.display = parseInt(s.enabled) === 0 ? 'none' : '';
-                    }
+                    if (btn) btn.style.display = display;
+                    // SEO 앱 카드 (어드민 on/off 동시 적용)
+                    const card = document.querySelector(`.seo-app-card[data-app-key="${s.app_key}"]`);
+                    if (card) card.style.display = display;
                 });
             } catch (e) { /* 설정 로드 실패 시 모두 표시 유지 */ }
         }
