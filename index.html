@@ -1056,6 +1056,8 @@
             .mac-content-area { padding: 16px 16px; }
             /* 모바일: orbit 노드 숨김 */
             .orbit-layer { display: none !important; }
+            /* 모바일: 브랜딩 좌측 독 오프셋 제거 — 정중앙 배치 */
+            .desktop-branding { left: 50% !important; }
             /* 모바일: dock-dot 복원 (수평 독에서 아이콘 아래에 표시) */
             .dock-dot { position: relative; right: unset; top: unset; transform: none; margin-top: 4px; }
             /* 모바일: footer 숨김 */
@@ -1586,56 +1588,80 @@
             const svg   = document.getElementById('orbitSvg');
             svg.querySelectorAll('.orbit-line, .orbit-center').forEach(el => el.remove());
 
-            const navH = 89, dockH = 215;
+            const navH = 89, dockLeft = 82, footerH = 88;
             const W = window.innerWidth, H = window.innerHeight;
-            const cx = W / 2;
-            // cy = branding의 CSS top:50% 실제 위치와 일치
+
+            // cx: 좌측 독 보정 후 사용 가능 영역의 실제 중심
+            const cx = W / 2 + dockLeft / 2;
+
+            // cy: 브랜딩 div의 CSS top:50% 기준
             const cy = H * 0.5;
 
-            // 반경: 네비게이션/독 업보 반경 안적으로 동적 조절
-            const topClear  = cy - navH - 62;   // 네비게이션 보호 여백
-            const botClear  = H - dockH - cy - 42; // 독 보호 여백
+            // cy_logo: 로고박스 중심 = 허브 연결점
+            // 브랜딩 총 높이: 로고(86+14mb) + 타이틀(38) + 타이핑(10mt+36) = 184px
+            // 로고 중심 = div_top + 43 = (cy - 92) + 43 = cy - 49
+            const cy_logo = cy - 49;
+
+            // 반경: 좌측 독 제외한 가용 폭 기준으로 대폭 확장
+            const availW    = W - dockLeft;
+            const topClear  = cy_logo - navH - 50; // 네비게이션 여백
+            const botClear  = H - footerH - cy_logo - 44; // 푸터 여백
+            const leftClear = cx - dockLeft - 48; // 독 여백
             const r = Math.min(
-                Math.max(Math.min(W * 0.17, topClear, botClear), 120),
-                215
+                Math.max(Math.min(availW * 0.32, topClear, botClear, leftClear), 150),
+                320
             );
 
-            // 8앱 각도 — 60°∼120° 독 영역 회피, 각 노드 최소 35° 간격 보장
-            // spell(-90°상단), qr(-45°), pdf(0°), tangram(40°),
-            // [50°~125° = 독영역], pachinko(130°), server(170°), meter(-150°), sys(-115°)
+            // 8앱 각도 — 55°∼125° 독/하단 회피, 노드 최소 35° 간격
+            // spell(-90°위), qr(-45°), pdf(0°), tangram(40°)
+            // [55°~125° = 회피구간], pachinko(130°), server(170°), meter(-150°), sys(-115°)
             const angles = [-90, -45, 0, 40, 130, 170, -150, -115];
 
             nodes.forEach((node, i) => {
                 const rad = angles[i] * Math.PI / 180;
-                const nx  = cx + r * Math.cos(rad);
-                const ny  = cy + r * Math.sin(rad);
+                const nx  = cx      + r * Math.cos(rad); // 수평: cx 기준
+                const ny  = cy_logo + r * Math.sin(rad); // 수직: 로고 중심 기준
 
-                // 원형 노드 크기: 54px 원 + 레이블 ~22px
+                // 원형 노드: 54px 원 + 레이블 ~22px
                 const nw = 76, nh = 80;
                 node.style.left = (nx - nw / 2) + 'px';
                 node.style.top  = (ny - nh / 2) + 'px';
 
-                // 연결선: 실선, 중심에서 노드 원 가장자리까지
-                const edgeR  = 27; // 원 반지름 (54/2)
-                const dist   = Math.hypot(nx - cx, ny - cy);
-                const ux = (nx - cx) / dist, uy = (ny - cy) / dist;
+                // 연결선: 로고 중심(cx, cy_logo) → 노드 원 가장자리
+                const edgeR = 27; // 원 반지름 54/2
+                const dist  = Math.hypot(nx - cx, ny - cy_logo);
+                const ux = (nx - cx) / dist;
+                const uy = (ny - cy_logo) / dist;
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', cx + ux * 6);  // 중심에서 약간 먹도
-                line.setAttribute('y1', cy + uy * 6);
-                line.setAttribute('x2', nx - ux * edgeR); // 노드 가장자리
+                line.setAttribute('x1', cx + ux * 7);
+                line.setAttribute('y1', cy_logo + uy * 7);
+                line.setAttribute('x2', nx - ux * edgeR);
                 line.setAttribute('y2', ny - uy * edgeR);
                 line.setAttribute('class', 'orbit-line');
-                line.setAttribute('stroke', 'rgba(168,85,247,0.25)');
-                line.setAttribute('stroke-width', '1');
+                line.setAttribute('stroke', 'rgba(168,85,247,0.28)');
+                line.setAttribute('stroke-width', '1.2');
                 line.setAttribute('stroke-linecap', 'round');
                 svg.appendChild(line);
             });
 
-            // 중심 글로우 돈 (점답 표시)
+            // 중심 글로우 점 — 로고박스 중심에 정확히 위치
             const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', '6');
-            dot.setAttribute('fill', 'rgba(168,85,247,0.6)');
+            dot.setAttribute('cx', cx);
+            dot.setAttribute('cy', cy_logo);
+            dot.setAttribute('r', '7');
+            dot.setAttribute('fill', 'rgba(168,85,247,0.65)');
+            dot.setAttribute('filter', 'url(#orbitGlow)');
             dot.setAttribute('class', 'orbit-center');
+
+            // 글로우 필터 (없으면 추가)
+            if (!svg.querySelector('#orbitGlow')) {
+                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                defs.innerHTML = `<filter id="orbitGlow" x="-100%" y="-100%" width="300%" height="300%">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>`;
+                svg.appendChild(defs);
+            }
             svg.appendChild(dot);
         }
 
