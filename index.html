@@ -935,24 +935,45 @@
             right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(168,85,247,0.1);
-            border: 1px solid rgba(168,85,247,0.28);
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255, 255, 255, 0.12);
             cursor: pointer;
-            color: rgba(168,85,247,0.85);
-            padding: 5px 10px;
+            color: #fff;
             display: flex;
             align-items: center;
-            gap: 5px;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: -0.2px;
-            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            justify-content: center;
+            padding: 0;
+            transition: background 0.18s, transform 0.15s;
+            flex-shrink: 0;
         }
         .window-share-btn:hover {
-            background: rgba(168,85,247,0.22);
-            border-color: rgba(168,85,247,0.5);
-            color: #bf7fff;
+            background: rgba(255, 255, 255, 0.22);
+            transform: translateY(-50%) scale(1.08);
+        }
+        .window-share-btn:active {
+            transform: translateY(-50%) scale(0.95);
+        }
+        .window-share-btn svg,
+        .window-share-btn i {
+            width: 15px !important;
+            height: 15px !important;
+            stroke: #fff !important;
+            color: #fff !important;
+        }
+        [data-theme="light"] .window-share-btn {
+            background: rgba(0, 0, 0, 0.08);
+            color: #1d1d1f;
+        }
+        [data-theme="light"] .window-share-btn svg,
+        [data-theme="light"] .window-share-btn i {
+            stroke: #1d1d1f !important;
+            color: #1d1d1f !important;
+        }
+        [data-theme="light"] .window-share-btn:hover {
+            background: rgba(0, 0, 0, 0.14);
         }
         /* -- Share popover (fixed positioning) -- */
         .share-popover {
@@ -1584,9 +1605,8 @@
             <div class="window-title" id="windowTitle">
                 <i data-lucide="zap" id="windowIcon" style="width:16px;"></i> <span id="windowTitleText">Vibe Studio</span>
             </div>
-            <button class="window-share-btn" id="windowShareBtn" onclick="toggleSharePopover(event)" title="Share this app" aria-label="App link share">
-                <i data-lucide="share-2" style="width:13px;height:13px;"></i>
-                <span>공유</span>
+            <button class="window-share-btn" id="windowShareBtn" onclick="toggleSharePopover(event)" title="앱 링크 공유" aria-label="앱 링크 공유">
+                <i data-lucide="share-2"></i>
             </button>
         </div>
         <div class="mac-content-area">
@@ -1789,24 +1809,35 @@
         var _shareOutsideHandler = null;
 
         function openSharePopover() {
-            const pop = document.getElementById('sharePopover');
             const app = window.currentApp || '';
             const url = `${location.origin}${location.pathname}${app ? '?app=' + app : ''}`;
-            document.getElementById('sharePopoverUrl').textContent = url;
             const appLabel = APP_LABELS[app] ? `Vibe Studio - ${APP_LABELS[app]}` : 'Vibe Studio';
+
+            // Web Share API 지원 시 네이티브 공유 우선 (모바일 등)
+            if (navigator.share && /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                navigator.share({ title: appLabel, url: url }).catch(() => {});
+                return;
+            }
+
+            // PC: 팝오버 표시
+            const pop = document.getElementById('sharePopover');
+            if (!pop) return;
+            document.getElementById('sharePopoverUrl').textContent = url;
             document.getElementById('sharePopoverAppName').textContent = appLabel;
             resetCopyBtn();
+
             // 버튼 위치 기준 팝오버 배치
             const btn = document.getElementById('windowShareBtn');
             const r = btn.getBoundingClientRect();
             pop.style.top   = (r.bottom + 8) + 'px';
             pop.style.right = (window.innerWidth - r.right) + 'px';
             pop.classList.add('open');
-            // 외부클릭 리스너 등록
+
+            // 외부 클릭 시 닫기
             setTimeout(() => {
                 _shareOutsideHandler = function(ev) {
-                    const btn2 = document.getElementById('windowShareBtn');
                     const pop2 = document.getElementById('sharePopover');
+                    const btn2 = document.getElementById('windowShareBtn');
                     if (pop2 && !pop2.contains(ev.target) && btn2 && !btn2.contains(ev.target)) {
                         closeSharePopover();
                     }
@@ -1839,14 +1870,13 @@
             const url = document.getElementById('sharePopoverUrl').textContent;
             const done = () => {
                 const btn = document.getElementById('sharePopoverCopyBtn');
+                if (!btn) return;
                 btn.classList.add('copied');
                 document.getElementById('shareCopyText').textContent = '복사 완료! ✓';
                 clearTimeout(btn._t);
-                // 2초 후 팝오버 자동 종료
-                btn._t = setTimeout(() => {
-                    closeSharePopover();
-                }, 2000);
+                btn._t = setTimeout(() => { closeSharePopover(); }, 2000);
             };
+            // clipboard API → execCommand fallback
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
             } else {
