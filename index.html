@@ -1303,48 +1303,80 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; overflow: visible;
         }
-        /* ── 파티클 노드 연결선 시스템 (배경과 동일한 유기적 펄스) ── */
+        /* ── 파티클 노드 연결선 시스템 (배경 파티클과 동일한 유기적 펄스) ── */
         @keyframes orbitLinePulse {
             0%, 100% { stroke-opacity: 0.12; }
             50%       { stroke-opacity: 0.45; }
         }
         @keyframes orbitGlowPulse {
-            0%, 100% { stroke-opacity: 0.04; }
-            50%       { stroke-opacity: 0.20; }
-        }
-        @keyframes dotPulse {
-            0%, 100% { opacity: 0.38; r: 3px; }
-            50%       { opacity: 0.90; r: 4px; }
-        }
-        @keyframes dotPulse2 {
-            0%, 100% { opacity: 0.42; r: 3.5px; }
-            50%       { opacity: 0.95; r: 4.5px; }
+            0%, 100% { stroke-opacity: 0.03; }
+            50%       { stroke-opacity: 0.18; }
         }
 
-        /* 주 연결선 — transition 없음(hover 없음) */
+        /* 점 opacity+크기 펄스 — 배경 파티클 반경 1.2~2.7px 기준에 맞춤 */
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.30; r: 1.5px; }
+            50%       { opacity: 0.85; r: 2.2px; }
+        }
+        @keyframes dotPulse2 {
+            0%, 100% { opacity: 0.35; r: 1.8px; }
+            50%       { opacity: 0.90; r: 2.6px; }
+        }
+
+        /* 웨이포인트 점 2D 드리프트 — 배경 파티클 이동과 동일한 유기적 느낌 */
+        @keyframes dotDriftA {
+            0%   { transform: translate(0px,   0px); }
+            20%  { transform: translate(2.5px, -2px); }
+            45%  { transform: translate(-1.5px,-3px); }
+            70%  { transform: translate(-2px,  1.5px); }
+            100% { transform: translate(0px,   0px); }
+        }
+        @keyframes dotDriftB {
+            0%   { transform: translate(0px,   0px); }
+            25%  { transform: translate(-3px,  1.5px); }
+            55%  { transform: translate(2px,   3px); }
+            80%  { transform: translate(1.5px,-1.5px); }
+            100% { transform: translate(0px,   0px); }
+        }
+        @keyframes dotDriftC {
+            0%   { transform: translate(0px,   0px); }
+            30%  { transform: translate(1.5px, 3px); }
+            60%  { transform: translate(-2.5px,0.5px); }
+            85%  { transform: translate(1px,  -2.5px); }
+            100% { transform: translate(0px,   0px); }
+        }
+        @keyframes dotDriftD {
+            0%   { transform: translate(0px,   0px); }
+            35%  { transform: translate(-1px, -2.5px); }
+            65%  { transform: translate(3px,   1px); }
+            90%  { transform: translate(-0.5px,2.5px); }
+            100% { transform: translate(0px,   0px); }
+        }
+
+        /* 주 연결선 — hover 없음, 항상 펄스 */
         .orbit-main-line {
             stroke: rgba(139,92,246,0.5);
             stroke-width: 0.85px;
             animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
 
-        /* 글로우 레이어 — 배경 shadow 느낌 */
+        /* 글로우 레이어 */
         .orbit-glow-line {
-            stroke: rgba(192,132,252,0.12);
+            stroke: rgba(192,132,252,0.10);
             stroke-width: 4px;
             animation: orbitGlowPulse 3.2s ease-in-out infinite;
         }
 
-        /* 웨이포인트 파티클 점 */
+        /* 웨이포인트 파티클 점 — 배경 파티클과 동일 크기+움직임 */
+        .orbit-dot-hub, .orbit-dot-node {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
         .orbit-dot-hub {
-            fill: rgba(139,92,246,0.75);
-            r: 3px;
-            animation: dotPulse 2.8s ease-in-out infinite;
+            fill: rgba(139,92,246,0.72);
         }
         .orbit-dot-node {
-            fill: rgba(139,92,246,0.85);
-            r: 3.5px;
-            animation: dotPulse2 2.8s ease-in-out infinite;
+            fill: rgba(139,92,246,0.78);
         }
 
         /* ── 노드 개별 부유 애니메이션 ── */
@@ -1885,23 +1917,30 @@
                 });
 
                 // ── 중간 웨이포인트 파티클 점 (끝점 제외, 중간에만) ──
+                // 4종 드리프트 패턴 + 8종 pulse 타이밍으로 배경 파티클 이동과 동일한 느낌
+                const driftAnims = ['dotDriftA','dotDriftB','dotDriftC','dotDriftD'];
+                const driftDurs  = [5.8, 6.4, 5.2, 7.1, 6.0, 5.5, 6.8, 5.9];
+
                 const dotWp1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 dotWp1.setAttribute('cx', wp1x);
                 dotWp1.setAttribute('cy', wp1y);
                 dotWp1.setAttribute('class', 'orbit-dot-hub');
-                dotWp1.style.animationDelay    = `${-(i * 0.35).toFixed(2)}s`;
-                dotWp1.style.animationDuration = `${dotDurs[i]}s`;
+                // pulse(크기+opacity) + drift(2D 이동) 동시 적용
+                dotWp1.style.animation =
+                    `dotPulse ${dotDurs[i]}s ease-in-out ${-(i * 0.35).toFixed(2)}s infinite,` +
+                    ` ${driftAnims[i % 4]} ${driftDurs[i]}s ease-in-out ${-(i * 0.6).toFixed(2)}s infinite`;
                 svg.appendChild(dotWp1);
 
                 const dotWp2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
                 dotWp2.setAttribute('cx', wp2x);
                 dotWp2.setAttribute('cy', wp2y);
                 dotWp2.setAttribute('class', 'orbit-dot-node');
-                dotWp2.style.animationDelay    = `${-(i * 0.35 + 0.22).toFixed(2)}s`;
-                dotWp2.style.animationDuration = `${(dotDurs[i] + 0.18).toFixed(2)}s`;
+                // wp2는 wp1과 엇갈린 drift 타입 + 약간 다른 타이밍
+                dotWp2.style.animation =
+                    `dotPulse2 ${(dotDurs[i] + 0.18).toFixed(2)}s ease-in-out ${-(i * 0.35 + 0.22).toFixed(2)}s infinite,` +
+                    ` ${driftAnims[(i + 2) % 4]} ${(driftDurs[i] + 0.5).toFixed(2)}s ease-in-out ${-(i * 0.5 + 0.3).toFixed(2)}s infinite`;
                 svg.appendChild(dotWp2);
-                // ※ hover 인터랙션은 CSS의 .orbit-node:hover 룰로만 처리
-                //   (아이콘 + 텍스트에만 적용, 선/점은 항상 펄스 애니메이션)
+                // ※ hover: CSS의 .orbit-node:hover (아이콘+텍스트만 반응)
             });
 
             // ── SVG 필터 정의 ──
