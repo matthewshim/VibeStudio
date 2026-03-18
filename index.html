@@ -1808,21 +1808,31 @@
         var _shareOutsideHandler = null;
 
         function openSharePopover() {
-            const pop = document.getElementById('sharePopover');
+            var pop = document.getElementById('sharePopover');
             if (!pop) return;
 
-            const app = window.currentApp || '';
-            const url = location.origin + location.pathname + (app ? '?app=' + app : '');
-            const appLabel = (typeof APP_LABELS !== 'undefined' && APP_LABELS[app])
-                ? 'Vibe Studio - ' + APP_LABELS[app]
-                : 'Vibe Studio';
-
-            var urlEl  = document.getElementById('sharePopoverUrl');
-            var nameEl = document.getElementById('sharePopoverAppName');
-            if (urlEl)  urlEl.textContent  = url;
-            if (nameEl) nameEl.textContent = appLabel;
-            resetCopyBtn();
+            // 팝오버를 먼저 표시 → 이후 데이터 입력이 실패해도 반드시 보임
             pop.classList.add('open');
+
+            // URL / 앱 라벨 채우기 (try-catch로 보호)
+            try {
+                var app = window.currentApp || '';
+                var url = location.origin + location.pathname + (app ? '?app=' + app : '');
+                var urlEl = document.getElementById('sharePopoverUrl');
+                if (urlEl) urlEl.textContent = url;
+
+                var appLabel = 'Vibe Studio';
+                try {
+                    if (app && APP_LABELS && APP_LABELS[app]) appLabel = 'Vibe Studio - ' + APP_LABELS[app];
+                } catch(e2) {}
+                var nameEl = document.getElementById('sharePopoverAppName');
+                if (nameEl) nameEl.textContent = appLabel;
+
+                var copyTextEl = document.getElementById('shareCopyText');
+                if (copyTextEl) copyTextEl.textContent = '링크 복사';
+                var copyBtnEl = document.getElementById('sharePopoverCopyBtn');
+                if (copyBtnEl) copyBtnEl.classList.remove('copied');
+            } catch(e1) {}
 
             // 외부 클릭 시 닫기
             setTimeout(function() {
@@ -1858,18 +1868,19 @@
         }
 
         function copyShareLink() {
-            const url = document.getElementById('sharePopoverUrl').textContent;
-            const done = () => {
-                const btn = document.getElementById('sharePopoverCopyBtn');
+            var urlEl = document.getElementById('sharePopoverUrl');
+            var url = urlEl ? urlEl.textContent : location.href;
+            var done = function() {
+                var btn = document.getElementById('sharePopoverCopyBtn');
                 if (!btn) return;
                 btn.classList.add('copied');
-                document.getElementById('shareCopyText').textContent = '복사 완료! ✓';
+                var ct = document.getElementById('shareCopyText');
+                if (ct) ct.textContent = '복사 완료! ✓';
                 clearTimeout(btn._t);
-                btn._t = setTimeout(() => { closeSharePopover(); }, 2000);
+                btn._t = setTimeout(function() { closeSharePopover(); }, 2000);
             };
-            // clipboard API → execCommand fallback
             if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+                navigator.clipboard.writeText(url).then(done).catch(function() { fallbackCopy(url, done); });
             } else {
                 fallbackCopy(url, done);
             }
@@ -1886,10 +1897,11 @@
         }
 
         function resetCopyBtn() {
-            const btn = document.getElementById('sharePopoverCopyBtn');
+            var btn = document.getElementById('sharePopoverCopyBtn');
             if (!btn) return;
             btn.classList.remove('copied');
-            document.getElementById('shareCopyText').textContent = '링크 복사';
+            var ct = document.getElementById('shareCopyText');
+            if (ct) ct.textContent = '링크 복사';
         }
         window.addEventListener('resize', () => {
             // 레이아웃 리사이즈 시 필요한 처리
