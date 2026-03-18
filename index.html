@@ -594,9 +594,8 @@
         .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
         .mac-window {
-            width: 100%;
-            max-width: 100%;
-            /* desktop-wrapper 패딩이 여백을 담당 — 윈도우는 가용 영역 완전 점유 */
+            width: 95%;
+            max-width: 860px;
             height: 100%;
             max-height: 100%;
             min-height: 280px;
@@ -948,51 +947,113 @@
         }
         .dock-item.active .dock-dot { opacity: 1; }
 
-        /* 실타입 공유 버튼 (titlebar 우측) */
+        /* -- Share button (titlebar right) -- */
         .window-share-btn {
             position: absolute;
-            right: 15px;
+            right: 14px;
             top: 50%;
             transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-muted);
-            opacity: 0.6;
-            padding: 6px;
+            background: rgba(168,85,247,0.1);
+            border: 1px solid rgba(168,85,247,0.28);
             border-radius: 8px;
+            cursor: pointer;
+            color: rgba(168,85,247,0.85);
+            padding: 5px 10px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+        }
+        .window-share-btn:hover {
+            background: rgba(168,85,247,0.22);
+            border-color: rgba(168,85,247,0.5);
+            color: #bf7fff;
+        }
+        /* -- Share popover (fixed positioning) -- */
+        .share-popover {
+            position: fixed;
+            width: 292px;
+            background: rgba(12,8,22,0.97);
+            backdrop-filter: blur(28px) saturate(200%);
+            -webkit-backdrop-filter: blur(28px) saturate(200%);
+            border: 1px solid rgba(168,85,247,0.32);
+            border-radius: 18px;
+            padding: 18px;
+            z-index: 10002;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.6),
+                0 0 0 1px rgba(168,85,247,0.07) inset;
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .share-popover.open {
+            display: flex;
+            animation: sharePopIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes sharePopIn {
+            from { opacity: 0; transform: translateY(-8px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0)    scale(1); }
+        }
+        .share-popover-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.92);
+            letter-spacing: -0.3px;
+        }
+        .share-popover-app-name {
+            font-size: 11px;
+            font-weight: 500;
+            color: rgba(168,85,247,0.75);
+            letter-spacing: -0.1px;
+        }
+        .share-popover-url-row {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 9px 12px;
+        }
+        .share-popover-url-row #sharePopoverUrl {
+            flex: 1;
+            font-size: 11px;
+            color: rgba(255,255,255,0.45);
+            font-family: 'SF Mono', 'Fira Code', ui-monospace, monospace;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            user-select: all;
+        }
+        .share-popover-copy {
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.15s, background 0.15s;
-        }
-        .window-share-btn:hover {
-            opacity: 1;
-            background: rgba(168,85,247,0.12);
-        }
-        /* 공유 토스트 */
-        .share-toast {
-            position: fixed;
-            bottom: 120px;
-            left: 50%;
-            transform: translateX(-50%) translateY(8px);
-            background: rgba(30,25,50,0.92);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(168,85,247,0.4);
+            gap: 7px;
+            background: linear-gradient(135deg, #a855f7 0%, #5e5ce6 100%);
+            border: none;
+            border-radius: 11px;
+            padding: 11px 18px;
             color: #fff;
-            padding: 10px 20px;
-            border-radius: 12px;
             font-size: 13px;
-            font-weight: 600;
-            z-index: 99999;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.22s, transform 0.22s;
-            white-space: nowrap;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            cursor: pointer;
+            transition: opacity 0.15s, transform 0.12s, background 0.3s;
+            box-shadow: 0 4px 18px rgba(168,85,247,0.38);
         }
-        .share-toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
+        .share-popover-copy:hover  { opacity: 0.9; transform: scale(0.99); }
+        .share-popover-copy:active { transform: scale(0.97); }
+        .share-popover-copy.copied {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            box-shadow: 0 4px 18px rgba(52,211,153,0.38);
         }
 
         /* 📱 반응형 (Mobile 모드) */
@@ -1435,9 +1496,9 @@
             <div class="window-title" id="windowTitle">
                 <i data-lucide="zap" id="windowIcon" style="width:16px;"></i> <span id="windowTitleText">Vibe Studio</span>
             </div>
-            <!-- 공유 버튼 -->
-            <button class="window-share-btn" id="windowShareBtn" onclick="shareCurrentApp()" title="이 앱 공유하기" aria-label="앱 링크 복사">
-                <i data-lucide="share-2" style="width:15px;height:15px;"></i>
+            <button class="window-share-btn" id="windowShareBtn" onclick="toggleSharePopover(event)" title="Share this app" aria-label="App link share">
+                <i data-lucide="share-2" style="width:13px;height:13px;"></i>
+                <span>공유</span>
             </button>
         </div>
         <div class="mac-content-area">
@@ -1743,54 +1804,81 @@
         });
 
         /* ── 공유하기 ───────────────────────────────────── */
-        const APP_TITLES = {
-            spell: '맞춤법 검사 — 무료 한국어 교정',
-            qr: 'QR Master — QR코드 생성',
-            pdf: 'PDF Splitter — 페이지 분리',
-            tangram: 'Tangram — 칠교놀이 퍼즐',
-            pachinko: 'Pachinko — 미니 아케이드',
-            server: 'Server Monitor — 서버 상태',
-            meter: 'Clap Meter — 소음 코 측정',
-            sys: 'System Info — 시스템 정보'
+        const APP_LABELS = {
+            spell:   '맞춤법 검사',
+            qr:      'QR Master',
+            pdf:     'PDF Splitter',
+            tangram: 'Tangram',
+            pachinko:'Pachinko',
+            server:  'Server Monitor',
+            meter:   'Clap Meter',
+            sys:     'System Info'
         };
 
-        function shareCurrentApp() {
+        function toggleSharePopover(e) {
+            e.stopPropagation();
+            const pop = document.getElementById('sharePopover');
+            const isOpen = pop.classList.contains('open');
+            pop.classList.remove('open');
+            if (isOpen) return;
+            // build URL
             const app = window.currentApp || '';
-            const label = APP_TITLES[app] ? `Vibe Studio | ${APP_TITLES[app]}` : 'Vibe Studio';
             const url = `${location.origin}${location.pathname}${app ? '?app=' + app : ''}`;
-            if (navigator.share) {
-                navigator.share({ title: label, url }).catch(() => copyShareUrl(url));
+            document.getElementById('sharePopoverUrl').textContent = url;
+            const appLabel = APP_LABELS[app] ? `Vibe Studio - ${APP_LABELS[app]}` : 'Vibe Studio';
+            document.getElementById('sharePopoverAppName').textContent = appLabel;
+            // reset copy button
+            resetCopyBtn();
+            // position below share button
+            const btn = document.getElementById('windowShareBtn');
+            const r = btn.getBoundingClientRect();
+            pop.style.top   = (r.bottom + 8) + 'px';
+            pop.style.right = (window.innerWidth - r.right) + 'px';
+            pop.classList.add('open');
+            // close on outside click
+            setTimeout(() => {
+                document.addEventListener('click', function onOut(ev) {
+                    const b = document.getElementById('windowShareBtn');
+                    const p = document.getElementById('sharePopover');
+                    if (!p.contains(ev.target) && ev.target !== b && !b.contains(ev.target)) {
+                        p.classList.remove('open');
+                    }
+                    document.removeEventListener('click', onOut);
+                });
+            }, 30);
+        }
+
+        function copyShareLink() {
+            const url = document.getElementById('sharePopoverUrl').textContent;
+            const done = () => {
+                const btn = document.getElementById('sharePopoverCopyBtn');
+                btn.classList.add('copied');
+                document.getElementById('shareCopyText').textContent = '복사 완료! ✓';
+                clearTimeout(btn._t);
+                btn._t = setTimeout(resetCopyBtn, 2200);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
             } else {
-                copyShareUrl(url);
+                fallbackCopy(url, done);
             }
         }
 
-        function copyShareUrl(url) {
-            if (navigator.clipboard?.writeText) {
-                navigator.clipboard.writeText(url).then(() => showShareToast('🔗 링크가 복사되었습니다!'));
-            } else {
-                const ta = document.createElement('textarea');
-                ta.value = url;
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                showShareToast('🔗 링크가 복사되었습니다!');
-            }
+        function fallbackCopy(url, cb) {
+            const ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.cssText = 'position:fixed;opacity:0;left:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try { document.execCommand('copy'); cb(); } catch(err) {}
+            document.body.removeChild(ta);
         }
 
-        function showShareToast(msg) {
-            let t = document.getElementById('shareToast');
-            if (!t) {
-                t = document.createElement('div');
-                t.id = 'shareToast';
-                t.className = 'share-toast';
-                document.body.appendChild(t);
-            }
-            t.textContent = msg;
-            t.classList.add('show');
-            clearTimeout(t._timer);
-            t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+        function resetCopyBtn() {
+            const btn = document.getElementById('sharePopoverCopyBtn');
+            if (!btn) return;
+            btn.classList.remove('copied');
+            document.getElementById('shareCopyText').textContent = '링크 복사';
         }
         window.addEventListener('resize', () => {
             clearTimeout(window._orbitTimer);
@@ -1820,6 +1908,22 @@
     </script>
     <script src="js/vibe-background.js?v=20260316"></script>
     <script src="js/app-loader.js?v=20260318"></script>
+
+    <!-- Share Popover -->
+    <div class="share-popover" id="sharePopover" role="dialog" aria-label="앱 링크 공유">
+        <div class="share-popover-header">
+            <i data-lucide="share-2" style="width:15px;height:15px;color:#a855f7;flex-shrink:0;"></i>
+            앱 링크 공유
+        </div>
+        <p class="share-popover-app-name" id="sharePopoverAppName">Vibe Studio</p>
+        <div class="share-popover-url-row">
+            <span id="sharePopoverUrl"></span>
+        </div>
+        <button class="share-popover-copy" id="sharePopoverCopyBtn" onclick="copyShareLink()">
+            <i data-lucide="copy" style="width:14px;height:14px;flex-shrink:0;"></i>
+            <span id="shareCopyText">링크 복사</span>
+        </button>
+    </div>
 
 </body>
 </html>
