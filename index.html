@@ -1303,15 +1303,15 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; overflow: visible;
         }
-        /* ── 연결선 흐름 애니메이션 ── */
-        @keyframes orbitLineFlow {
-            0%   { stroke-opacity: 0.18; stroke-dashoffset: 0; }
-            50%  { stroke-opacity: 0.52; stroke-dashoffset: -16; }
-            100% { stroke-opacity: 0.18; stroke-dashoffset: -32; }
+        /* ── 연결선: 배경 파티클과 동일한 실선 + opacity 펙스 ── */
+        @keyframes orbitLinePulse {
+            0%, 100% { stroke-opacity: 0.15; }
+            50%       { stroke-opacity: 0.48; }
         }
+        /* 노드 hover 시 연결선 강조 */
+        .orbit-node:hover ~ svg .orbit-line { stroke-opacity: 0.7; }
         .orbit-line {
-            stroke-dasharray: 5 9;
-            animation: orbitLineFlow 2.8s linear infinite;
+            animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
         /* ── 노드 개별 부유 애니메이션 ── */
         @keyframes nodeFloat {
@@ -1752,53 +1752,72 @@
             // 로고 중심 = cy - 92 + 43 = cy - 49
             const cy_logo = cy - 49;
 
-            // 반경: 전체 폭 사용, 상하 여백 반영
-            const availW   = W - 60;          // 좌우 30px 여백 확보
-            const topClear = cy_logo - navH - 48;
-            const botClear = H - footerH - cy_logo - 40;
-            const r = Math.min(
-                Math.max(Math.min(availW * 0.38, topClear, botClear), 160),
-                420
-            );
 
-            // 8앱 각도 — 불규칙 배치로 자연스러움 극대화
-            const baseAngles = [-93, -45, -8, 38, 148, 178, -148, -118];
-            // 노드별 반경 변화 (±10%)
-            const rMult      = [1.00, 1.07, 0.94, 1.11, 0.97, 1.04, 0.91, 1.08];
-            // 개별 부유 애니메이션 (다양한 속도·딜레이)
+            // ── 타원형 궤도: rx(수평) 넓게, ry(수직) 화면 여백 기반 ──
+            const rx       = Math.min(W * 0.41, 480);
+            const topClear = cy_logo - navH - 52;
+            const botClear = H - footerH - cy_logo - 52;
+            const ry_up    = Math.min(Math.max(topClear * 0.88, 140), 320);
+            const ry_down  = Math.min(Math.max(botClear * 0.82, 140), 340);
+
+
+            // 8앱 각도 — 상단 3·좌우 2·하단 3으로 균등 분산 + 미세 불규칙
+            // (각도 기준: 0°=오른쪽, 양수=아래, 음수=위, CSS y-axis)
+            const baseAngles = [-132, -82, -46, 6, 56, 96, 145, -170];
+            // 반경 소폭 변화 (±8%)
+            const rMult      = [1.00, 0.94, 1.07, 1.02, 1.06, 0.92, 1.05, 0.97];
+            // 부유 타이밍
             const floatDur   = [4.8, 5.4, 4.2, 5.9, 4.5, 5.1, 4.0, 5.7];
             const floatDel   = [0, -1.2, -2.5, -0.8, -1.7, -3.3, -0.5, -2.1];
 
             nodes.forEach((node, i) => {
-                const rad   = baseAngles[i] * Math.PI / 180;
-                const nodeR = r * rMult[i];
-                const nx    = cx      + nodeR * Math.cos(rad);
-                const ny    = cy_logo + nodeR * Math.sin(rad);
+                const rad    = baseAngles[i] * Math.PI / 180;
+                const sinA   = Math.sin(rad);
+                // 수직 반경: 위/아래 방향에 따라 ry_up / ry_down 적용
+                const ry     = sinA < 0 ? ry_up : ry_down;
+                const nx     = cx           + rx * rMult[i] * Math.cos(rad);
+                const ny     = cy_logo      + ry * rMult[i] * sinA;
 
                 const nw = 90, nh = 105;
                 node.style.left      = (nx - nw / 2) + 'px';
                 node.style.top       = (ny - nh / 2) + 'px';
-                // 개별 부유 애니메이션
                 node.style.animation = `nodeFloat ${floatDur[i]}s ease-in-out ${floatDel[i]}s infinite`;
 
-                // 연결선: 로고 박스 엣지 → 노드 아이콘 엣지
-                const hubR  = Math.min(44, W * 0.05); // 로고박스 반경
-                const edgeR = 37;  // 66px 아이콘 절반 + 여백
+                // ── 연결선: 배경 파티클과 동일한 실선 스타일 ──
+                // 배경: rgba(139,92,246,0.3), lineWidth 0.8 (vibe-background.js 참조)
+                const hubR  = Math.min(44, W * 0.05);
+                const edgeR = 37;
                 const dist  = Math.hypot(nx - cx, ny - cy_logo);
                 const ux    = (nx - cx) / dist;
                 const uy    = (ny - cy_logo) / dist;
+
+                // 글로우 레이어 (배경 active 상태와 유사)
+                const glowLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                glowLine.setAttribute('x1', cx + ux * hubR);
+                glowLine.setAttribute('y1', cy_logo + uy * hubR);
+                glowLine.setAttribute('x2', nx - ux * edgeR);
+                glowLine.setAttribute('y2', ny - uy * edgeR);
+                glowLine.setAttribute('stroke', 'rgba(192,132,252,0.1)');
+                glowLine.setAttribute('stroke-width', '3');
+                glowLine.setAttribute('stroke-linecap', 'round');
+                glowLine.setAttribute('class', 'orbit-line');
+                glowLine.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
+                svg.appendChild(glowLine);
+
+                // 주 라인 (배경 파티클 연결선과 동일한 rgba(139,92,246))
                 const line  = document.createElementNS('http://www.w3.org/2000/svg', 'line');
                 line.setAttribute('x1', cx + ux * hubR);
                 line.setAttribute('y1', cy_logo + uy * hubR);
                 line.setAttribute('x2', nx - ux * edgeR);
                 line.setAttribute('y2', ny - uy * edgeR);
                 line.setAttribute('class', 'orbit-line');
-                line.setAttribute('stroke', 'rgba(168,85,247,0.5)');
-                line.setAttribute('stroke-width', '1.5');
+                line.setAttribute('stroke', 'rgba(139,92,246,0.5)');
+                line.setAttribute('stroke-width', '0.9');
                 line.setAttribute('stroke-linecap', 'round');
-                line.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
+                line.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
                 svg.appendChild(line);
             });
+
 
 
             // 중심 글로우 점 — 로고박스 중심에 정확히 위치
