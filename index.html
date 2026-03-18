@@ -1753,19 +1753,19 @@
             const cy_logo = cy - 49;
 
 
-            // ── 타원형 궤도: rx(수평) 넓게, ry(수직) 화면 여백 기반 ──
-            const rx       = Math.min(W * 0.41, 480);
+            // ── 타원형 궤도: 화면 비율 기반 (대형 모니터 대응) ──
+            const rx       = Math.min(W * 0.41, 620);           // 수평 반경 (대형화면 대응 cap 증가)
             const topClear = cy_logo - navH - 52;
             const botClear = H - footerH - cy_logo - 52;
-            const ry_up    = Math.min(Math.max(topClear * 0.88, 140), 320);
-            const ry_down  = Math.min(Math.max(botClear * 0.82, 140), 340);
+            const ry_up    = Math.min(Math.max(topClear * 0.88, 140), 360);
+            const ry_down  = Math.min(Math.max(botClear * 0.82, 140), 380);
 
+            // 8앱 각도 — 상단 좌우 넓게, 정좌우 명확히, 하단 좌우 넓게
+            // 순서: spell, qr, pdf, tangram, pachinko, server, meter, sys (HTML orbit-node 순)
+            const baseAngles = [-135, -88, -50, 8, 52, 90, 142, -172];
+            // 반경 소폭 변화: 각 노드별 ±10% 불규칙 반경
+            const rMult      = [1.02, 0.93, 1.08, 1.03, 1.07, 0.91, 1.05, 0.96];
 
-            // 8앱 각도 — 상단 3·좌우 2·하단 3으로 균등 분산 + 미세 불규칙
-            // (각도 기준: 0°=오른쪽, 양수=아래, 음수=위, CSS y-axis)
-            const baseAngles = [-132, -82, -46, 6, 56, 96, 145, -170];
-            // 반경 소폭 변화 (±8%)
-            const rMult      = [1.00, 0.94, 1.07, 1.02, 1.06, 0.92, 1.05, 0.97];
             // 부유 타이밍
             const floatDur   = [4.8, 5.4, 4.2, 5.9, 4.5, 5.1, 4.0, 5.7];
             const floatDel   = [0, -1.2, -2.5, -0.8, -1.7, -3.3, -0.5, -2.1];
