@@ -592,10 +592,14 @@
         .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
 
         .mac-window {
+            position: fixed;
+            top: 47px;   /* mac-menu-bar 높이 */
+            left: 50%;
+            transform: translateX(-50%);
             width: 95%;
             max-width: 860px;
-            height: 100%;
-            max-height: 100%;
+            height: calc(100dvh - 47px - 44px);  /* 위: nav, 아래: footer/dock */
+            max-height: none;
             min-height: 280px;
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
@@ -608,13 +612,13 @@
             overflow: hidden;
             margin: 0;
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 100;
+            z-index: 200;
         }
 
         .mac-window.hidden {
             display: none !important;
             opacity: 0;
-            transform: scale(0.95) translateY(20px);
+            transform: translateX(-50%) scale(0.95) translateY(20px);
         }
 
         .mac-titlebar {
@@ -1077,13 +1081,15 @@
                 box-sizing: border-box;
                 z-index: 1500;
                 top: 56px !important;
+                left: 0 !important;
+                right: 0 !important;
                 bottom: 0px !important;
                 position: fixed !important;
-                transform: translateY(0);
+                transform: translateY(0) !important;
                 opacity: 1;
                 overflow-x: hidden !important;
             }
-            .mac-window.hidden { display: none !important; transform: translateY(100%); }
+            .mac-window.hidden { display: none !important; transform: translateY(100%) !important; }
             .mac-titlebar { 
                 display: flex !important; 
                 height: 52px; 
