@@ -1133,60 +1133,65 @@
         }
         .mac-btn:active { transform: scale(0.97); }
 
-        /* ── SEO App Grid ──────────────────────────────── */
-        .seo-app-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            max-width: 720px;
-            margin-top: 28px;
-            padding: 0 12px;
+        /* ── Orbit Layer — Hub & Spoke 컴셋 ──────────────── */
+        .orbit-layer {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            transition: opacity 0.8s cubic-bezier(0.4,0,0.2,1), filter 0.8s;
         }
-        .seo-app-card {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 14px;
+        .orbit-layer.dimmed { opacity: 0; filter: blur(20px); pointer-events: none; }
+        .orbit-svg {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; overflow: visible;
+        }
+        .orbit-node {
+            position: absolute;
+            pointer-events: auto;
+            display: flex; flex-direction: column;
+            align-items: center; gap: 6px;
+            padding: 12px 14px;
             background: var(--glass-bg);
-            backdrop-filter: blur(16px) saturate(160%);
-            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            backdrop-filter: blur(18px) saturate(180%);
+            -webkit-backdrop-filter: blur(18px) saturate(180%);
             border: 1px solid var(--glass-border);
-            border-radius: 14px;
+            border-radius: 18px;
             cursor: pointer;
-            text-align: left;
             color: var(--text-main);
-            transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+            min-width: 84px;
+            text-align: center;
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
         }
-        .seo-app-card:hover {
-            border-color: rgba(168,85,247,0.45);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(168,85,247,0.18);
+        .orbit-node:hover {
+            border-color: rgba(168,85,247,0.55);
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 14px 36px rgba(168,85,247,0.28);
+            z-index: 1;
         }
-        .seo-app-card:active { transform: scale(0.97); }
-        .seo-app-icon {
-            width: 34px; height: 34px;
-            border-radius: 9px;
+        .orbit-node:active { transform: scale(0.95); }
+        .orbit-node-icon {
+            width: 40px; height: 40px; border-radius: 12px;
             display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0;
-            font-size: 16px; line-height: 1;
+            font-size: 20px; line-height: 1;
         }
-        .seo-app-info {
-            display: flex; flex-direction: column; gap: 2px; min-width: 0;
-        }
-        .seo-app-info strong {
-            font-size: 12px; font-weight: 700;
+        .orbit-node-name {
+            font-size: 11px; font-weight: 700;
             letter-spacing: -0.2px; white-space: nowrap;
             color: var(--text-main);
         }
-        .seo-app-info span {
-            font-size: 10px; color: var(--text-muted);
-            white-space: nowrap;
+        .orbit-node-desc {
+            font-size: 9px; color: var(--text-muted);
+            white-space: nowrap; line-height: 1.3;
         }
-        @media (max-width: 600px) {
-            .seo-app-grid { gap: 6px; max-width: 360px; }
-            .seo-app-info span { display: none; }
-            .seo-app-card { padding: 8px 11px; }
+        /* 독 아이콘 이모지 스타일 */
+        .dock-icon { font-size: 26px !important; }
+        .dock-icon i, .dock-icon svg { display: none; } /* lucide 숨김 */
+        @media (max-width: 768px) {
+            .orbit-node { min-width: 68px; padding: 9px 10px; }
+            .orbit-node-desc { display: none; }
+            .orbit-node-icon { width: 32px; height: 32px; font-size: 16px; }
+            .orbit-node-name { font-size: 10px; }
         }
     </style>
 </head>
@@ -1285,41 +1290,51 @@
             About Vibe Studio
         </a>
 
-        <!-- SEO 앱 카드 그리드: 크롤링용 + 어드민 패널 on/off 연동 -->
-        <div class="seo-app-grid" id="seoAppGrid">
-            <button class="seo-app-card" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#c4b5fd,#8b5cf6)">✍️</div>
-                <div class="seo-app-info"><strong>맞춤법 검사</strong><span>무료 한국어 맞춤법 교정</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="qr" onclick="switchApp('qr','QR Master','#007aff','qr-code')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#40b3ff,#007aff)">🔗</div>
-                <div class="seo-app-info"><strong>QR Master</strong><span>QR코드 무료 즉시 생성</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="pdf" onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff6b63,#ff3b30)">📄</div>
-                <div class="seo-app-info"><strong>PDF Splitter</strong><span>PDF 페이지 분리 변환</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="tangram" onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff8c5a,#ff6b35)">🧩</div>
-                <div class="seo-app-info"><strong>Tangram</strong><span>두뇌 자극 칠교놀이 퍼즐</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="pachinko" onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ff5274,#d81b60)">🎰</div>
-                <div class="seo-app-info"><strong>Pachinko</strong><span>잭팟 브라우저 미니게임</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="server" onclick="switchApp('server','Server Monitor','#34d399','server')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#34d399,#10b981)">🖥️</div>
-                <div class="seo-app-info"><strong>Server Monitor</strong><span>실시간 서버 상태 대시보드</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="meter" onclick="switchApp('meter','Clap Meter','#ff9500','mic')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#ffcc00,#ff9500)">👏</div>
-                <div class="seo-app-info"><strong>Clap Meter</strong><span>실시간 마이크 소음 측정</span></div>
-            </button>
-            <button class="seo-app-card" data-app-key="sys" onclick="switchApp('sys','System Info','#7b78ff','activity')">
-                <div class="seo-app-icon" style="background:linear-gradient(160deg,#8b89ff,#5e5ce6)">⚙️</div>
-                <div class="seo-app-info"><strong>System Info</strong><span>시스템 정보 모니터링</span></div>
-            </button>
-        </div>
+    </div>
+
+    <!-- ── Orbit Layer: Hub & Spoke 컴셋 (어드민 on/off 연동) ── -->
+    <div class="orbit-layer" id="orbitLayer" aria-label="Vibe Studio 앱 목록">
+        <svg class="orbit-svg" id="orbitSvg" aria-hidden="true"></svg>
+        <button class="orbit-node" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#c4b5fd,#8b5cf6)">✍️</div>
+            <span class="orbit-node-name">맞춤법 검사</span>
+            <span class="orbit-node-desc">무료 한국어 교정</span>
+        </button>
+        <button class="orbit-node" data-app-key="qr" onclick="switchApp('qr','QR Master','#007aff','qr-code')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#40b3ff,#007aff)">🔗</div>
+            <span class="orbit-node-name">QR Master</span>
+            <span class="orbit-node-desc">QR코드 즉시 생성</span>
+        </button>
+        <button class="orbit-node" data-app-key="pdf" onclick="switchApp('pdf','PDF Splitter','#ff3b30','scissors')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff6b63,#ff3b30)">📄</div>
+            <span class="orbit-node-name">PDF Splitter</span>
+            <span class="orbit-node-desc">페이지 분리 변환</span>
+        </button>
+        <button class="orbit-node" data-app-key="tangram" onclick="switchApp('tangram','Tangram','#ff6b35','puzzle')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff8c5a,#ff6b35)">🧩</div>
+            <span class="orbit-node-name">Tangram</span>
+            <span class="orbit-node-desc">칠교놀이 퍼즐</span>
+        </button>
+        <button class="orbit-node" data-app-key="pachinko" onclick="switchApp('pachinko','Pachinko v5.1','#ff2d55','gamepad-2')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ff5274,#d81b60)">🎰</div>
+            <span class="orbit-node-name">Pachinko</span>
+            <span class="orbit-node-desc">잭팟 미니게임</span>
+        </button>
+        <button class="orbit-node" data-app-key="server" onclick="switchApp('server','Server Monitor','#34d399','server')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#34d399,#10b981)">🖥️</div>
+            <span class="orbit-node-name">Server Monitor</span>
+            <span class="orbit-node-desc">서버 상태 대시보드</span>
+        </button>
+        <button class="orbit-node" data-app-key="meter" onclick="switchApp('meter','Clap Meter','#ff9500','mic')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#ffcc00,#ff9500)">👏</div>
+            <span class="orbit-node-name">Clap Meter</span>
+            <span class="orbit-node-desc">소음 측정기</span>
+        </button>
+        <button class="orbit-node" data-app-key="sys" onclick="switchApp('sys','System Info','#7b78ff','activity')">
+            <div class="orbit-node-icon" style="background:linear-gradient(160deg,#8b89ff,#5e5ce6)">⚙️</div>
+            <span class="orbit-node-name">System Info</span>
+            <span class="orbit-node-desc">시스템 정보</span>
+        </button>
     </div>
 
     <div class="mac-menu-bar">
@@ -1384,42 +1399,42 @@
 
     <div class="mac-dock" id="macDock">
         <button class="dock-item" data-app-key="tangram" data-label="Tangram" onclick="switchApp('tangram', 'Tangram', '#ff6b35', 'puzzle')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #ff8c5a, #ff6b35);"><i data-lucide="puzzle"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #ff8c5a, #ff6b35);">🧩</div>
             <span class="dock-label">Tangram</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="pachinko" data-label="Pachinko" onclick="switchApp('pachinko', 'Pachinko v5.1', '#ff2d55', 'gamepad-2')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #ff5274, #d81b60);"><i data-lucide="gamepad-2"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #ff5274, #d81b60);">🎰</div>
             <span class="dock-label">Pachinko</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="server" data-label="Server Monitor" onclick="switchApp('server', 'Server Monitor', '#34d399', 'server')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #34d399, #10b981);"><i data-lucide="server"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #34d399, #10b981);">🖥️</div>
             <span class="dock-label">Server Monitor</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="sys" data-label="System Info" onclick="switchApp('sys', 'System Info', '#7b78ff', 'activity')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #8b89ff, #5e5ce6);"><i data-lucide="activity"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #8b89ff, #5e5ce6);">⚙️</div>
             <span class="dock-label">System Info</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="pdf" data-label="PDF Splitter" onclick="switchApp('pdf', 'PDF Splitter', '#ff3b30', 'scissors')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #ff6b63, #ff3b30);"><i data-lucide="file-text"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #ff6b63, #ff3b30);">📄</div>
             <span class="dock-label">PDF Splitter</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="qr" data-label="QR Master" onclick="switchApp('qr', 'QR Master', '#007aff', 'qr-code')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #40b3ff, #007aff);"><i data-lucide="qr-code"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #40b3ff, #007aff);">🔗</div>
             <span class="dock-label">QR Master</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="meter" data-label="Clap Meter" onclick="switchApp('meter', 'Clap Meter', '#ff9500', 'mic')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #ffcc00, #ff9500);"><i data-lucide="mic"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #ffcc00, #ff9500);">👏</div>
             <span class="dock-label">Clap Meter</span>
             <div class="dock-dot"></div>
         </button>
         <button class="dock-item" data-app-key="spell" data-label="Spell Check" onclick="switchApp('spell', 'Spell Check', '#a78bfa', 'languages')">
-            <div class="dock-icon" style="background: linear-gradient(160deg, #c4b5fd, #8b5cf6);"><i data-lucide="languages"></i></div>
+            <div class="dock-icon" style="background: linear-gradient(160deg, #c4b5fd, #8b5cf6);">✍️</div>
             <span class="dock-label">Spell Check</span>
             <div class="dock-dot"></div>
         </button>
@@ -1522,6 +1537,7 @@
             if (window.closeApp) window.closeApp();
             document.getElementById('macWindow').classList.add('hidden');
             document.getElementById('desktopBranding').classList.remove('dimmed');
+            document.getElementById('orbitLayer')?.classList.remove('dimmed');
             document.querySelectorAll('.dock-item').forEach(i => i.classList.remove('active'));
             // 모바일: 독 복원
             document.body.classList.remove('mobile-app-active');
@@ -1551,12 +1567,68 @@
         }
 
         // ?admin=1 파라미터로 진입 시 자동으로 관리자 패널 오픈 (about.html Administrator 연동)
+        /* ── Orbit Layer: Hub & Spoke 포지셔닝 ──────────────── */
+        function initOrbit() {
+            const layer = document.getElementById('orbitLayer');
+            if (!layer) return;
+            const nodes = layer.querySelectorAll('.orbit-node');
+            const svg   = document.getElementById('orbitSvg');
+            svg.querySelectorAll('.orbit-line, .orbit-center').forEach(el => el.remove());
+
+            const navH = 89, dockH = 215;
+            const W = window.innerWidth, H = window.innerHeight;
+            const cx = W / 2;
+            const availH = H - navH - dockH;
+            const cy = navH + availH * 0.46;
+
+            // 반경: 화면 크기에 따라 동적 조절 (min 110, max 210)
+            const r = Math.min(Math.max(Math.min(W * 0.18, availH * 0.44), 110), 210);
+
+            // 8앱 각도 (시계 방향, 위에서 시작, 독 영역 회피)
+            // spell, qr, pdf, tangram, pachinko, server, meter, sys
+            const angles = [-100, -48, 2, 50, 98, 146, 194, -152];
+
+            nodes.forEach((node, i) => {
+                const rad = (angles[i] || 0) * Math.PI / 180;
+                const nx = cx + r * Math.cos(rad);
+                const ny = cy + r * Math.sin(rad);
+
+                // 노드 위치 설정
+                const nw = node.offsetWidth  || 84;
+                const nh = node.offsetHeight || 72;
+                node.style.left = (nx - nw / 2) + 'px';
+                node.style.top  = (ny - nh / 2) + 'px';
+
+                // 연결선 그리기
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', cx); line.setAttribute('y1', cy);
+                line.setAttribute('x2', nx); line.setAttribute('y2', ny);
+                line.setAttribute('class', 'orbit-line');
+                line.setAttribute('stroke', 'rgba(168,85,247,0.2)');
+                line.setAttribute('stroke-width', '1');
+                line.setAttribute('stroke-dasharray', '5,4');
+                line.setAttribute('stroke-linecap', 'round');
+                svg.appendChild(line);
+            });
+
+            // 중심 도트 (바이브 스튜디오 위치)
+            const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', '5');
+            dot.setAttribute('fill', 'rgba(168,85,247,0.55)');
+            dot.setAttribute('class', 'orbit-center');
+            svg.appendChild(dot);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
             if (new URLSearchParams(location.search).get('admin') === '1') {
                 setTimeout(() => { if (window.openAdmin) window.openAdmin(); }, 600);
             }
-            // 웹앱 ON/OFF 설정 로드 및 독 적용
             applyAppSettings();
+            setTimeout(initOrbit, 150); // DOM 렌더 완료 후 실행
+        });
+        window.addEventListener('resize', () => {
+            clearTimeout(window._orbitTimer);
+            window._orbitTimer = setTimeout(initOrbit, 80);
         });
 
         // 앱 설정 로드 후 독 버튼 표시/숨김 적용
@@ -1570,9 +1642,9 @@
                     // 독 버튼
                     const btn = document.querySelector(`.dock-item[data-app-key="${s.app_key}"]`);
                     if (btn) btn.style.display = display;
-                    // SEO 앱 카드 (어드민 on/off 동시 적용)
-                    const card = document.querySelector(`.seo-app-card[data-app-key="${s.app_key}"]`);
-                    if (card) card.style.display = display;
+                    // Orbit 노드 (어드민 on/off 동시 적용)
+                    const node = document.querySelector(`.orbit-node[data-app-key="${s.app_key}"]`);
+                    if (node) node.style.display = display;
                 });
             } catch (e) { /* 설정 로드 실패 시 모두 표시 유지 */ }
         }
