@@ -137,12 +137,17 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            /* 헤더(22px)와 동일한 여백 통일 */
-            padding-top: 78px;    /* GNB 56px + 22px 간격 */
-            padding-bottom: 110px; /* 푸터 88px + 22px 간격 */
-            padding-left: 104px;  /* 독 82px + 22px 간격 */
-            padding-right: 22px;  /* 우측 22px 헤더 패딩과 동일 */
+            /* 메인 화면: 독 없음 → 상하좌우 22px 균일 여백 */
+            padding-top: 78px;
+            padding-bottom: 110px;
+            padding-left: 22px;
+            padding-right: 22px;
             box-sizing: border-box;
+            transition: padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        /* 앱 실행 시 독 공간 확보 */
+        body.app-active .desktop-wrapper {
+            padding-left: 104px;
         }
 
         #vibe-canvas {
@@ -185,7 +190,7 @@
         .desktop-branding {
             position: fixed;
             top: 50%;
-            left: calc(50% + 41px); /* 좌측 독 공간 중간점 보정 */
+            left: 50%; /* 독 숨김 후 진짜 카로 중앙 */
             transform: translate(-50%, -50%);
             z-index: 1;
             display: flex;
@@ -749,8 +754,10 @@
             position: fixed;
             left: 16px;
             top: 50%;
-            transform: translateY(-50%);
-            /* Glassmorphism base */
+            /* PC 기본: 숨김 (앱 실행 시에만 표시) */
+            transform: translateY(-50%) translateX(calc(-100% - 20px));
+            opacity: 0;
+            pointer-events: none;
             background: rgba(255,255,255,0.18);
             backdrop-filter: saturate(180%) blur(40px);
             -webkit-backdrop-filter: saturate(180%) blur(40px);
@@ -761,14 +768,19 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            /* layered shadow for depth */
             box-shadow:
                 0 2px 0 rgba(255,255,255,0.55) inset,
                 0 -1px 0 rgba(0,0,0,0.08) inset,
                 0 16px 40px rgba(0,0,0,0.18),
                 0 4px 12px rgba(0,0,0,0.1);
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: transform 0.42s cubic-bezier(0.16,1,0.3,1), opacity 0.3s ease;
+        }
+        /* 앱 실행 시: 독 슈라이드인 */
+        body.app-active .mac-dock {
+            transform: translateY(-50%) translateX(0);
+            opacity: 1;
+            pointer-events: all;
         }
 
         [data-theme="dark"] .mac-dock {
@@ -1138,10 +1150,16 @@
             body.mobile-app-active .mobile-home-indicator {
                 display: block;
             }
-            /* 모바일: desktop-wrapper 원래 높이 복원 */
+            /* 모바일: desktop-wrapper 좌측/우측 패딩 0 (독 없음) */
             .desktop-wrapper {
                 height: 100dvh;
                 overflow: hidden;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                padding-bottom: 88px !important; /* 모바일 하단 독 높이 */
+            }
+            body.app-active .desktop-wrapper {
+                padding-left: 0 !important; /* 모바일에선 독 좌측 없음 */
             }
             body { overflow: hidden; }
             /* Admin: 타이틀바와 중복되는 mobile-header 숨김 */
@@ -1666,7 +1684,8 @@
             document.getElementById('desktopBranding').classList.remove('dimmed');
             document.getElementById('orbitLayer')?.classList.remove('dimmed');
             document.querySelectorAll('.dock-item').forEach(i => i.classList.remove('active'));
-            // 모바일: 독 복원
+            // 독 비활성화 + 모바일 독 복원
+            document.body.classList.remove('app-active');
             document.body.classList.remove('mobile-app-active');
         }
 
@@ -1702,34 +1721,30 @@
             const svg   = document.getElementById('orbitSvg');
             svg.querySelectorAll('.orbit-line, .orbit-center').forEach(el => el.remove());
 
-            const navH = 89, dockLeft = 82, footerH = 88;
+            const navH = 89, footerH = 88;
             const W = window.innerWidth, H = window.innerHeight;
 
-            // cx: 좌측 독 보정 후 사용 가능 영역의 실제 중심
-            const cx = W / 2 + dockLeft / 2;
-
-            // cy: 브랜딩 div의 CSS top:50% 기준
+            // 메인 화면: 독 없음 → W 전체 사용, cx = 진짜 중앙
+            const cx = W / 2;
             const cy = H * 0.5;
 
             // cy_logo: 로고박스 중심 = 허브 연결점
             // 브랜딩 총 높이: 로고(86+14mb) + 타이틀(38) + 타이핑(10mt+36) = 184px
-            // 로고 중심 = div_top + 43 = (cy - 92) + 43 = cy - 49
+            // 로고 중심 = cy - 92 + 43 = cy - 49
             const cy_logo = cy - 49;
 
-            // 반경: 좌측 독 제외한 가용 폭 기준으로 대폭 확장
-            const availW    = W - dockLeft;
-            const topClear  = cy_logo - navH - 50; // 네비게이션 여백
-            const botClear  = H - footerH - cy_logo - 44; // 푸터 여백
-            const leftClear = cx - dockLeft - 48; // 독 여백
+            // 반경: 전체 폭 사용, 상하 여백 반영
+            const availW   = W - 60;          // 좌우 30px 여백 확보
+            const topClear = cy_logo - navH - 48;
+            const botClear = H - footerH - cy_logo - 40;
             const r = Math.min(
-                Math.max(Math.min(availW * 0.32, topClear, botClear, leftClear), 150),
-                320
+                Math.max(Math.min(availW * 0.38, topClear, botClear), 160),
+                420
             );
 
-            // 8앱 각도 — 55°∼125° 독/하단 회피, 노드 최소 35° 간격
-            // spell(-90°위), qr(-45°), pdf(0°), tangram(40°)
-            // [55°~125° = 회피구간], pachinko(130°), server(170°), meter(-150°), sys(-115°)
-            const angles = [-90, -45, 0, 40, 130, 170, -150, -115];
+            // 8앱 각도 — 독 없으므로 하단(90° 근방)만 회피
+            // 상단(-90°) 기준 균등 배치, 하단 180° 근방 분산
+            const angles = [-90, -50, -10, 30, 150, 175, -150, -120];
 
             nodes.forEach((node, i) => {
                 const rad = angles[i] * Math.PI / 180;
@@ -1737,12 +1752,12 @@
                 const ny  = cy_logo + r * Math.sin(rad); // 수직: 로고 중심 기준
 
                 // 원형 노드: 54px 원 + 레이블 ~22px
-                const nw = 76, nh = 80;
+                const nw = 100, nh = 90; // orbit-node 너비(100px), 높이(아이콘66+간격+라벨)
                 node.style.left = (nx - nw / 2) + 'px';
                 node.style.top  = (ny - nh / 2) + 'px';
 
                 // 연결선: 로고 중심(cx, cy_logo) → 노드 원 가장자리
-                const edgeR = 27; // 원 반지름 54/2
+                const edgeR = 33; // 둥근사각형 66px/2
                 const dist  = Math.hypot(nx - cx, ny - cy_logo);
                 const ux = (nx - cx) / dist;
                 const uy = (ny - cy_logo) / dist;
@@ -1815,37 +1830,54 @@
             sys:     'System Info'
         };
 
-        function toggleSharePopover(e) {
-            e.stopPropagation();
+        // 공유 팝오버 외부클릭 핸들러 (항상 확실하게 종료)
+        var _shareOutsideHandler = null;
+
+        function openSharePopover() {
             const pop = document.getElementById('sharePopover');
-            const isOpen = pop.classList.contains('open');
-            pop.classList.remove('open');
-            if (isOpen) return;
-            // build URL
             const app = window.currentApp || '';
             const url = `${location.origin}${location.pathname}${app ? '?app=' + app : ''}`;
             document.getElementById('sharePopoverUrl').textContent = url;
             const appLabel = APP_LABELS[app] ? `Vibe Studio - ${APP_LABELS[app]}` : 'Vibe Studio';
             document.getElementById('sharePopoverAppName').textContent = appLabel;
-            // reset copy button
             resetCopyBtn();
-            // position below share button
+            // 버튼 위치 기준 팝오버 배치
             const btn = document.getElementById('windowShareBtn');
             const r = btn.getBoundingClientRect();
             pop.style.top   = (r.bottom + 8) + 'px';
             pop.style.right = (window.innerWidth - r.right) + 'px';
             pop.classList.add('open');
-            // close on outside click
+            // 외부클릭 리스너 등록
             setTimeout(() => {
-                document.addEventListener('click', function onOut(ev) {
-                    const b = document.getElementById('windowShareBtn');
-                    const p = document.getElementById('sharePopover');
-                    if (!p.contains(ev.target) && ev.target !== b && !b.contains(ev.target)) {
-                        p.classList.remove('open');
+                _shareOutsideHandler = function(ev) {
+                    const btn2 = document.getElementById('windowShareBtn');
+                    const pop2 = document.getElementById('sharePopover');
+                    if (pop2 && !pop2.contains(ev.target) && btn2 && !btn2.contains(ev.target)) {
+                        closeSharePopover();
                     }
-                    document.removeEventListener('click', onOut);
-                });
-            }, 30);
+                };
+                document.addEventListener('click', _shareOutsideHandler);
+            }, 40);
+        }
+
+        function closeSharePopover() {
+            const pop = document.getElementById('sharePopover');
+            if (pop) pop.classList.remove('open');
+            if (_shareOutsideHandler) {
+                document.removeEventListener('click', _shareOutsideHandler);
+                _shareOutsideHandler = null;
+            }
+            resetCopyBtn();
+        }
+
+        function toggleSharePopover(e) {
+            e.stopPropagation();
+            const pop = document.getElementById('sharePopover');
+            if (pop.classList.contains('open')) {
+                closeSharePopover();
+            } else {
+                openSharePopover();
+            }
         }
 
         function copyShareLink() {
@@ -1855,7 +1887,10 @@
                 btn.classList.add('copied');
                 document.getElementById('shareCopyText').textContent = '복사 완료! ✓';
                 clearTimeout(btn._t);
-                btn._t = setTimeout(resetCopyBtn, 2200);
+                // 2초 후 팝오버 자동 종료
+                btn._t = setTimeout(() => {
+                    closeSharePopover();
+                }, 2000);
             };
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));

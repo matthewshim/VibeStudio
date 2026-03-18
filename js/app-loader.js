@@ -88,6 +88,9 @@ async function switchApp(appName, titleText, color, iconName) {
     document.getElementById('desktopBranding')?.classList.add('dimmed');
     document.getElementById('orbitLayer')?.classList.add('dimmed');
 
+    // PC: 독 활성화 (app-active)
+    document.body.classList.add('app-active');
+
     // 모바일: 앱 활성화 시 독 슬라이드 아웃
     if (window.innerWidth <= 768) {
         document.body.classList.add('mobile-app-active');
