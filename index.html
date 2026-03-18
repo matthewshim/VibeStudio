@@ -1321,10 +1321,11 @@
             animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
         .orbit-main-line.active {
-            stroke: rgba(255,255,255,0.88) !important;
-            stroke-width: 2px !important;
+            stroke: rgba(255,255,255,0.82) !important;
+            stroke-width: 1.8px !important;
             stroke-opacity: 1 !important;
             animation: none;
+            filter: url(#orbitGlow);
         }
 
         /* 글로우 레이어 */
@@ -1335,8 +1336,8 @@
             animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
         .orbit-glow-line.active {
-            stroke: rgba(192,80,255,0.65) !important;
-            stroke-width: 16px !important;
+            stroke: rgba(255,255,255,0.22) !important;
+            stroke-width: 8px !important;
             stroke-opacity: 1 !important;
             animation: none;
         }
@@ -1349,10 +1350,10 @@
             animation: dotPulse 2.8s ease-in-out infinite;
         }
         .orbit-dot-hub.active {
-            r: 7px !important;
-            fill: rgba(255,255,255,0.98) !important;
+            r: 5px !important;
+            fill: rgba(255,255,255,0.92) !important;
             animation: none;
-            filter: url(#strongGlow);
+            filter: url(#orbitGlow);
         }
         .orbit-dot-node {
             fill: rgba(139,92,246,0.82);
@@ -1361,10 +1362,10 @@
             animation: dotPulse 2.8s ease-in-out infinite;
         }
         .orbit-dot-node.active {
-            r: 8px !important;
-            fill: rgba(255,255,255,1) !important;
+            r: 5px !important;
+            fill: rgba(255,255,255,0.92) !important;
             animation: none;
-            filter: url(#strongGlow);
+            filter: url(#orbitGlow);
         }
 
         /* ── 노드 개별 부유 애니메이션 ── */
