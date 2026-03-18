@@ -1771,14 +1771,27 @@
             alert('✉️ Contact\n\n아직 준비 중입니다!\n빠른 시일 내에 연락처 페이지를 오픈할게요 :)');
         }
 
-        // ?admin=1 파라미터로 진입 시 자동으로 관리자 패널 오픈 (about.html Administrator 연동)
+        // ?admin=1 파라미터로 진입 시 자동으로 관리자 패널 오픈 (about.html / contact.html Administrator 연동)
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(location.search);
 
-        window.addEventListener('DOMContentLoaded', () => {
-            if (new URLSearchParams(location.search).get('admin') === '1') {
-                setTimeout(() => { if (window.openAdmin) window.openAdmin(); }, 600);
+            if (params.get('admin') === '1') {
+                // openAdmin은 app-loader.js가 정의하므로 준비될 때까지 폴링 (최대 3초)
+                let waited = 0;
+                const tryOpen = setInterval(() => {
+                    waited += 100;
+                    if (typeof window.openAdmin === 'function') {
+                        clearInterval(tryOpen);
+                        window.openAdmin();
+                    } else if (waited >= 3000) {
+                        clearInterval(tryOpen);
+                        console.warn('[admin] openAdmin not found after 3s');
+                    }
+                }, 100);
             }
+
             // ?app=appname 파라미터로 직접 앱 진입 지원
-            const appParam = new URLSearchParams(location.search).get('app');
+            const appParam = params.get('app');
             if (appParam) {
                 const appMap = {
                     spell:   ['Spell Check',     '#a78bfa', 'languages'],
@@ -1791,8 +1804,20 @@
                     sys:     ['System Info',       '#7b78ff', 'activity']
                 };
                 const info = appMap[appParam];
-                if (info) setTimeout(() => switchApp(appParam, info[0], info[1], info[2]), 500);
+                if (info) {
+                    let waited2 = 0;
+                    const trySwitch = setInterval(() => {
+                        waited2 += 100;
+                        if (typeof window.switchApp === 'function') {
+                            clearInterval(trySwitch);
+                            window.switchApp(appParam, info[0], info[1], info[2]);
+                        } else if (waited2 >= 3000) {
+                            clearInterval(trySwitch);
+                        }
+                    }, 100);
+                }
             }
+
             applyAppSettings();
         });
 
