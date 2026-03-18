@@ -3,7 +3,7 @@
 // ==========================================
 
 // ── 앱 이름 매핑 ──────────────────────────────────────
-const APP_LABELS = {
+const ADMIN_APP_LABELS = {
     app_tangram: '탱그램',
     app_pachinko: '파친코',
     app_server:   '서버 모니터',
@@ -83,9 +83,9 @@ function renderStats(data) {
     drawLineChart('chart-visit', labels, series.visit || dates.map(() => 0), '#5e5ce6');
 
     // 앱별 바 차트
-    const appKeys   = Object.keys(APP_LABELS).filter(k => series[k]);
+    const appKeys   = Object.keys(ADMIN_APP_LABELS).filter(k => series[k]);
     const appVals   = appKeys.map(k => (series[k] || []).reduce((a,b) => a+b, 0));
-    const appLabels = appKeys.map(k => APP_LABELS[k]);
+    const appLabels = appKeys.map(k => ADMIN_APP_LABELS[k]);
     drawBarChart('chart-apps', appLabels, appVals, APP_COLORS);
 
     // 일별 상세 테이블 (최신순)
