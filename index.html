@@ -192,7 +192,7 @@
             top: 50%;
             left: 50%; /* 독 숨김 후 진짜 카로 중앙 */
             transform: translate(-50%, -50%);
-            z-index: 1;
+            z-index: 60;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -234,8 +234,7 @@
             background-size: 200% 200%;
             animation: gradientFlow 4s ease infinite;
             box-shadow: 0 16px 40px rgba(139, 92, 246, 0.5), inset 0 2px 8px rgba(255, 255, 255, 0.5);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* backdrop-filter 제거: 로고 투명도 이슈 방지 */
             border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
@@ -1304,44 +1303,61 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; overflow: visible;
         }
+        /* ── 연결선 흐름 애니메이션 ── */
+        @keyframes orbitLineFlow {
+            0%   { stroke-opacity: 0.18; stroke-dashoffset: 0; }
+            50%  { stroke-opacity: 0.52; stroke-dashoffset: -16; }
+            100% { stroke-opacity: 0.18; stroke-dashoffset: -32; }
+        }
+        .orbit-line {
+            stroke-dasharray: 5 9;
+            animation: orbitLineFlow 2.8s linear infinite;
+        }
+        /* ── 노드 개별 부유 애니메이션 ── */
+        @keyframes nodeFloat {
+            0%, 100% { transform: translateY(0px); }
+            50%       { transform: translateY(-10px); }
+        }
         .orbit-node {
             position: absolute;
             pointer-events: auto;
             display: flex; flex-direction: column;
-            align-items: center; gap: 8px;
+            align-items: center; gap: 10px;
             background: transparent; border: none; padding: 0;
-            cursor: pointer; width: 76px; text-align: center;
+            cursor: pointer; width: 90px; text-align: center;
         }
         .orbit-node-circle {
-            width: 54px; height: 54px; border-radius: 50%;
+            width: 66px; height: 66px;
+            border-radius: 18px;
             display: flex; align-items: center; justify-content: center;
-            border: 1.5px solid rgba(255,255,255,0.2);
-            box-shadow: 0 4px 18px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.15);
-            font-size: 22px; line-height: 1; position: relative;
+            border: 1.5px solid rgba(255,255,255,0.22);
+            box-shadow: 0 6px 22px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.18);
+            font-size: 28px; line-height: 1; position: relative;
             transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s, border-color 0.2s;
         }
         .orbit-node-circle::after {
-            content: ''; position: absolute; inset: 0; border-radius: 50%;
+            content: ''; position: absolute; inset: 0; border-radius: 18px;
             background: rgba(255,255,255,0.07); pointer-events: none;
         }
         .orbit-node:hover .orbit-node-circle {
-            transform: scale(1.22);
-            border-color: rgba(255,255,255,0.5);
-            box-shadow: 0 0 24px rgba(168,85,247,0.5), 0 0 0 5px rgba(168,85,247,0.14), 0 8px 28px rgba(0,0,0,0.35);
+            transform: scale(1.18);
+            border-color: rgba(255,255,255,0.55);
+            box-shadow: 0 0 28px rgba(168,85,247,0.55), 0 0 0 6px rgba(168,85,247,0.12), 0 10px 32px rgba(0,0,0,0.4);
         }
-        .orbit-node:active .orbit-node-circle { transform: scale(0.9); }
+        .orbit-node:active .orbit-node-circle { transform: scale(0.88); }
         .orbit-node-name {
-            font-size: 10px; font-weight: 600;
-            color: var(--text-muted); white-space: nowrap;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+            font-size: 13px; font-weight: 700;
+            color: rgba(255,255,255,0.88); white-space: nowrap;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.8), 0 0 14px rgba(0,0,0,0.5);
         }
         /* 독 아이콘 이모지 스타일 */
         .dock-icon { font-size: 26px !important; }
         .dock-icon i, .dock-icon svg { display: none; }
         @media (max-width: 768px) {
-            .orbit-node { width: 58px; }
-            .orbit-node-circle { width: 44px; height: 44px; font-size: 18px; }
-            .orbit-node-name { font-size: 9px; }
+            .orbit-node { width: 70px; }
+            .orbit-node-circle { width: 52px; height: 52px; font-size: 22px; border-radius: 14px; }
+            .orbit-node-circle::after { border-radius: 14px; }
+            .orbit-node-name { font-size: 11px; }
         }
     </style>
 </head>
@@ -1745,36 +1761,45 @@
                 420
             );
 
-            // 8앱 각도 — 독 없으므로 하단(90° 근방)만 회피
-            // 상단(-90°) 기준 균등 배치, 하단 180° 근방 분산
-            const angles = [-90, -50, -10, 30, 150, 175, -150, -120];
+            // 8앱 각도 — 불규칙 배치로 자연스러움 극대화
+            const baseAngles = [-93, -45, -8, 38, 148, 178, -148, -118];
+            // 노드별 반경 변화 (±10%)
+            const rMult      = [1.00, 1.07, 0.94, 1.11, 0.97, 1.04, 0.91, 1.08];
+            // 개별 부유 애니메이션 (다양한 속도·딜레이)
+            const floatDur   = [4.8, 5.4, 4.2, 5.9, 4.5, 5.1, 4.0, 5.7];
+            const floatDel   = [0, -1.2, -2.5, -0.8, -1.7, -3.3, -0.5, -2.1];
 
             nodes.forEach((node, i) => {
-                const rad = angles[i] * Math.PI / 180;
-                const nx  = cx      + r * Math.cos(rad); // 수평: cx 기준
-                const ny  = cy_logo + r * Math.sin(rad); // 수직: 로고 중심 기준
+                const rad   = baseAngles[i] * Math.PI / 180;
+                const nodeR = r * rMult[i];
+                const nx    = cx      + nodeR * Math.cos(rad);
+                const ny    = cy_logo + nodeR * Math.sin(rad);
 
-                // 원형 노드: 54px 원 + 레이블 ~22px
-                const nw = 100, nh = 90; // orbit-node 너비(100px), 높이(아이콘66+간격+라벨)
-                node.style.left = (nx - nw / 2) + 'px';
-                node.style.top  = (ny - nh / 2) + 'px';
+                const nw = 90, nh = 105;
+                node.style.left      = (nx - nw / 2) + 'px';
+                node.style.top       = (ny - nh / 2) + 'px';
+                // 개별 부유 애니메이션
+                node.style.animation = `nodeFloat ${floatDur[i]}s ease-in-out ${floatDel[i]}s infinite`;
 
-                // 연결선: 로고 중심(cx, cy_logo) → 노드 원 가장자리
-                const edgeR = 33; // 둥근사각형 66px/2
+                // 연결선: 로고 박스 엣지 → 노드 아이콘 엣지
+                const hubR  = Math.min(44, W * 0.05); // 로고박스 반경
+                const edgeR = 37;  // 66px 아이콘 절반 + 여백
                 const dist  = Math.hypot(nx - cx, ny - cy_logo);
-                const ux = (nx - cx) / dist;
-                const uy = (ny - cy_logo) / dist;
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', cx + ux * 7);
-                line.setAttribute('y1', cy_logo + uy * 7);
+                const ux    = (nx - cx) / dist;
+                const uy    = (ny - cy_logo) / dist;
+                const line  = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', cx + ux * hubR);
+                line.setAttribute('y1', cy_logo + uy * hubR);
                 line.setAttribute('x2', nx - ux * edgeR);
                 line.setAttribute('y2', ny - uy * edgeR);
                 line.setAttribute('class', 'orbit-line');
-                line.setAttribute('stroke', 'rgba(168,85,247,0.28)');
-                line.setAttribute('stroke-width', '1.2');
+                line.setAttribute('stroke', 'rgba(168,85,247,0.5)');
+                line.setAttribute('stroke-width', '1.5');
                 line.setAttribute('stroke-linecap', 'round');
+                line.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
                 svg.appendChild(line);
             });
+
 
             // 중심 글로우 점 — 로고박스 중심에 정확히 위치
             const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
