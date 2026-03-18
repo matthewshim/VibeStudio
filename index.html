@@ -1234,7 +1234,56 @@
             </a>
             <a class="nav-drawer-item" href="contact.html" onclick="closeNavDrawer()">
                 <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"    <!-- ── Orbit Layer: Hub & Spoke 콘셋 (어드민 on/off 연동) ── -->
+                    <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </div>
+                Contact
+            </a>
+        </div>
+
+        <!-- 드로어 푸터 -->
+        <div class="nav-drawer-footer">
+            <div class="nav-drawer-footer-brand">
+                <svg viewBox="0 0 24 24" style="width:12px;height:12px;" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" stroke="none"/>
+                </svg>
+                Vibe Studio
+            </div>
+            <div class="nav-drawer-footer-copy">
+                &copy; 2026 Vibe Studio. All rights reserved.<br>
+                Powered by <strong>Prisincera</strong>
+            </div>
+        </div>
+    </nav>
+
+    <canvas id="vibe-canvas"></canvas>
+    <div class="mesh-gradient" id="meshBg">
+        <div class="mesh-ball" style="width: 600px; height: 600px; background: #a855f7; top: -10%; left: -10%;"></div>
+        <div class="mesh-ball" style="width: 500px; height: 500px; background: #5e5ce6; bottom: -20%; right: -10%;"></div>
+    </div>
+
+    <!-- 본문 영역 (정확히 100dvh 격리) -->
+    <div class="desktop-wrapper">
+
+    <div class="desktop-branding" id="desktopBranding">
+        <div class="brand-group">
+            <div class="css-logo-box">
+                <svg class="lightning-svg" viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#fff" /></svg>
+            </div>
+            <h1 class="branding-title">Vibe Studio</h1>
+        </div>
+        <div class="typing-container" id="type-box">
+            <span id="prompt-text"></span><span class="cursor"></span>
+        </div>
+        <a class="about-link-btn" href="about.html">
+            <i data-lucide="info"></i>
+            About Vibe Studio
+        </a>
+    </div>
+
+    <!-- ── Orbit Layer: Hub & Spoke 컨셋 (어드민 on/off 연동) ── -->
     <div class="orbit-layer" id="orbitLayer" aria-label="Vibe Studio 앱 목록">
         <svg class="orbit-svg" id="orbitSvg" aria-hidden="true"></svg>
         <button class="orbit-node" data-app-key="spell" onclick="switchApp('spell','Spell Check','#a78bfa','languages')">
