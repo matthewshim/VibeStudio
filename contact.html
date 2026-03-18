@@ -480,29 +480,7 @@
 </nav>
 
 <!-- Top Nav -->
-<nav class="top-nav">
-    <div class="hamburger-wrap">
-        <button class="hamburger-btn" id="hamburgerBtn" onclick="openNavDrawer()" aria-label="메뉴 열기">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    <a class="nav-brand" href="index.html">
-        <div class="lightning"><svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg></div>
-        Vibe Studio
-    </a>
-    <nav class="nav-center-contact">
-        <a class="nav-link-c" href="index.html">Home</a>
-        <div class="nav-sep-c"></div>
-        <a class="nav-link-c" href="about.html">About</a>
-        <div class="nav-sep-c"></div>
-        <a class="nav-link-c active" href="contact.html">Contact</a>
-    </nav>
-    <div class="nav-right">
-        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="테마 전환">
-            <i data-lucide="moon" id="themeIcon"></i>
-        </button>
-    </div>
-</nav>
+<nav class="top-nav" id="site-nav"></nav>
 
 <!-- Hero -->
 <div class="wrapper">
@@ -607,20 +585,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer">
-    <div class="footer-inner">
-        <div class="footer-brand">
-            <svg viewBox="0 0 24 24" style="width:14px;height:14px;" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor" stroke="none"/></svg>
-            Vibe Studio
-        </div>
-        <nav class="footer-nav">
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <button onclick="window.location.href='index.html?admin=1'">Administrator</button>
-        </nav>
-    </div>
-    <div class="footer-copy">&copy; 2026 Vibe Studio. All rights reserved. &nbsp;&middot;&nbsp; Powered by <strong>Prisincera</strong></div>
-</footer>
+<footer class="footer" id="site-footer"></footer>
 
 <script>
     lucide.createIcons();
@@ -700,5 +665,6 @@
         }
     }
 </script>
+<script src="js/layout.js"></script>
 </body>
 </html>

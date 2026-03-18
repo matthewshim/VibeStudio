@@ -1181,11 +1181,11 @@
         .mac-footer {
             position: fixed;
             bottom: 0;
-            left: 82px; /* 좌측 독 다음부터 시작 */
+            left: 0;    /* border-top 전체 폭 유지 */
             right: 0;
             z-index: 900;
             border-top: 1px solid var(--glass-border);
-            padding: 14px 28px;
+            padding: 14px 28px 14px 104px; /* 좌측 독(82px) + 22px 여백 */
             font-size: 13px;
             color: var(--text-muted);
             background: var(--bg-main);

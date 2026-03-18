@@ -792,35 +792,7 @@
 <div id="spotlight"></div>
 
 <!-- Top Navigation -->
-<nav class="top-nav">
-    <!-- 햄버거 (모바일에서만) -->
-    <div class="hamburger-wrap">
-        <button class="hamburger-btn" id="hamburgerBtn" onclick="openNavDrawer()" aria-label="메뉴 열기">
-            <span></span><span></span><span></span>
-        </button>
-    </div>
-    <!-- Logo (모바일에서 중앙) -->
-    <a class="nav-brand" href="index.html">
-        <div class="lightning">
-            <svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
-        </div>
-        Vibe Studio
-    </a>
-    <!-- Center Nav (PC에서만) -->
-    <nav class="nav-center-about">
-        <a class="nav-link-about" href="index.html">Home</a>
-        <div class="nav-sep-about"></div>
-        <a class="nav-link-about active" href="about.html">About</a>
-        <div class="nav-sep-about"></div>
-        <a class="nav-link-about" href="contact.html">Contact</a>
-    </nav>
-    <!-- Right -->
-    <div class="nav-right">
-        <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="테마 전환">
-            <i data-lucide="moon" id="themeIcon"></i>
-        </button>
-    </div>
-</nav>
+<nav class="top-nav" id="site-nav"></nav>
 
 <!-- ── Hero ─────────────────────────────────────────── -->
 <div class="wrapper">
@@ -1005,24 +977,7 @@
 </div>
 
 <!-- Footer -->
-<footer class="footer">
-    <div class="footer-inner-about">
-        <div class="footer-brand-about">
-            <div class="lightning" style="width:22px;height:22px;border-radius:6px;">
-                <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:#fff;stroke:none;"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
-            </div>
-            Vibe Studio
-        </div>
-        <nav class="footer-nav-about">
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <button onclick="window.location.href='index.html?admin=1'">Administrator</button>
-        </nav>
-    </div>
-    <div class="footer-copy-about">
-        © 2026 Vibe Studio. All rights reserved. &nbsp;&middot;&nbsp; Powered by <strong>Prisincera</strong>
-    </div>
-</footer>
+<footer class="footer" id="site-footer"></footer>
 
 <script>
     /* ── DOMContentLoaded 후 초기화 ──────────────── */
@@ -1133,5 +1088,6 @@
         if (e.key === 'Escape') closeNavDrawer();
     });
 </script>
+<script src="js/layout.js"></script>
 </body>
 </html>
