@@ -1303,21 +1303,76 @@
             position: absolute; inset: 0;
             width: 100%; height: 100%; overflow: visible;
         }
-        /* ── 연결선: 배경 파티클과 동일한 실선 + opacity 펙스 ── */
+        /* ── 파티클 노드 연결선 시스템 ── */
         @keyframes orbitLinePulse {
-            0%, 100% { stroke-opacity: 0.15; }
-            50%       { stroke-opacity: 0.48; }
+            0%, 100% { stroke-opacity: 0.18; }
+            50%       { stroke-opacity: 0.50; }
         }
-        /* 노드 hover 시 연결선 강조 */
-        .orbit-node:hover ~ svg .orbit-line { stroke-opacity: 0.7; }
-        .orbit-line {
+        @keyframes dotPulse {
+            0%, 100% { opacity: 0.5; }
+            50%       { opacity: 1.0; }
+        }
+
+        /* 주 연결선 */
+        .orbit-main-line {
+            stroke: rgba(139,92,246,0.45);
+            stroke-width: 0.9px;
+            transition: stroke 0.28s ease, stroke-width 0.28s ease, stroke-opacity 0.28s ease;
             animation: orbitLinePulse 3.2s ease-in-out infinite;
         }
+        .orbit-main-line.active {
+            stroke: rgba(255,255,255,0.88) !important;
+            stroke-width: 2px !important;
+            stroke-opacity: 1 !important;
+            animation: none;
+        }
+
+        /* 글로우 레이어 */
+        .orbit-glow-line {
+            stroke: rgba(192,132,252,0.08);
+            stroke-width: 3px;
+            transition: stroke 0.28s ease, stroke-width 0.28s ease, stroke-opacity 0.28s ease;
+            animation: orbitLinePulse 3.2s ease-in-out infinite;
+        }
+        .orbit-glow-line.active {
+            stroke: rgba(192,80,255,0.65) !important;
+            stroke-width: 16px !important;
+            stroke-opacity: 1 !important;
+            animation: none;
+        }
+
+        /* 연결점 (양 끝 파티클 노드) */
+        .orbit-dot-hub {
+            fill: rgba(139,92,246,0.72);
+            r: 3px;
+            transition: r 0.28s cubic-bezier(0.34,1.56,0.64,1), fill 0.28s ease, opacity 0.28s ease;
+            animation: dotPulse 2.8s ease-in-out infinite;
+        }
+        .orbit-dot-hub.active {
+            r: 7px !important;
+            fill: rgba(255,255,255,0.98) !important;
+            animation: none;
+            filter: url(#strongGlow);
+        }
+        .orbit-dot-node {
+            fill: rgba(139,92,246,0.82);
+            r: 3.5px;
+            transition: r 0.28s cubic-bezier(0.34,1.56,0.64,1), fill 0.28s ease, opacity 0.28s ease;
+            animation: dotPulse 2.8s ease-in-out infinite;
+        }
+        .orbit-dot-node.active {
+            r: 8px !important;
+            fill: rgba(255,255,255,1) !important;
+            animation: none;
+            filter: url(#strongGlow);
+        }
+
         /* ── 노드 개별 부유 애니메이션 ── */
         @keyframes nodeFloat {
             0%, 100% { transform: translateY(0px); }
             50%       { transform: translateY(-10px); }
         }
+
         .orbit-node {
             position: absolute;
             pointer-events: auto;
@@ -1773,72 +1828,99 @@
             nodes.forEach((node, i) => {
                 const rad    = baseAngles[i] * Math.PI / 180;
                 const sinA   = Math.sin(rad);
-                // 수직 반경: 위/아래 방향에 따라 ry_up / ry_down 적용
                 const ry     = sinA < 0 ? ry_up : ry_down;
-                const nx     = cx           + rx * rMult[i] * Math.cos(rad);
-                const ny     = cy_logo      + ry * rMult[i] * sinA;
+                const nx     = cx      + rx * rMult[i] * Math.cos(rad);
+                const ny     = cy_logo + ry * rMult[i] * sinA;
 
                 const nw = 90, nh = 105;
                 node.style.left      = (nx - nw / 2) + 'px';
                 node.style.top       = (ny - nh / 2) + 'px';
                 node.style.animation = `nodeFloat ${floatDur[i]}s ease-in-out ${floatDel[i]}s infinite`;
 
-                // ── 연결선: 배경 파티클과 동일한 실선 스타일 ──
-                // 배경: rgba(139,92,246,0.3), lineWidth 0.8 (vibe-background.js 참조)
-                const hubR  = Math.min(44, W * 0.05);
+                // ── 연결 좌표 계산 ──
+                const hubR = Math.min(44, W * 0.05);
                 const edgeR = 37;
                 const dist  = Math.hypot(nx - cx, ny - cy_logo);
-                const ux    = (nx - cx) / dist;
-                const uy    = (ny - cy_logo) / dist;
+                const ux = (nx - cx) / dist;
+                const uy = (ny - cy_logo) / dist;
 
-                // 글로우 레이어 (배경 active 상태와 유사)
+                const x1 = cx + ux * hubR,    y1 = cy_logo + uy * hubR;
+                const x2 = nx - ux * edgeR,   y2 = ny - uy * edgeR;
+
+                // ── 글로우 레이어 ──
                 const glowLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                glowLine.setAttribute('x1', cx + ux * hubR);
-                glowLine.setAttribute('y1', cy_logo + uy * hubR);
-                glowLine.setAttribute('x2', nx - ux * edgeR);
-                glowLine.setAttribute('y2', ny - uy * edgeR);
-                glowLine.setAttribute('stroke', 'rgba(192,132,252,0.1)');
-                glowLine.setAttribute('stroke-width', '3');
+                glowLine.setAttribute('x1', x1); glowLine.setAttribute('y1', y1);
+                glowLine.setAttribute('x2', x2); glowLine.setAttribute('y2', y2);
                 glowLine.setAttribute('stroke-linecap', 'round');
-                glowLine.setAttribute('class', 'orbit-line');
+                glowLine.setAttribute('class', 'orbit-glow-line');
                 glowLine.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
                 svg.appendChild(glowLine);
 
-                // 주 라인 (배경 파티클 연결선과 동일한 rgba(139,92,246))
-                const line  = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', cx + ux * hubR);
-                line.setAttribute('y1', cy_logo + uy * hubR);
-                line.setAttribute('x2', nx - ux * edgeR);
-                line.setAttribute('y2', ny - uy * edgeR);
-                line.setAttribute('class', 'orbit-line');
-                line.setAttribute('stroke', 'rgba(139,92,246,0.5)');
-                line.setAttribute('stroke-width', '0.9');
+                // ── 주 연결선 ──
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2); line.setAttribute('y2', y2);
                 line.setAttribute('stroke-linecap', 'round');
+                line.setAttribute('class', 'orbit-main-line');
                 line.style.animationDelay = `${-(i * 0.4).toFixed(2)}s`;
                 svg.appendChild(line);
+
+                // ── 허브 쪽 파티클 점 ──
+                const dotHub = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotHub.setAttribute('cx', x1);
+                dotHub.setAttribute('cy', y1);
+                dotHub.setAttribute('class', 'orbit-dot-hub');
+                dotHub.style.animationDelay = `${-(i * 0.35).toFixed(2)}s`;
+                svg.appendChild(dotHub);
+
+                // ── 앱 아이콘 쪽 파티클 점 ──
+                const dotNode = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                dotNode.setAttribute('cx', x2);
+                dotNode.setAttribute('cy', y2);
+                dotNode.setAttribute('class', 'orbit-dot-node');
+                dotNode.style.animationDelay = `${-(i * 0.35 + 0.15).toFixed(2)}s`;
+                svg.appendChild(dotNode);
+
+                // ── Hover 인터랙션: 선+점 동시 active ──
+                node.addEventListener('mouseenter', () => {
+                    glowLine.classList.add('active');
+                    line.classList.add('active');
+                    dotHub.classList.add('active');
+                    dotNode.classList.add('active');
+                });
+                node.addEventListener('mouseleave', () => {
+                    glowLine.classList.remove('active');
+                    line.classList.remove('active');
+                    dotHub.classList.remove('active');
+                    dotNode.classList.remove('active');
+                });
             });
 
-
-
-            // 중심 글로우 점 — 로고박스 중심에 정확히 위치
-            const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            dot.setAttribute('cx', cx);
-            dot.setAttribute('cy', cy_logo);
-            dot.setAttribute('r', '7');
-            dot.setAttribute('fill', 'rgba(168,85,247,0.65)');
-            dot.setAttribute('filter', 'url(#orbitGlow)');
-            dot.setAttribute('class', 'orbit-center');
-
-            // 글로우 필터 (없으면 추가)
+            // ── SVG 필터 정의 (없으면 추가) ──
             if (!svg.querySelector('#orbitGlow')) {
                 const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-                defs.innerHTML = `<filter id="orbitGlow" x="-100%" y="-100%" width="300%" height="300%">
-                    <feGaussianBlur stdDeviation="4" result="blur"/>
-                    <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>`;
-                svg.appendChild(defs);
+                defs.innerHTML = `
+                    <filter id="orbitGlow" x="-100%" y="-100%" width="300%" height="300%">
+                        <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>
+                    <filter id="strongGlow" x="-200%" y="-200%" width="500%" height="500%">
+                        <feGaussianBlur stdDeviation="8" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    </filter>`;
+                svg.insertBefore(defs, svg.firstChild);
             }
-            svg.appendChild(dot);
+
+            // ── 중심 허브 파티클 점 (로고 중심 뒤) ──
+            const hubCenter = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            hubCenter.setAttribute('cx', cx);
+            hubCenter.setAttribute('cy', cy_logo);
+            hubCenter.setAttribute('r', '5');
+            hubCenter.setAttribute('fill', 'rgba(168,85,247,0.6)');
+            hubCenter.setAttribute('filter', 'url(#orbitGlow)');
+            hubCenter.setAttribute('class', 'orbit-center');
+            svg.appendChild(hubCenter);
+
         }
 
         window.addEventListener('DOMContentLoaded', () => {
