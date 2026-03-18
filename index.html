@@ -1771,55 +1771,7 @@
             alert('✉️ Contact\n\n아직 준비 중입니다!\n빠른 시일 내에 연락처 페이지를 오픈할게요 :)');
         }
 
-        // ?admin=1 파라미터로 진입 시 자동으로 관리자 패널 오픈 (about.html / contact.html Administrator 연동)
-        window.addEventListener('load', () => {
-            const params = new URLSearchParams(location.search);
-
-            if (params.get('admin') === '1') {
-                // openAdmin은 app-loader.js가 정의하므로 준비될 때까지 폴링 (최대 3초)
-                let waited = 0;
-                const tryOpen = setInterval(() => {
-                    waited += 100;
-                    if (typeof window.openAdmin === 'function') {
-                        clearInterval(tryOpen);
-                        window.openAdmin();
-                    } else if (waited >= 3000) {
-                        clearInterval(tryOpen);
-                        console.warn('[admin] openAdmin not found after 3s');
-                    }
-                }, 100);
-            }
-
-            // ?app=appname 파라미터로 직접 앱 진입 지원
-            const appParam = params.get('app');
-            if (appParam) {
-                const appMap = {
-                    spell:   ['Spell Check',     '#a78bfa', 'languages'],
-                    qr:      ['QR Master',        '#007aff', 'qr-code'],
-                    pdf:     ['PDF Splitter',     '#ff3b30', 'scissors'],
-                    tangram: ['Tangram',           '#ff6b35', 'puzzle'],
-                    pachinko:['Pachinko v5.1',    '#ff2d55', 'gamepad-2'],
-                    server:  ['Server Monitor',   '#34d399', 'server'],
-                    meter:   ['Clap Meter',        '#ff9500', 'mic'],
-                    sys:     ['System Info',       '#7b78ff', 'activity']
-                };
-                const info = appMap[appParam];
-                if (info) {
-                    let waited2 = 0;
-                    const trySwitch = setInterval(() => {
-                        waited2 += 100;
-                        if (typeof window.switchApp === 'function') {
-                            clearInterval(trySwitch);
-                            window.switchApp(appParam, info[0], info[1], info[2]);
-                        } else if (waited2 >= 3000) {
-                            clearInterval(trySwitch);
-                        }
-                    }, 100);
-                }
-            }
-
-            applyAppSettings();
-        });
+        // URL 파라미터 처리는 app-loader.js 로드 직후 즉시 실행으로 수행됨 (below)
 
         /* ── 공유하기 ───────────────────────────────────── */
         const APP_LABELS = {
@@ -1945,6 +1897,40 @@
     </script>
     <script src="js/vibe-background.js?v=20260316"></script>
     <script src="js/app-loader.js?v=20260318"></script>
+
+    <!-- URL 파라미터 처리: app-loader.js 로드 직후 즉시 실행 -->
+    <!-- openAdmin / switchApp은 app-loader.js가 동기 실행되므로 이미 정의됨 -->
+    <script>
+    (function() {
+        var params = new URLSearchParams(location.search);
+
+        /* ?admin=1: 관리자 패널 직접 오픈 */
+        if (params.get('admin') === '1') {
+            window.openAdmin();
+            return; // 앱 파라미터와 중복 실행 방지
+        }
+
+        /* ?app=appname: 특정 앱 직접 진입 */
+        var appParam = params.get('app');
+        if (appParam) {
+            var appMap = {
+                spell:    ['Spell Check',    '#a78bfa', 'languages'],
+                qr:       ['QR Master',       '#007aff', 'qr-code'],
+                pdf:      ['PDF Splitter',    '#ff3b30', 'scissors'],
+                tangram:  ['Tangram',          '#ff6b35', 'puzzle'],
+                pachinko: ['Pachinko v5.1',   '#ff2d55', 'gamepad-2'],
+                server:   ['Server Monitor',  '#34d399', 'server'],
+                meter:    ['Clap Meter',       '#ff9500', 'mic'],
+                sys:      ['System Info',      '#7b78ff', 'activity']
+            };
+            var info = appMap[appParam];
+            if (info) window.switchApp(appParam, info[0], info[1], info[2]);
+        }
+
+        /* 앱 표시 설정 적용 */
+        applyAppSettings();
+    })();
+    </script>
 
     <!-- Share Popover -->
     <div class="share-popover" id="sharePopover" role="dialog" aria-label="앱 링크 공유">
