@@ -140,10 +140,12 @@
             position: relative;
             display: block;
             box-sizing: border-box;
+        }
+        /* 홈 컨텐츠만 fade: mac-window/dock/nav는 영향 없음 */
+        .home-content {
             transition: opacity 0.5s, filter 0.5s;
         }
-        /* 앱 실행 시 홈 숨김 */
-        body.app-active .desktop-wrapper {
+        body.app-active .home-content {
             opacity: 0;
             pointer-events: none;
             filter: blur(12px);
@@ -1366,11 +1368,12 @@
             margin: 0;
             word-break: keep-all;
         }
-        /* 모바일 반응형 */
+        /* 모바일: 카드 숨김, 모바일에서는 독만 보임 */
         @media (max-width: 768px) {
+            .apps-home-section { display: none !important; }
             .apps-home-grid { grid-template-columns: 1fr; gap: 12px; }
-            .apps-home-section { padding: 0 16px clamp(60px, 10dvh, 100px); }
         }
+
         /* 독 아이콘 이모지 스타일 */
         .fake-orbit { display: none; }
         .orbit-layer {
@@ -1465,6 +1468,9 @@
 
     <!-- 본문 영역 (정확히 100dvh 격리) -->
     <div class="desktop-wrapper">
+
+    <!-- ── 홈 컨텐츠: 앱 실행 시 fade-out, mac-window/dock/nav는 별도 유지 ── -->
+    <div class="home-content" id="homeContent">
 
     <div class="desktop-branding" id="desktopBranding">
         <div class="brand-group">
@@ -1565,6 +1571,8 @@
 
         </div>
     </section>
+
+    </div><!-- /.home-content -->
 
     <div class="mac-menu-bar">
         <!-- 햄버거 (모바일에서만) -->
@@ -1808,172 +1816,6 @@
         }
 
         // ?admin=1 파라미터로 진입 시 자동으로 관리자 패널 오픈 (about.html Administrator 연동)
-        /* ── Orbit Layer: Hub & Spoke 포지셔닝 ──────────────── */
-        function initOrbit() {
-            const layer = document.getElementById('orbitLayer');
-            if (!layer) return;
-            const nodes = layer.querySelectorAll('.orbit-node');
-            const svg   = document.getElementById('orbitSvg');
-            svg.querySelectorAll('.orbit-line, .orbit-center').forEach(el => el.remove());
-
-            const navH = 89, footerH = 88;
-            const W = window.innerWidth, H = window.innerHeight;
-
-            // 메인 화면: 독 없음 → W 전체 사용, cx = 진짜 중앙
-            const cx = W / 2;
-            const cy = H * 0.5;
-
-            // cy_logo: 로고박스 중심 = 허브 연결점
-            // 브랜딩 총 높이: 로고(86+14mb) + 타이틀(38) + 타이핑(10mt+36) = 184px
-            // 로고 중심 = cy - 92 + 43 = cy - 49
-            const cy_logo = cy - 49;
-
-
-            // ── 타원형 궤도: 화면 비율 기반 (대형 모니터 대응) ──
-            const rx       = Math.min(W * 0.41, 620);           // 수평 반경 (대형화면 대응 cap 증가)
-            const topClear = cy_logo - navH - 52;
-            const botClear = H - footerH - cy_logo - 52;
-            const ry_up    = Math.min(Math.max(topClear * 0.88, 140), 360);
-            const ry_down  = Math.min(Math.max(botClear * 0.82, 140), 380);
-
-            // 8앱 각도 — 상단 좌우 넓게, 정좌우 명확히, 하단 좌우 넓게
-            // 순서: spell, qr, pdf, tangram, pachinko, server, meter, sys (HTML orbit-node 순)
-            const baseAngles = [-135, -88, -50, 8, 52, 90, 142, -172];
-            // 반경 소폭 변화: 각 노드별 ±10% 불규칙 반경
-            const rMult      = [1.02, 0.93, 1.08, 1.03, 1.07, 0.91, 1.05, 0.96];
-
-            // 부유 타이밍
-            const floatDur   = [4.8, 5.4, 4.2, 5.9, 4.5, 5.1, 4.0, 5.7];
-            const floatDel   = [0, -1.2, -2.5, -0.8, -1.7, -3.3, -0.5, -2.1];
-
-            // 노드별 웨이포인트 파라미터 (수직 오프셋, t1, t2 위치)
-            // 수직 오프셋 부호가 다르면 서로 다른 방향에 배치 → 삼각형 네트워크 느낌
-            const perpOff = [42, -56, 48, -38, 52, -44, 62, -47];
-            const t1Pos   = [0.35, 0.38, 0.42, 0.36, 0.40, 0.37, 0.44, 0.39];
-            const t2Pos   = [0.64, 0.68, 0.65, 0.62, 0.67, 0.63, 0.70, 0.66];
-
-            nodes.forEach((node, i) => {
-                const rad  = baseAngles[i] * Math.PI / 180;
-                const sinA = Math.sin(rad);
-                const ry   = sinA < 0 ? ry_up : ry_down;
-                const nx   = cx      + rx * rMult[i] * Math.cos(rad);
-                const ny   = cy_logo + ry * rMult[i] * sinA;
-
-                const nw = 90, nh = 105;
-                node.style.left      = (nx - nw / 2) + 'px';
-                node.style.top       = (ny - nh / 2) + 'px';
-                node.style.animation = `nodeFloat ${floatDur[i]}s ease-in-out ${floatDel[i]}s infinite`;
-
-                // ── 연결 좌표 계산 ──
-                const hubR = Math.min(44, W * 0.05);
-                const edgeR = 37;
-                const dist = Math.hypot(nx - cx, ny - cy_logo);
-                const ux = (nx - cx) / dist;
-                const uy = (ny - cy_logo) / dist;
-
-                const x1 = cx + ux * hubR,   y1 = cy_logo + uy * hubR;  // 허브 엣지
-                const x2 = nx - ux * edgeR,  y2 = ny - uy * edgeR;      // 아이콘 엣지
-                const lx = x2 - x1, ly = y2 - y1;                       // 선분 벡터
-
-                // ── 수직 방향 (선의 법선) ──
-                const perpX = -uy, perpY = ux;
-                const pOff  = perpOff[i];
-
-                // ── 중간 웨이포인트: 선 위가 아닌 수직 방향으로 분산 ──
-                const wp1x = x1 + lx * t1Pos[i] + perpX * pOff;
-                const wp1y = y1 + ly * t1Pos[i] + perpY * pOff;
-
-                const wp2x = x1 + lx * t2Pos[i] - perpX * pOff * 0.55;  // 반대 방향
-                const wp2y = y1 + ly * t2Pos[i] - perpY * pOff * 0.55;
-
-                // ── 노드별 라인 duration (유기적 느낌 — 배경 파티클과 동일) ──
-                const lineDurs = [3.1, 2.9, 3.5, 2.7, 3.3, 2.8, 3.0, 3.4];
-                const dotDurs  = [2.6, 3.0, 2.4, 2.9, 2.7, 3.2, 2.5, 2.8];
-
-                // ── 3개 선분으로 꺾인 경로: hub→wp1, wp1→wp2, wp2→node ──
-                const segments = [
-                    [x1, y1, wp1x, wp1y],
-                    [wp1x, wp1y, wp2x, wp2y],
-                    [wp2x, wp2y, x2, y2]
-                ];
-
-                segments.forEach(([ax, ay, bx, by], si) => {
-                    const delay = `${-(i * 0.4 + si * 0.15).toFixed(2)}s`;
-                    const dur   = `${(lineDurs[i] + si * 0.09).toFixed(2)}s`;
-
-                    const gl = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    gl.setAttribute('x1', ax); gl.setAttribute('y1', ay);
-                    gl.setAttribute('x2', bx); gl.setAttribute('y2', by);
-                    gl.setAttribute('stroke-linecap', 'round');
-                    gl.setAttribute('class', 'orbit-glow-line');
-                    gl.style.animationDelay    = delay;
-                    gl.style.animationDuration = dur;
-                    svg.appendChild(gl);
-
-                    const ml = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                    ml.setAttribute('x1', ax); ml.setAttribute('y1', ay);
-                    ml.setAttribute('x2', bx); ml.setAttribute('y2', by);
-                    ml.setAttribute('stroke-linecap', 'round');
-                    ml.setAttribute('class', 'orbit-main-line');
-                    ml.style.animationDelay    = delay;
-                    ml.style.animationDuration = dur;
-                    svg.appendChild(ml);
-                });
-
-                // ── 중간 웨이포인트 파티클 점 (끝점 제외, 중간에만) ──
-                // 4종 드리프트 패턴 + 8종 pulse 타이밍으로 배경 파티클 이동과 동일한 느낌
-                const driftAnims = ['dotDriftA','dotDriftB','dotDriftC','dotDriftD'];
-                const driftDurs  = [5.8, 6.4, 5.2, 7.1, 6.0, 5.5, 6.8, 5.9];
-
-                const dotWp1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dotWp1.setAttribute('cx', wp1x);
-                dotWp1.setAttribute('cy', wp1y);
-                dotWp1.setAttribute('class', 'orbit-dot-hub');
-                // pulse(크기+opacity) + drift(2D 이동) 동시 적용
-                dotWp1.style.animation =
-                    `dotPulse ${dotDurs[i]}s ease-in-out ${-(i * 0.35).toFixed(2)}s infinite,` +
-                    ` ${driftAnims[i % 4]} ${driftDurs[i]}s ease-in-out ${-(i * 0.6).toFixed(2)}s infinite`;
-                svg.appendChild(dotWp1);
-
-                const dotWp2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                dotWp2.setAttribute('cx', wp2x);
-                dotWp2.setAttribute('cy', wp2y);
-                dotWp2.setAttribute('class', 'orbit-dot-node');
-                // wp2는 wp1과 엇갈린 drift 타입 + 약간 다른 타이밍
-                dotWp2.style.animation =
-                    `dotPulse2 ${(dotDurs[i] + 0.18).toFixed(2)}s ease-in-out ${-(i * 0.35 + 0.22).toFixed(2)}s infinite,` +
-                    ` ${driftAnims[(i + 2) % 4]} ${(driftDurs[i] + 0.5).toFixed(2)}s ease-in-out ${-(i * 0.5 + 0.3).toFixed(2)}s infinite`;
-                svg.appendChild(dotWp2);
-                // ※ hover: CSS의 .orbit-node:hover (아이콘+텍스트만 반응)
-            });
-
-            // ── SVG 필터 정의 ──
-            if (!svg.querySelector('#orbitGlow')) {
-                const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-                defs.innerHTML = `
-                    <filter id="orbitGlow" x="-100%" y="-100%" width="300%" height="300%">
-                        <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                    </filter>
-                    <filter id="strongGlow" x="-200%" y="-200%" width="500%" height="500%">
-                        <feGaussianBlur stdDeviation="8" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                    </filter>`;
-                svg.insertBefore(defs, svg.firstChild);
-            }
-
-            // ── 중심 허브 파티클 점 ──
-            const hubCenter = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-            hubCenter.setAttribute('cx', cx);
-            hubCenter.setAttribute('cy', cy_logo);
-            hubCenter.setAttribute('r', '4');
-            hubCenter.setAttribute('fill', 'rgba(168,85,247,0.55)');
-            hubCenter.setAttribute('filter', 'url(#orbitGlow)');
-            hubCenter.setAttribute('class', 'orbit-center');
-            svg.appendChild(hubCenter);
-
-
-        }
 
         window.addEventListener('DOMContentLoaded', () => {
             if (new URLSearchParams(location.search).get('admin') === '1') {
