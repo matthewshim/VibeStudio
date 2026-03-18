@@ -595,21 +595,21 @@
 
         .mac-window {
             position: fixed;
-            top: calc(47px + 8px);   /* nav 높이 + 상단 여백 */
+            top: calc(56px + 20px);   /* nav 높이(56px) + 상단 여백(20px) */
             left: 50%;
             transform: translateX(-50%);
-            width: 95%;
+            width: 92%;
             max-width: 860px;
-            /* footer(67px) + 상하 균등 여백(8px × 2) */
-            height: calc(100dvh - 47px - 8px - 67px - 8px);
+            /* footer(67px) + 상하 균등 여백(20px × 2) */
+            height: calc(100dvh - 56px - 20px - 67px - 20px);
             max-height: none;
             min-height: 280px;
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            box-shadow: var(--glass-shadow);
+            border-radius: 16px;
+            box-shadow: var(--glass-shadow), 0 0 0 1px rgba(255,255,255,0.06) inset;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -1159,9 +1159,22 @@
             .desktop-wrapper {
                 height: 100dvh;
                 overflow: hidden;
+                padding-top: 56px !important;    /* 고정 헤더 높이만큼 오프셋 */
                 padding-left: 0 !important;
                 padding-right: 0 !important;
                 padding-bottom: 88px !important; /* 모바일 하단 독 높이 */
+                display: flex;
+                flex-direction: column;
+                box-sizing: border-box;
+            }
+            /* 모바일: home-content가 남은 세로 공간을 채우고 히어로를 중앙 배치 */
+            .home-content {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                overflow: hidden;
             }
             body.app-active .desktop-wrapper {
                 padding-left: 0 !important; /* 모바일에선 독 좌측 없음 */
@@ -1190,7 +1203,13 @@
             /* 모바일: orbit 노드 숨김 */
             .orbit-layer { display: none !important; }
             /* 모바일: 브랜딩 중앙 정렬 — 좌측 오프셋 리셋 */
-            .desktop-branding { left: auto !important; width: 100% !important; }
+            .desktop-branding {
+                left: auto !important;
+                width: 100% !important;
+                min-height: unset !important;   /* PC의 min-height:45dvh 해제 */
+                padding: clamp(32px, 8vw, 56px) 24px clamp(24px, 6vw, 40px) !important;
+                flex: 0 0 auto;
+            }
             .home-content { width: 100% !important; overflow-x: hidden !important; }
             /* 모바일: dock-dot 복원 (수평 독에서 아이콘 아래에 표시) */
             .dock-dot { position: relative; right: unset; top: unset; transform: none; margin-top: 4px; }
