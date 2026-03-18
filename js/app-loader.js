@@ -86,9 +86,6 @@ async function switchApp(appName, titleText, color, iconName) {
     win.classList.remove('hidden');
     document.getElementById('desktopBranding')?.classList.add('dimmed');
     document.getElementById('orbitLayer')?.classList.add('dimmed');
-    // 앱 열릴 때 푸터 숨김
-    const footer = document.getElementById('macFooter');
-    if (footer) footer.classList.add('hidden-by-app');
 
     // 모바일: 앱 활성화 시 독 슬라이드 아웃
     if (window.innerWidth <= 768) {

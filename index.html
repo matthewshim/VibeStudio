@@ -137,8 +137,9 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding-top: 89px;             /* GNB(56px) + 독↔푸터 간격(33px) */
-            padding-bottom: 215px;         /* dock-top(182px) + 독↔푸터 간격(33px) */
+            padding-top: 89px;    /* GNB */
+            padding-bottom: 88px; /* 푸터 높이 */
+            padding-left: 82px;   /* 좌측 독 공간 */
             box-sizing: border-box;
         }
 
@@ -182,7 +183,7 @@
         .desktop-branding {
             position: fixed;
             top: 50%;
-            left: 50%;
+            left: calc(50% + 41px); /* 좌측 독 공간 중간점 보정 */
             transform: translate(-50%, -50%);
             z-index: 1;
             display: flex;
@@ -745,16 +746,19 @@
         /* ─── macOS Dock ─────────────────────────────────── */
         .mac-dock {
             position: fixed;
-            bottom: 100px;             /* 푸터 2행(~88px) + 여유(12px) */
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
             /* Glassmorphism base */
             background: rgba(255,255,255,0.18);
             backdrop-filter: saturate(180%) blur(40px);
             -webkit-backdrop-filter: saturate(180%) blur(40px);
             border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 22px;
-            padding: 10px 14px;
+            border-radius: 24px;
+            padding: 14px 10px;
             display: flex;
-            align-items: center;       /* 아이콘 수직 가운데 정렬 */
+            flex-direction: column;
+            align-items: center;
             gap: 10px;
             /* layered shadow for depth */
             box-shadow:
@@ -868,12 +872,12 @@
         }
         /* 기존 .dock-icon i 유지 (Lucide 렌더 전 숨겨지지 않게) */
 
-        /* macOS-style label tooltip */
+        /* macOS-style label tooltip — 좌측 독일 때 우측에 표시 */
         .dock-label {
             position: absolute;
-            bottom: calc(100% + 14px);
-            left: 50%;
-            transform: translateX(-50%) translateY(6px);
+            top: 50%;
+            left: calc(100% + 14px);
+            transform: translateY(-50%) translateX(-6px);
             background: rgba(30,30,32,0.82);
             backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -891,15 +895,15 @@
             box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
 
-        /* small downward caret */
+        /* 좌측 종료형 캐럫 (오른쪽 화살표) */
         .dock-label::after {
             content: '';
             position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 50%;
+            right: 100%;
+            transform: translateY(-50%);
             border: 5px solid transparent;
-            border-top-color: rgba(30,30,32,0.82);
+            border-right-color: rgba(30,30,32,0.82);
         }
 
         [data-theme="light"] .dock-label, :root:not([data-theme="dark"]) .dock-label {
@@ -924,7 +928,7 @@
             }
             .dock-item:hover .dock-label {
                 opacity: 1;
-                transform: translateX(-50%) translateY(0);
+                transform: translateY(-50%) translateX(0);
             }
         }
 
@@ -933,9 +937,12 @@
             height: 4px;
             border-radius: 50%;
             background: var(--text-main);
-            margin-top: 5px;
             opacity: 0;
             transition: opacity 0.3s;
+            position: absolute;
+            right: -7px;
+            top: 50%;
+            transform: translateY(-50%);
         }
         .dock-item.active .dock-dot { opacity: 1; }
 
@@ -977,6 +984,9 @@
                 width: 100% !important;
                 bottom: 0 !important;  /* 모바일: 푸터 숨김이므로 돁 완전 하단 */
                 left: 0 !important;
+                top: unset !important;
+                transform: none !important;
+                flex-direction: row !important;
                 border-radius: 0;
                 border-bottom: none;
                 padding: 12px 12px 36px 12px;  /* iOS scroll bug: padding-right 사용 안 함 → last-child margin-right으로 대체 */
@@ -1044,7 +1054,11 @@
             .dock-item:last-child { margin-right: 32px; }
             /* 컨텐츠 영역 패딩 축소 */
             .mac-content-area { padding: 16px 16px; }
-            /* 모바일: footer 숨김 (border-top이 반투명 윈도우에 비치는 현상 방지) */
+            /* 모바일: orbit 노드 숨김 */
+            .orbit-layer { display: none !important; }
+            /* 모바일: dock-dot 복원 (수평 독에서 아이콘 아래에 표시) */
+            .dock-dot { position: relative; right: unset; top: unset; transform: none; margin-top: 4px; }
+            /* 모바일: footer 숨김 */
             .mac-footer { display: none !important; }
             /* 모바일: 스크롤바 완전 숨김 (수직 스크롤바 우측 + 하단 굵은 인디케이터 제거) */
             ::-webkit-scrollbar { display: none !important; width: 0 !important; height: 0 !important; }
@@ -1054,7 +1068,9 @@
         /* ── Footer ────────────────────────────────────────────── */
         .mac-footer {
             position: fixed;
-            bottom: 0; left: 0; right: 0;
+            bottom: 0;
+            left: 82px; /* 좌측 독 다음부터 시작 */
+            right: 0;
             z-index: 900;
             border-top: 1px solid var(--glass-border);
             padding: 14px 28px;
@@ -1091,11 +1107,20 @@
             font-size: 11px; color: var(--text-muted); opacity: 0.6;
             text-align: center; max-width: 900px; margin: 4px auto 0;
         }
-        /* 앱 창 열릴 때 푸터 숨김 */
+        /* 앱 사용 중에도 푸터 항상 표시 — hidden-by-app 미적용 */
         .mac-footer.hidden-by-app {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        /* SEO 설명 sr-only 패턴 */
+        .dock-seo-desc {
+            position: absolute;
+            width: 1px; height: 1px;
+            padding: 0; margin: -1px;
+            overflow: hidden;
+            clip: rect(0,0,0,0);
+            white-space: nowrap;
+            border: 0;
         }
 
         /* 모바일: 독이 전체폭 바텀이므로 푸터 숨김 */
@@ -1277,10 +1302,6 @@
         <div class="typing-container" id="type-box">
             <span id="prompt-text"></span><span class="cursor"></span>
         </div>
-        <a class="about-link-btn" href="about.html">
-            <i data-lucide="info"></i>
-            About Vibe Studio
-        </a>
     </div>
 
     <!-- ── Orbit Layer: Hub & Spoke 컨셋 (어드민 on/off 연동) ── -->
@@ -1381,44 +1402,52 @@
     <div class="mobile-home-indicator" id="mobileHomeIndicator"></div>
 
     <div class="mac-dock" id="macDock">
-        <button class="dock-item" data-app-key="tangram" data-label="Tangram" onclick="switchApp('tangram', 'Tangram', '#ff6b35', 'puzzle')">
+        <button class="dock-item" data-app-key="tangram" data-label="Tangram" title="Tangram — 두뇌 자극 칠교놀이 퍼즐 게임" aria-label="Tangram 칠교놀이 퍼즐" onclick="switchApp('tangram', 'Tangram', '#ff6b35', 'puzzle')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #ff8c5a, #ff6b35);">🧩</div>
             <span class="dock-label">Tangram</span>
+            <span class="dock-seo-desc">두뇌 자극 칠교놀이 퍼즐 게임</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="pachinko" data-label="Pachinko" onclick="switchApp('pachinko', 'Pachinko v5.1', '#ff2d55', 'gamepad-2')">
+        <button class="dock-item" data-app-key="pachinko" data-label="Pachinko" title="Pachinko — 잭팟 브라우저 미니 아케이드" aria-label="Pachinko 미니게임" onclick="switchApp('pachinko', 'Pachinko v5.1', '#ff2d55', 'gamepad-2')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #ff5274, #d81b60);">🎰</div>
             <span class="dock-label">Pachinko</span>
+            <span class="dock-seo-desc">잭팟 및 븼 터트리기 브라우저 미니 아케이드 게임</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="server" data-label="Server Monitor" onclick="switchApp('server', 'Server Monitor', '#34d399', 'server')">
+        <button class="dock-item" data-app-key="server" data-label="Server Monitor" title="Server Monitor — 실시간 서버 및 API 상태 모니터링" aria-label="Server Monitor 서버 상태" onclick="switchApp('server', 'Server Monitor', '#34d399', 'server')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #34d399, #10b981);">🖥️</div>
             <span class="dock-label">Server Monitor</span>
+            <span class="dock-seo-desc">실시간 서버 API 상태 모니터링 대시보드</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="sys" data-label="System Info" onclick="switchApp('sys', 'System Info', '#7b78ff', 'activity')">
+        <button class="dock-item" data-app-key="sys" data-label="System Info" title="System Info — 시스템 정보 조회 모니터" aria-label="System Info 시스템 정보" onclick="switchApp('sys', 'System Info', '#7b78ff', 'activity')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #8b89ff, #5e5ce6);">⚙️</div>
             <span class="dock-label">System Info</span>
+            <span class="dock-seo-desc">시스템 정보 조회 및 모니터링 도구</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="pdf" data-label="PDF Splitter" onclick="switchApp('pdf', 'PDF Splitter', '#ff3b30', 'scissors')">
+        <button class="dock-item" data-app-key="pdf" data-label="PDF Splitter" title="PDF Splitter — 무료 PDF 페이지 분리 변환" aria-label="PDF Splitter PDF 페이지 분리" onclick="switchApp('pdf', 'PDF Splitter', '#ff3b30', 'scissors')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #ff6b63, #ff3b30);">📄</div>
             <span class="dock-label">PDF Splitter</span>
+            <span class="dock-seo-desc">무료 PDF 페이지 분리 및 변환 도구</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="qr" data-label="QR Master" onclick="switchApp('qr', 'QR Master', '#007aff', 'qr-code')">
+        <button class="dock-item" data-app-key="qr" data-label="QR Master" title="QR Master — QR코드 무료 즉시 생성" aria-label="QR Master QR코드 생성" onclick="switchApp('qr', 'QR Master', '#007aff', 'qr-code')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #40b3ff, #007aff);">🔗</div>
             <span class="dock-label">QR Master</span>
+            <span class="dock-seo-desc">링크를 QR코드로 무료 즉시 변환 생성</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="meter" data-label="Clap Meter" onclick="switchApp('meter', 'Clap Meter', '#ff9500', 'mic')">
+        <button class="dock-item" data-app-key="meter" data-label="Clap Meter" title="Clap Meter — 실시간 마이크 소음 코 챰능 측정기" aria-label="Clap Meter 소음 코 측정" onclick="switchApp('meter', 'Clap Meter', '#ff9500', 'mic')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #ffcc00, #ff9500);">👏</div>
             <span class="dock-label">Clap Meter</span>
+            <span class="dock-seo-desc">마이크 실시간 소음 및 호응도 측정 도구</span>
             <div class="dock-dot"></div>
         </button>
-        <button class="dock-item" data-app-key="spell" data-label="Spell Check" onclick="switchApp('spell', 'Spell Check', '#a78bfa', 'languages')">
+        <button class="dock-item" data-app-key="spell" data-label="Spell Check" title="Spell Check — 무료 한국어 맞춤법 검사 교정" aria-label="Spell Check 맞춤법 검사" onclick="switchApp('spell', 'Spell Check', '#a78bfa', 'languages')">
             <div class="dock-icon" style="background: linear-gradient(160deg, #c4b5fd, #8b5cf6);">✍️</div>
             <span class="dock-label">Spell Check</span>
+            <span class="dock-seo-desc">무료 한국어 맞춤법 검사 및 교정 서비스</span>
             <div class="dock-dot"></div>
         </button>
     </div>
@@ -1480,19 +1509,18 @@
             const MAX_SCALE = 1.5;   // max scale for hovered icon
             const SPREAD = 90;       // px radius of influence on neighbours
 
-            function applyMagnetic(mouseX) {
+            function applyMagnetic(mouseY) {
                 const items = dock.querySelectorAll('.dock-item');
                 items.forEach(item => {
                     const icon = item.querySelector('.dock-icon');
                     if (!icon) return;
                     const rect = item.getBoundingClientRect();
-                    const center = rect.left + rect.width / 2;
-                    const dist = Math.abs(mouseX - center);
+                    const center = rect.top + rect.height / 2; // 수직 중심값
+                    const dist = Math.abs(mouseY - center);
                     const ratio = Math.max(0, 1 - dist / SPREAD);
                     const scale = 1 + (MAX_SCALE - 1) * ratio;
-                    const lift = -10 * ratio;
-                    // Scale ONLY the icon element — dock-item layout width stays fixed
-                    icon.style.transform = `translateY(${lift}px) scale(${scale})`;
+                    // Scale ONLY the icon
+                    icon.style.transform = `scale(${scale})`;
                 });
             }
 
@@ -1502,7 +1530,7 @@
                 });
             }
 
-            dock.addEventListener('mousemove', e => applyMagnetic(e.clientX));
+            dock.addEventListener('mousemove', e => applyMagnetic(e.clientY));
             dock.addEventListener('mouseleave', resetMagnetic);
         })();
 
