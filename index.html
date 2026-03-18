@@ -319,44 +319,7 @@
             box-shadow: 0 8px 24px rgba(109,40,217,0.15);
         }
 
-        /* ── Nav Link (Header) ──────────────────────── */
-        .nav-link {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-main);
-            text-decoration: none;
-            opacity: 0.7;
-            transition: opacity 0.18s;
-            letter-spacing: -0.1px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-        }
-        .nav-link:hover { opacity: 1; }
-        .nav-link.active { opacity: 1; font-weight: 800; }
-
-        /* ── Theme Button (about.html 동일, 36×36) ── */
-        .theme-btn-bar {
-            width: 36px; height: 36px;
-            border-radius: 8px;
-            border: none;                /* 테두리 제거 */
-            background: transparent;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            color: var(--text-main);
-            transition: color 0.2s, background 0.2s;
-            flex-shrink: 0;
-        }
-        .theme-btn-bar:hover { background: var(--glass-bg); color: var(--sys-primary); }
-        .theme-btn-bar i { width: 15px; height: 15px; }
-
-        /* ── Nav Separator ───────────────────────────── */
-        .nav-sep {
-            width: 1px; height: 14px;
-            background: var(--glass-border);
-            opacity: 0.6;
-        }
+        /* ── Nav Link / Sep / Theme Btn: layout.js shared-* 클래스로 대체됨 ── */
 
         .cursor {
             display: inline-block;
@@ -371,8 +334,8 @@
 
         @keyframes blink { 50% { opacity: 0; } }
 
-        /* ── Mac Menu Bar (56px, about.html 스타일) ─ */
-        .mac-menu-bar {
+        /* ── Top Nav (about.html .top-nav와 동일 구조, layout.js 주입) ─ */
+        .top-nav {
             position: fixed;
             top: 0; left: 0; right: 0;
             height: 56px;
@@ -388,30 +351,40 @@
             box-sizing: border-box;
             color: var(--text-main);
         }
-        .mac-menu-left  { display: flex; align-items: center; gap: 10px; }
-        .mac-menu-right { display: flex; align-items: center; gap: 12px; }
+        [data-theme="light"] .top-nav {
+            background: rgba(245, 245, 247, 0.82);
+        }
 
-        /* Logo: about.html .nav-brand 동일 */
-        .nav-brand-bar {
+        /* layout.js가 주입하는 .nav-brand */
+        .nav-brand {
             display: flex; align-items: center; gap: 10px;
             font-weight: 800; font-size: 15px; letter-spacing: -0.3px;
             color: var(--text-main); text-decoration: none;
         }
-        .nav-brand-bar .logo-box {
+        .nav-brand .lightning {
             width: 28px; height: 28px;
             background: linear-gradient(135deg, #a855f7, #5e5ce6);
             border-radius: 8px;
             display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .nav-brand-bar .logo-box svg { width: 16px; height: 16px; fill: #fff; stroke: none; }
+        .nav-brand .lightning svg { width: 16px; height: 16px; fill: #fff; stroke: none; }
 
-        /* Nav center group */
-        .nav-center {
-            display: flex; align-items: center; gap: 4px;
-            position: absolute; left: 50%; transform: translateX(-50%);
+        /* layout.js .nav-right / .theme-btn */
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .theme-btn {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: color 0.2s, background 0.2s;
+            flex-shrink: 0;
         }
-        .nav-center .nav-sep { margin: 0 2px; }
-        @media (max-width: 768px) { .nav-center { display: none; } }
+        .theme-btn:hover { background: var(--glass-bg); color: var(--sys-primary); }
+        .theme-btn i { width: 15px; height: 15px; }
+
         /* PC 헤더 시계 숨김 */
         #mac-clock { display: none !important; }
 
@@ -440,28 +413,25 @@
             border-radius: 2px;
             transition: transform 0.25s, opacity 0.25s, width 0.25s;
         }
-        /* X 애니매이션 */
         .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
         .hamburger-btn.open span:nth-child(2) { opacity: 0; width: 0; }
         .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-        @media (max-width: 768px) {
-            .hamburger-btn { display: flex; }
-        }
+        @media (max-width: 768px) { .hamburger-btn { display: flex; } }
 
-        /* PC 기본: hamburger-wrap 숨김 → 로고 좌측 유지 */
+        /* PC 기본: hamburger-wrap 숨김 */
         .hamburger-wrap { display: none; }
 
         /* 모바일: 그리드 레이아웃 + 로고 중앙 */
         @media (max-width: 768px) {
-            .mac-menu-bar {
+            .top-nav {
                 display: grid;
                 grid-template-columns: 40px 1fr 40px;
                 align-items: center;
                 padding: 0 14px;
             }
-            .mac-menu-left  { grid-column: 2; justify-content: center; }
-            .mac-menu-right { grid-column: 3; justify-content: flex-end; gap: 8px; }
             .hamburger-wrap { grid-column: 1; display: flex; align-items: center; }
+            .nav-brand      { grid-column: 2; justify-content: center; }
+            .nav-right      { grid-column: 3; justify-content: flex-end; gap: 8px; }
         }
 
         /* ── Nav Drawer (왼쪽 슬라이드) ── */
@@ -1603,40 +1573,8 @@
 
     </div><!-- /.home-content -->
 
-    <div class="mac-menu-bar">
-        <!-- 햄버거 (모바일에서만) -->
-        <div class="hamburger-wrap">
-            <button class="hamburger-btn" id="hamburgerBtn" onclick="openNavDrawer()" aria-label="메뉴 열기">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
-        <!-- Logo (모바일에서 중앙) -->
-        <div class="mac-menu-left">
-            <a class="nav-brand-bar" href="index.html">
-                <div class="logo-box">
-                    <svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
-                </div>
-                Vibe Studio
-            </a>
-        </div>
-        <!-- Center Nav (PC에서만) -->
-        <nav class="nav-center">
-            <a class="nav-link active" href="index.html">Home</a>
-            <div class="nav-sep"></div>
-            <a class="nav-link" href="about.html">About</a>
-            <div class="nav-sep"></div>
-            <a class="nav-link" href="contact.html">Contact</a>
-        </nav>
-        <!-- Right -->
-        <div class="mac-menu-right">
-            <button class="theme-btn-bar" onclick="toggleGlobalTheme()" title="테마 전환">
-                <i data-lucide="moon" id="globalThemeIcon"></i>
-            </button>
-            <span id="mac-clock"></span>
-        </div>
-    </div>
+    <!-- 공통 헤더 Nav: layout.js가 자동 주입 (about.html / contact.html과 동일 구조) -->
+    <nav class="top-nav" id="site-nav"></nav>
 
     <div class="mac-window hidden" id="macWindow">
         <div class="mac-titlebar">
@@ -1739,16 +1677,10 @@
         </div>
     </footer>
 
+    <script src="js/layout.js"></script>
     <script>
-        lucide.createIcons();
-
-        /* 테마 초기 아이콘 설정 */
-        (function() {
-            var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            var icon = document.getElementById('globalThemeIcon');
-            if (icon) icon.setAttribute('data-lucide', currentTheme === 'dark' ? 'sun' : 'moon');
-            lucide.createIcons();
-        })();
+        /* ── layout.js toggleTheme 브릿지: index.html 테마 로직과 연결 ── */
+        window.toggleTheme = function() { toggleGlobalTheme(); };
 
         /* ── Nav Drawer (햄버거 메뉴) ──────────────────────────────── */
         function openNavDrawer() {
@@ -1824,19 +1756,14 @@
 
         function toggleGlobalTheme() {
             const htmlEl = document.documentElement;
-            const icon = document.getElementById('globalThemeIcon');
             const isDark = htmlEl.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                htmlEl.setAttribute('data-theme', 'light');
-                localStorage.setItem('vibe-theme', 'light');
-                icon.setAttribute('data-lucide', 'moon');
-                if (window.updateCanvasTheme) window.updateCanvasTheme('light');
-            } else {
-                htmlEl.setAttribute('data-theme', 'dark');
-                localStorage.setItem('vibe-theme', 'dark');
-                icon.setAttribute('data-lucide', 'sun');
-                if (window.updateCanvasTheme) window.updateCanvasTheme('dark');
-            }
+            const nextTheme = isDark ? 'light' : 'dark';
+            htmlEl.setAttribute('data-theme', nextTheme);
+            localStorage.setItem('vibe-theme', nextTheme);
+            /* layout.js themeIcon 동기화 */
+            const icon = document.getElementById('themeIcon');
+            if (icon) icon.setAttribute('data-lucide', nextTheme === 'dark' ? 'sun' : 'moon');
+            if (window.updateCanvasTheme) window.updateCanvasTheme(nextTheme);
             lucide.createIcons();
         }
 
