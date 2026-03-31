@@ -10,6 +10,12 @@ docs/
 # === Composer 의존성 ===
 vendor/
 
+# === 서버 진단/유틸리티 ===
+check_reset_news.php
+
+# === DB 스키마 ===
+*.sql
+
 # === 백업 파일 ===
 *.bak
 
