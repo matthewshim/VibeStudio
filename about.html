@@ -1,0 +1,1137 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CDN 선제 연결 — LCP 개선 -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <title>Vibe Studio Apps | AI 바이브 코딩으로 만든 웹앱 모음</title>
+    <meta name="description" content="기획자가 AI와 함께 직접 만든 실용 웹앱들. 게임, 생산성 도구, AI 뉴스 서비스까지 — Vibe Studio.">
+    <meta name="keywords" content="바이브 코딩, 기획자 AI 개발, 웹앱 소개, Vibe Studio, PriSincera, 생산성 앱">
+    <meta name="author" content="PriSincera">
+    <link rel="canonical" href="https://vibestudio.prisincera.com/about">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vibestudio.prisincera.com/about.html">
+    <meta property="og:title" content="About Vibe Studio — 기획자의 AI 바이브 코딩 아카이브">
+    <meta property="og:description" content="기획자의 상상이 AI를 만나 현실이 되는 곳. 코딩 몰라도 만들 수 있다는 것을 증명하는 Vibe Studio의 이야기.">
+    <meta property="og:image" content="https://vibestudio.prisincera.com/images/og-thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="Vibe Studio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About Vibe Studio — 기획자의 AI 바이브 코딩 아카이브">
+    <meta name="twitter:description" content="기획자의 상상이 AI를 만나 현실이 되는 곳, Vibe Studio.">
+    <meta name="twitter:image" content="https://vibestudio.prisincera.com/images/og-thumbnail.png">
+
+    <!-- Schema.org 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "About Vibe Studio",
+      "url": "https://vibestudio.prisincera.com/about.html",
+      "description": "기획자의 상상이 AI를 만나 현실이 되는 곳, Vibe Studio. 바이브 코딩으로 탄생한 웹앱들을 소개합니다.",
+      "inLanguage": "ko",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Vibe Studio",
+        "url": "https://vibestudio.prisincera.com/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "PriSincera",
+        "url": "https://prisincera.com"
+      }
+    }
+    </script>
+
+    <!-- BreadcrumbList: 검색 결과 경로 표시용 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "홈",
+          "item": "https://vibestudio.prisincera.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "About Vibe Studio",
+          "item": "https://vibestudio.prisincera.com/about.html"
+        }
+      ]
+    }
+    </script>
+
+    <!-- Favicon: index.html과 동일한 브랜드 파비콘 -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='100%25' stop-color='%235e5ce6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='25' fill='url(%23g)'/%3E%3Ctext x='50' y='74' font-size='65' font-family='-apple-system, sans-serif' font-weight='900' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+    <!-- FOUC 방지: 테마를 즉시 적용 -->
+    <script>
+        (function() {
+            var saved = localStorage.getItem('vibe-theme');
+            var theme = saved ? saved : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <style>
+        /* ── Variables ─────────────────────────────────────── */
+        :root {
+            --bg: #09090b;
+            --bg2: #111114;
+            --text-main: #f4f4f5;
+            --text-muted: rgba(255,255,255,0.5);
+            --glass-bg: rgba(24, 24, 27, 0.72);
+            --glass-border: rgba(255,255,255,0.09);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            --accent: #818cf8;
+            --accent2: #38bdf8;
+            --card-hover-border: rgba(129, 140, 248, 0.4);
+        }
+
+        [data-theme="light"] {
+            --bg: #f8f8fc;
+            --bg2: #f0f0f8;
+            --text-main: #18181b;
+            --text-muted: #71717a;
+            --glass-bg: rgba(255,255,255,0.8);
+            --glass-border: rgba(0,0,0,0.08);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            --accent: #5e5ce6;
+            --accent2: #0284c7;
+            --card-hover-border: rgba(94, 92, 230, 0.4);
+        }
+
+        /* ── Reset ─────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ── Grid background ────────────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        [data-theme="light"] body::before {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+        }
+
+        /* ── Mouse spotlight ────────────────────────────────── */
+        #spotlight {
+            position: fixed;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(129,140,248,0.13) 0%, rgba(56,189,248,0.05) 40%, transparent 70%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+            transition: opacity 0.4s;
+        }
+        [data-theme="light"] #spotlight {
+            background: radial-gradient(circle, rgba(94,92,230,0.08) 0%, rgba(56,189,248,0.03) 40%, transparent 70%);
+        }
+
+        /* ── Layout ─────────────────────────────────────────── */
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ── Top Nav ─────────────────────────────────────────── */
+        .top-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 56px;
+            background: rgba(10, 10, 12, 0.72);     /* index.html --menu-bg 다크 동일값 */
+            backdrop-filter: blur(28px) saturate(180%);
+            -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;                         /* index.html 동일 */
+            z-index: 9000;
+        }
+        [data-theme="light"] .top-nav {
+            background: rgba(245, 245, 247, 0.82);  /* index.html 라이트 --menu-bg 동일값 */
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: -0.3px;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+        .nav-brand .lightning {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg, #a855f7, #5e5ce6);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .nav-brand .lightning svg { width: 16px; height: 16px; fill: #fff; stroke: none; }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            color: var(--text-main);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+        .nav-btn i { width: 15px; height: 15px; }
+        .theme-btn {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            border: none;                /* 테두리 제거 */
+            background: transparent;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: color 0.2s, background 0.2s;
+        }
+        .theme-btn:hover { background: var(--glass-bg); color: var(--accent); }
+        .theme-btn i { width: 15px; height: 15px; }
+
+        /* Center Nav: index.html .nav-center와 동일 */
+        .nav-center-about {
+            display: flex; align-items: center; gap: 4px;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .nav-sep-about {
+            width: 1px; height: 14px;
+            background: var(--glass-border); opacity: 0.6;
+            margin: 0 2px;
+        }
+        .nav-link-about {
+            font-size: 13px; font-weight: 600;
+            color: var(--text-main); text-decoration: none;
+            opacity: 0.7; transition: opacity 0.18s;
+            letter-spacing: -0.1px;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .nav-link-about:hover { opacity: 1; }
+        .nav-link-about.active { opacity: 1; font-weight: 800; }
+        @media (max-width: 768px) { .nav-center-about { display: none; } }
+
+        /* ── 햄버거 버튼 ── */
+        .hamburger-btn {
+            display: none;
+            width: 36px; height: 36px;
+            border: none; background: transparent;
+            border-radius: 8px; cursor: pointer;
+            flex-direction: column; align-items: center; justify-content: center;
+            gap: 5px; padding: 6px;
+            color: var(--text-main); transition: background 0.2s; flex-shrink: 0;
+        }
+        .hamburger-btn span {
+            display: block; width: 18px; height: 2px;
+            background: var(--text-main); border-radius: 2px;
+            transition: transform 0.25s, opacity 0.25s, width 0.25s;
+        }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        @media (max-width: 768px) { .hamburger-btn { display: flex; } }
+
+        /* PC 기본: hamburger-wrap 숨김 → 로고 좌측 유지 */
+        .hamburger-wrap { display: none; }
+
+        /* 모바일: top-nav 그리드 레이아웃 */
+        @media (max-width: 768px) {
+            .top-nav {
+                display: grid;
+                grid-template-columns: 40px 1fr 40px;
+                padding: 0 14px;
+            }
+            .hamburger-wrap { grid-column: 1; display: flex; align-items: center; }
+            .nav-brand     { grid-column: 2; justify-content: center; }
+            .nav-right     { grid-column: 3; justify-content: flex-end; gap: 6px; }
+        }
+
+        /* ── Nav Drawer ── */
+        .nav-drawer {
+            position: fixed; top: 0; left: 0;
+            width: min(320px, 85vw); height: 100dvh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-right: 1px solid var(--glass-border);
+            box-shadow: 6px 0 32px rgba(0,0,0,0.28);
+            z-index: 20000;
+            transform: translateX(-100%);
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            overflow: hidden; box-sizing: border-box;
+        }
+        .nav-drawer.open { transform: translateX(0); }
+        .nav-drawer-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 20px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
+        }
+        .nav-drawer-brand {
+            display: flex; align-items: center; gap: 9px;
+            font-weight: 800; font-size: 15px;
+            color: var(--text-main); text-decoration: none;
+        }
+        .nav-drawer-brand .lightning {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg, #a855f7, #5e5ce6);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .nav-drawer-brand .lightning svg { width: 15px; height: 15px; fill: #fff; stroke: none; }
+        .nav-drawer-close {
+            width: 32px; height: 32px; border: none; background: transparent;
+            border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: background 0.2s, color 0.2s;
+        }
+        .nav-drawer-close:hover { background: var(--glass-border); color: var(--text-main); }
+        .nav-drawer-close svg { width: 18px; height: 18px; }
+        .nav-drawer-body {
+            flex: 1; padding: 16px 12px;
+            display: flex; flex-direction: column; gap: 4px;
+            overflow-y: auto; overflow-x: hidden;
+            box-sizing: border-box; width: 100%;
+        }
+        .nav-drawer-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; border-radius: 12px;
+            font-size: 15px; font-weight: 700;
+            color: var(--text-main); text-decoration: none;
+            border: none; background: transparent; cursor: pointer;
+            width: 100%; box-sizing: border-box; text-align: left;
+            transition: background 0.18s, color 0.18s, transform 0.15s;
+        }
+        .nav-drawer-item:hover { background: rgba(0,0,0,0.06); transform: translateX(3px); }
+        [data-theme="dark"] .nav-drawer-item:hover { background: rgba(255,255,255,0.07); }
+        .nav-drawer-item.active { background: rgba(168,85,247,0.12); color: #a855f7; }
+        [data-theme="dark"] .nav-drawer-item.active { color: #c084fc; background: rgba(168,85,247,0.15); }
+        .nav-drawer-item-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .nav-drawer-item-icon svg { width: 18px; height: 18px; }
+        .nav-drawer-footer {
+            padding: 18px 20px; border-top: 1px solid var(--glass-border); flex-shrink: 0;
+        }
+        .nav-drawer-footer-brand {
+            display: flex; align-items: center; gap: 6px;
+            font-weight: 800; font-size: 12px; color: var(--text-main); margin-bottom: 6px;
+        }
+        .nav-drawer-footer-copy { font-size: 10px; color: var(--text-muted); opacity: 0.6; }
+        .nav-drawer-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.48);
+            backdrop-filter: blur(4px);
+            z-index: 19999; opacity: 0; pointer-events: none;
+            transition: opacity 0.32s;
+        }
+        .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+        /* ── Glass Card Base ─────────────────────────────────── */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            transition: border-color 0.25s, box-shadow 0.25s, transform 0.12s;
+        }
+
+        /* ── Fade-in Observer ────────────────────────────────── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.75s cubic-bezier(0.2,0.8,0.2,1), transform 0.75s cubic-bezier(0.2,0.8,0.2,1);
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Hero ────────────────────────────────────────────── */
+        .hero {
+            padding: 150px 0 80px;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(129,140,248,0.12);
+            border: 1px solid rgba(129,140,248,0.3);
+            color: var(--accent);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 28px;
+            text-transform: uppercase;
+        }
+        .hero-badge i { width: 13px; height: 13px; }
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.2;
+            margin-bottom: 24px;
+            background: linear-gradient(145deg, #fff 30%, #a5b4fc 75%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            word-break: keep-all;
+        }
+        [data-theme="light"] .hero h1 {
+            background: linear-gradient(145deg, #18181b 30%, #5e5ce6 75%, #0284c7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .hero-sub {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 640px;
+            margin: 0 auto 72px;
+            word-break: keep-all;
+        }
+
+        /* ── About Cards ─────────────────────────────────────── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 100px;
+            text-align: left; /* hero center 상속 차단 */
+        }
+        .about-card {
+            padding: 32px;
+            text-align: left;
+        }
+        /* 아이콘 + 타이틀을 가로 flex 행으로 묶어 수직 중앙정렬 */
+        .about-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .about-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;      /* 아이콘 크기 고정 */
+            font-size: 22px;
+            line-height: 1;      /* 이모지 baseline 오프셋 제거 */
+        }
+        .about-card h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            margin: 0;           /* about-card-header gap으로 간격 관리 */
+            line-height: 1.3;
+        }
+        .about-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.75;
+            word-break: keep-all;
+        }
+        .about-card:hover { border-color: var(--card-hover-border); }
+
+        /* ── Section Title ───────────────────────────────────── */
+        .section-header {
+            text-align: center;
+            margin-bottom: 56px;
+        }
+        .section-header h2 {
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            margin-bottom: 12px;
+        }
+        .section-header p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* ── App Cards Grid ──────────────────────────────────── */
+        .apps-section { padding-bottom: 100px; }
+
+        .apps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 28px;
+        }
+
+        .app-card {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            perspective: 1000px;
+        }
+        .app-card:hover {
+            border-color: var(--card-hover-border);
+            box-shadow: 0 28px 60px rgba(0,0,0,0.5), 0 0 40px rgba(129,140,248,0.1);
+        }
+        [data-theme="light"] .app-card:hover {
+            box-shadow: 0 16px 40px rgba(0,0,0,0.12), 0 0 20px rgba(94,92,230,0.1);
+        }
+
+        .app-card-thumb {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--glass-border);
+            background: var(--bg2);
+            position: relative;
+        }
+        .app-card-thumb img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            opacity: 0.8;
+            transition: opacity 0.3s, transform 0.5s;
+        }
+        .app-card:hover .app-card-thumb img { opacity: 1; transform: scale(1.06); }
+
+        /* Color tint overlay per app */
+        .app-card-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.25;
+            transition: opacity 0.3s;
+        }
+        .app-card:hover .app-card-thumb::after { opacity: 0.15; }
+
+        .tint-purple::after  { background: linear-gradient(135deg, #818cf8, transparent); }
+        .tint-red::after     { background: linear-gradient(135deg, #f43f5e, transparent); }
+        .tint-green::after   { background: linear-gradient(135deg, #34d399, transparent); }
+        .tint-orange::after  { background: linear-gradient(135deg, #fb923c, transparent); }
+        .tint-blue::after    { background: linear-gradient(135deg, #38bdf8, transparent); }
+        .tint-yellow::after  { background: linear-gradient(135deg, #fbbf24, transparent); }
+        .tint-violet::after  { background: linear-gradient(135deg, #a78bfa, transparent); }
+
+        .app-card-body {
+            padding: 26px 28px 28px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .app-card-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .app-chip {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 100px;
+            letter-spacing: 0.3px;
+        }
+        .chip-game  { background: rgba(244,63,94,0.12);  color: #f43f5e; }
+        .chip-tool  { background: rgba(56,189,248,0.12); color: #38bdf8; }
+        .chip-util  { background: rgba(129,140,248,0.12); color: #818cf8; }
+        .chip-fun   { background: rgba(251,191,36,0.12); color: #fbbf24; }
+
+        .app-card-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            margin-bottom: 6px;
+        }
+        .app-card-intro {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .app-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            word-break: keep-all;
+            flex: 1;
+        }
+        .maker-quote {
+            margin-top: 18px;
+            background: rgba(255,255,255,0.04);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 8px 8px 0;
+            padding: 12px 16px;
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-muted);
+            line-height: 1.65;
+            word-break: keep-all;
+        }
+        [data-theme="light"] .maker-quote {
+            background: rgba(0,0,0,0.03);
+        }
+
+        /* 앱 열기 링크 — 내부 링크 구조 강화 */
+        .app-card-launch {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            opacity: 0.75;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+        .app-card-launch:hover { opacity: 1; transform: translateX(4px); }
+
+        /* ── Outro Card ──────────────────────────────────────── */
+        .outro-section { padding-bottom: 120px; }
+        .outro-card {
+            text-align: center;
+            padding: 72px 40px;
+            background: linear-gradient(135deg, var(--glass-bg), rgba(129,140,248,0.04));
+            border-color: rgba(129,140,248,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .outro-card::before {
+            content: '⚡';
+            position: absolute;
+            font-size: 18rem;
+            opacity: 0.03;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        .outro-card:hover { border-color: rgba(129,140,248,0.4); }
+        .outro-inner { max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+        .outro-card h2 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 40%, #818cf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        [data-theme="light"] .outro-card h2 {
+            background: linear-gradient(135deg, #18181b 40%, #5e5ce6 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        .outro-card p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            line-height: 1.85;
+            margin-bottom: 16px;
+            word-break: keep-all;
+        }
+        .outro-card p strong {
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .signature {
+            margin-top: 40px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--text-main) !important;
+            -webkit-text-fill-color: var(--text-main) !important;
+        }
+
+        /* ── CTA Button ──────────────────────────────────────── */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 36px;
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #5e5ce6, #818cf8);
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            box-shadow: 0 6px 24px rgba(94,92,230,0.35);
+        }
+        .cta-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(94,92,230,0.45); }
+        .cta-btn:active { transform: scale(0.97); }
+        .cta-btn i { width: 18px; height: 18px; }
+
+        /* ── Footer (layout.js 주입 CSS 담당, 여기선 외부 컨테이너만) ── */
+        .footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 18px 28px;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: var(--bg);
+        }
+
+        /* ── Responsive ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .hero { padding: 100px 0 60px; }
+            .hero-sub { font-size: 1rem; }
+            .about-grid { grid-template-columns: 1fr; }
+            .apps-grid { grid-template-columns: 1fr; }
+            .outro-card { padding: 48px 24px; }
+            #spotlight { display: none; }
+            .nav-btn { padding: 6px 10px; font-size: 12px; }
+            .footer-inner-about { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Nav Drawer 오버레이 -->
+<div class="nav-drawer-overlay" id="navDrawerOverlay" onclick="closeNavDrawer()"></div>
+
+<!-- Nav Drawer -->
+<nav class="nav-drawer" id="navDrawer">
+    <div class="nav-drawer-header">
+        <a class="nav-drawer-brand" href="/">
+            <div class="lightning">
+                <svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
+            </div>
+            Vibe Studio
+        </a>
+        <button class="nav-drawer-close" onclick="closeNavDrawer()" aria-label="닫기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"/>
+                <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+        </button>
+    </div>
+    <div class="nav-drawer-body">
+        <a class="nav-drawer-item" href="/">
+            <div class="nav-drawer-item-icon" style="background:rgba(168,85,247,0.15);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+            </div>
+            Home
+        </a>
+        <a class="nav-drawer-item" href="/history">
+            <div class="nav-drawer-item-icon" style="background:rgba(255,159,10,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/>
+                </svg>
+            </div>
+            History
+        </a>
+        <a class="nav-drawer-item" href="/signal" style="color:#fb923c;">
+            <div class="nav-drawer-item-icon" style="background:rgba(251,146,60,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+                </svg>
+            </div>
+            Signal
+        </a>
+        <a class="nav-drawer-item active" href="/about" style="color:#34d399;background:rgba(52,211,153,0.1);">
+            <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+                </svg>
+            </div>
+            Apps
+        </a>
+        <a class="nav-drawer-item" href="/donating">
+            <div class="nav-drawer-item-icon" style="background:rgba(245,158,11,0.15);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>
+            ♥ Support
+        </a>
+        <a class="nav-drawer-item" href="/contact" onclick="closeNavDrawer()">
+            <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+            </div>
+            Contact
+        </a>
+    </div>
+    <div class="nav-drawer-footer">
+        <div class="nav-drawer-footer-brand">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;" fill="currentColor">
+                <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+            </svg>
+            Vibe Studio
+        </div>
+        <div class="nav-drawer-footer-copy">
+            &copy; 2026 Vibe Studio. All rights reserved.<br>
+            Powered by <strong>Prisincera</strong>
+        </div>
+    </div>
+</nav>
+
+<!-- Mouse spotlight -->
+<div id="spotlight"></div>
+
+<!-- Top Navigation -->
+<nav class="top-nav" id="site-nav"></nav>
+
+<!-- ── Hero ─────────────────────────────────────────── -->
+<div class="wrapper">
+    <header class="hero">
+        <div class="hero-badge fade-up">
+            <i data-lucide="layout-grid"></i>
+            Apps by Vibe Studio
+        </div>
+        <h1 class="fade-up" style="transition-delay:.08s">
+            기획자가 AI로 만든<br>웹앱을 만나보세요 🌐
+        </h1>
+        <p class="hero-sub fade-up" style="transition-delay:.16s">
+            전문 개발 지식 없이, AI 바이브 코딩으로 탄생한 웹앱 모음입니다.<br>게임부터 생산성 도구까지 — 지금 바로 사용해보세요.
+        </p>
+
+        <!-- About Cards -->
+        <div class="about-grid">
+            <div class="glass about-card fade-up tilt" style="transition-delay:.2s">
+                <div class="about-card-header">
+                    <div class="about-icon" style="background:rgba(129,140,248,0.12);">🤖</div>
+                    <h3>AI 바이브 코딩</h3>
+                </div>
+                <p>전문 개발 지식 없이 기획자의 상상이 AI와 함께 실제 가동하는 웹앱으로 태어났습니다. 에러 메시지 앞에서도 기획자 특유의 집요함으로 끝까지 파고들어 완성한 코드들입니다.</p>
+            </div>
+            <div class="glass about-card fade-up tilt" style="transition-delay:.28s">
+                <div class="about-card-header">
+                    <div class="about-icon" style="background:rgba(56,189,248,0.12);">🛠️</div>
+                    <h3>게임 &amp; 생산성 도구</h3>
+                </div>
+                <p>칠교놀이, 아케이드 게임부터 PDF 분리기, QR 생성기, 맞춤법 검사까지. PM의 시선으로 실제 업무에서 필요한 기능만을 담은 실용 도구들입니다.</p>
+            </div>
+            <div class="glass about-card fade-up tilt" style="transition-delay:.36s">
+                <div class="about-card-header">
+                    <div class="about-icon" style="background:rgba(52,211,153,0.12);">🚀</div>
+                    <h3>지속적 업데이트</h3>
+                </div>
+                <p>새로운 아이디어가 생길 때마다 앱이 추가됩니다. ⚡ AI 뉴스 큐레이션 서비스 'Signal'은 매일 자동으로 업데이트되는 살아있는 플랫폼의 증거입니다.</p>
+            </div>
+        </div>
+    </header>
+</div>
+
+<!-- ── Apps Section ────────────────────────────────── -->
+<div class="wrapper apps-section">
+    <div class="section-header fade-up">
+        <h2>📁 Vibe Studio Apps</h2>
+        <p>기획자의 시선으로 탄생한 웹 앱들</p>
+    </div>
+
+    <div class="apps-grid">
+
+        <!-- Tangram -->
+        <article class="glass app-card fade-up tilt" data-app-key="tangram">
+            <div class="app-card-thumb tint-purple">
+                <img src="images/apps/app_thumb_tangram_1773668756817.png" alt="Tangram — Vibe Studio 칠교놀이 퍼즐 웹앱 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-game">Game</span>
+                </div>
+                <h3 class="app-card-title">🧩 Tangram</h3>
+                <p class="app-card-intro">드래그 앤 드롭으로 완성하는 두뇌 자극 칠교놀이</p>
+                <p class="app-card-desc">기획서에 '부드러운 조작감'이라고만 적어두던 UI 인터랙션을 직접 구현해 보고 싶었습니다. 유저가 퍼즐을 맞출 때의 매끄러운 경험을 AI와 함께 치열하게 깎아낸 프로젝트입니다.</p>
+                <div class="maker-quote">"퍼즐 조각이 화면에 딱 맞아떨어질 때, 제가 짠 코드도 비로소 하나로 맞춰지는 짜릿한 쾌감을 느꼈습니다!"</div>
+                <a href="apps/tangram/landing.html" class="app-card-launch" aria-label="Tangram 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- Pachinko -->
+        <article class="glass app-card fade-up tilt" data-app-key="pachinko" style="transition-delay:.07s">
+            <div class="app-card-thumb tint-red">
+                <img src="images/apps/app_thumb_pachinko_1773668778914.png" alt="Pachinko — Vibe Studio 아케이드 게임 웹앱 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-game">Game</span>
+                </div>
+                <h3 class="app-card-title">🎰 Pachinko</h3>
+                <p class="app-card-intro">잭팟을 터트려라! 눈과 귀가 즐거운 미니 아케이드</p>
+                <p class="app-card-desc">화려한 애니메이션과 랜덤 확률 로직을 AI로 어디까지 구현할 수 있는지, 웹 프론트엔드의 한계를 테스트해 본 도전적인 결과물입니다.</p>
+                <div class="maker-quote">"화면이 번쩍이는 이펙트를 구현하느라 AI와 밤새워 프롬프트를 돌리며 끈질기게 매달린 녀석이죠."</div>
+                <a href="apps/pachinko/landing.html" class="app-card-launch" aria-label="Pachinko 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- Server Monitor -->
+        <article class="glass app-card fade-up tilt" data-app-key="server" style="transition-delay:.14s">
+            <div class="app-card-thumb tint-green">
+                <img src="images/apps/app_thumb_server_1773668853324.png" alt="Server Monitor — Vibe Studio 실시간 서버 모니터링 대시보드 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-tool">Dashboard</span>
+                </div>
+                <h3 class="app-card-title">🖥️ Server Monitor</h3>
+                <p class="app-card-intro">내 서비스의 심장 박동을 확인하는 실시간 대시보드</p>
+                <p class="app-card-desc">서비스 기획자로서 항상 궁금하고 불안했던 서버 상태. 이제는 개발자에게 묻지 않고, 제가 직접 만든 모니터링 툴로 API를 연동해 실시간으로 확인합니다.</p>
+                <div class="maker-quote">"API 통신 에러라는 거대한 벽에 부딪혔을 때, 기획자의 집요함으로 끝내 해결책을 찾아낸 애착 가는 앱입니다."</div>
+                <a href="apps/server/landing.html" class="app-card-launch" aria-label="Server Monitor 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- PDF Splitter -->
+        <article class="glass app-card fade-up tilt" data-app-key="pdf" style="transition-delay:.21s">
+            <div class="app-card-thumb tint-orange">
+                <img src="images/apps/app_thumb_pdf_1773668939399.png" alt="PDF Splitter — Vibe Studio 무료 PDF 페이지 분리 도구 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-util">Utility</span>
+                </div>
+                <h3 class="app-card-title">📄 PDF Splitter</h3>
+                <p class="app-card-intro">무거운 PDF, 원하는 페이지만 쏙쏙 골라 가볍게 나누기</p>
+                <p class="app-card-desc">실무에서 자주 겪는 불편함에서 출발했습니다. '이런 툴 하나 있으면 편하겠는데?' 하는 PM의 니즈를 즉각적으로 현실화한 실용도 100% 툴입니다.</p>
+                <div class="maker-quote">"웹에서 파일을 쪼개고 처리하는 복잡한 로직을 이해하기 위해 수십 번 에러와 싸워 이겨낸 훈장 같은 결과물입니다."</div>
+                <a href="apps/pdf/landing.html" class="app-card-launch" aria-label="PDF Splitter 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- QR Master -->
+        <article class="glass app-card fade-up tilt" data-app-key="qr" style="transition-delay:.28s">
+            <div class="app-card-thumb tint-blue">
+                <img src="images/apps/app_thumb_qr_1773668975618.png" alt="QR Master — Vibe Studio 무료 QR코드 생성기 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-util">Utility</span>
+                </div>
+                <h3 class="app-card-title">🔗 QR Master</h3>
+                <p class="app-card-intro">링크 하나로 뚝딱! 세상에서 가장 쉬운 QR코드 생성기</p>
+                <p class="app-card-desc">업무를 하며 늘 필요했던 QR 생성 기능. 복잡한 외부 툴 대신, 기획자의 시선으로 불필요한 건 덜어내고 가장 직관적이고 깔끔한 UX로 직접 만들었습니다.</p>
+                <div class="maker-quote">"사용자의 편의성만 남긴 심플함! 코딩을 몰라도 AI가 있으면 이렇게 실용적인 툴을 뚝딱 만들 수 있습니다."</div>
+                <a href="apps/qr/landing.html" class="app-card-launch" aria-label="QR Master 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- Clap Meter -->
+        <article class="glass app-card fade-up tilt" data-app-key="meter" style="transition-delay:.35s">
+            <div class="app-card-thumb tint-yellow">
+                <img src="images/apps/app_thumb_meter_1773668989999.png" alt="Clap Meter — Vibe Studio 마이크 실시간 소음 측정 앱 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-fun">Fun</span>
+                </div>
+                <h3 class="app-card-title">👏 Clap Meter</h3>
+                <p class="app-card-intro">당신의 호응도는 몇 점? 마이크로 즐기는 실시간 소음 측정</p>
+                <p class="app-card-desc">디바이스의 하드웨어(마이크)를 웹에서 직접 제어해 보는 새로운 도전! 행사나 레크리에이션에서 재미있게 쓸 수 있는 아이디어를 빠르게 구현해 보았습니다.</p>
+                <div class="maker-quote">"마이크 권한 설정 에러를 뚫고 첫 소음 데시벨 수치가 화면에 떴을 때, 저 혼자 기립 박수를 쳤답니다."</div>
+                <a href="apps/meter/landing.html" class="app-card-launch" aria-label="Clap Meter 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+        <!-- Spell Check -->
+        <article class="glass app-card fade-up tilt" data-app-key="spell" style="transition-delay:.42s">
+            <div class="app-card-thumb tint-violet">
+                <img src="images/apps/app_thumb_spell_1773669023209.png" alt="Spell Check — Vibe Studio 무료 한국어 맞춤법 검사기 스크린샷" loading="lazy" width="320" height="200">
+            </div>
+            <div class="app-card-body">
+                <div class="app-card-tag">
+                    <span class="app-chip chip-util">Utility</span>
+                </div>
+                <h3 class="app-card-title">✍️ Spell Check</h3>
+                <p class="app-card-intro">텍스트의 완성도를 높여주는 나만의 꼼꼼한 교정 비서</p>
+                <p class="app-card-desc">텍스트를 많이 다루는 기획자에게 필수인 맞춤법 검사. 외부 데이터를 끌어와 화면에 결과를 뿌려주는 '데이터 처리'의 기본기를 완벽하게 학습한 뜻깊은 프로젝트입니다.</p>
+                <div class="maker-quote">"수많은 텍스트 오류와 씨름한 덕분에, 이제 제 기획서도 바이브 코딩 실력도 한층 더 정교해졌습니다."</div>
+                <a href="apps/spell/landing.html" class="app-card-launch" aria-label="Spell Check 앱 열기">앱 열기 →</a>
+            </div>
+        </article>
+
+    </div>
+</div>
+
+<!-- ── Outro ───────────────────────────────────────── -->
+<div class="wrapper outro-section">
+    <div class="glass outro-card fade-up tilt">
+        <div class="outro-inner">
+            <h2>새로운 앱이 계속 추가됩니다 🚀</h2>
+            <p>Vibe Studio는 완성된 포트폴리오가 아닌, <strong>매일 새 아이디어가 현실이 되는 살아있는 플랫폼</strong>입니다.</p>
+            <p>기획자의 시선으로 일상의 문제를 풀고, 유쾌한 상상을 현실로 만드는 새로운 웹앱들이 계속해서 추가될 예정입니다. 다음 어떤 앱이 궁금하시면 홈으로 돌아가 확인해주세요.</p>
+            <p class="signature">다음 웹앱도 기대해주세요!</p>
+            <a class="cta-btn" href="/">
+                <i data-lucide="layout-grid"></i>
+                Vibe Studio 홈으로
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="site-footer"></footer>
+
+<script>
+    /* ── DOMContentLoaded 후 초기화 ──────────────── */
+    document.addEventListener('DOMContentLoaded', function() {
+
+        /* 1. 테마 초기 아이콘 설정 */
+        var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        var themeIcon = document.getElementById('themeIcon');
+        if (themeIcon) {
+            themeIcon.setAttribute('data-lucide', currentTheme === 'dark' ? 'sun' : 'moon');
+        }
+
+        /* 2. Lucide 아이콘 렌더링 */
+        lucide.createIcons();
+
+        /* 3. Mouse spotlight */
+        const spotlight = document.getElementById('spotlight');
+        window.addEventListener('mousemove', e => {
+            spotlight.style.left = e.clientX + 'px';
+            spotlight.style.top  = e.clientY + 'px';
+        });
+
+        /* 4. IntersectionObserver fade-up */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    io.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+        /* 5. Card 3D tilt */
+        document.querySelectorAll('.tilt').forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const r = el.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width  - 0.5;
+                const y = (e.clientY - r.top)  / r.height - 0.5;
+                el.style.transition = 'transform 0.08s ease';
+                el.style.transform = `perspective(900px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale3d(1.015,1.015,1.015)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                el.style.transition = 'transform 0.5s ease, border-color 0.25s, box-shadow 0.25s';
+                el.style.transform  = 'perspective(900px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+            });
+        });
+
+
+        /* 7. Admin 앱 설정 연동: OFF 앱은 About 카드도 숨김 */
+        async function applyAboutAppSettings() {
+            try {
+                const res  = await fetch('admin.php?action=app_settings_get', { cache: 'no-store' });
+                const data = await res.json();
+                if (!data.success || !data.settings || !data.settings.length) return;
+                data.settings.forEach(s => {
+                    if (parseInt(s.enabled) === 0) {
+                        // article.app-card[data-app-key] 숨김
+                        const card = document.querySelector(`.app-card[data-app-key="${s.app_key}"]`);
+                        if (card) card.style.display = 'none';
+                    }
+                });
+                // 남은 visible 카드가 0개인 경우 → 앱 섹션 전체(헤더 포함) 숨김
+                const allCards = document.querySelectorAll('.apps-grid .app-card');
+                const visibleCards = Array.from(allCards).filter(c => c.style.display !== 'none');
+                if (visibleCards.length === 0) {
+                    const section = document.querySelector('.apps-section');
+                    if (section) section.style.display = 'none';
+                }
+            } catch (e) { /* 설정 로드 실패 시 모두 표시 유지 */ }
+        }
+        applyAboutAppSettings();
+    });
+
+    /* ── Theme toggle (전역 함수) ─────────────────── */
+    function toggleTheme() {
+        const html = document.documentElement;
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        if (isDark) {
+            html.setAttribute('data-theme', 'light');
+            localStorage.setItem('vibe-theme', 'light');
+            document.getElementById('themeIcon').setAttribute('data-lucide', 'moon');
+        } else {
+            html.setAttribute('data-theme', 'dark');
+            localStorage.setItem('vibe-theme', 'dark');
+            document.getElementById('themeIcon').setAttribute('data-lucide', 'sun');
+        }
+        lucide.createIcons();
+    }
+
+    function contactAlert() {
+        alert('✏️ Contact\n\n아직 준비 중입니다!\n빠른 시일 내에 연락처 페이지를 오픈할게요 :)');
+    }
+
+    /* ── Nav Drawer ── */
+    function openNavDrawer() {
+        document.getElementById('navDrawer').classList.add('open');
+        document.getElementById('navDrawerOverlay').classList.add('open');
+        document.getElementById('hamburgerBtn').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDrawer() {
+        document.getElementById('navDrawer').classList.remove('open');
+        document.getElementById('navDrawerOverlay').classList.remove('open');
+        document.getElementById('hamburgerBtn').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeNavDrawer();
+    });
+</script>
+<script src="js/layout.js?v=20260331"></script>
+</body>
+</html>

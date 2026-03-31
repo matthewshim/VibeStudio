@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>후원 완료 | Vibe Studio</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='100%25' stop-color='%23d946ef'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='25' fill='url(%23g)'/%3E%3Ctext x='50' y='74' font-size='65' font-family='-apple-system, sans-serif' font-weight='900' fill='white' text-anchor='middle'%3E%3C/text%3E%3Cpath%20fill-rule%3D%27evenodd%27%20fill%3D%27white%27%20d%3D%27M50%2C32%20C55%2C25%2065%2C22%2076%2C25%20C87%2C28%2092%2C38%2091%2C47%20C90%2C56%2083%2C64%2071%2C66%20C61%2C67.5%2054%2C61%2050%2C57%20C46%2C61%2039%2C67.5%2029%2C66%20C17%2C64%2010%2C56%209%2C47%20C8%2C38%2013%2C28%2024%2C25%20C35%2C22%2045%2C25%2050%2C32%20Z%20M29.5%2C38%20C35%2C35%2041%2C39%2041%2C47%20C41%2C55%2035%2C59%2029.5%2C57.5%20C24%2C56%2018%2C51.5%2018%2C47%20C18%2C42.5%2024%2C39.5%2029.5%2C38%20Z%20M70.5%2C38%20C76%2C39.5%2082%2C42.5%2082%2C47%20C82%2C51.5%2076%2C56%2070.5%2C57.5%20C65%2C59%2059%2C55%2059%2C47%20C59%2C39%2065%2C35%2070.5%2C38%20Z%27%2F%3E%3C%2Fsvg%3E">
+    <script>(function(){var s=localStorage.getItem('vibe-theme');document.documentElement.setAttribute('data-theme',s||'dark');})();</script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #09090b; --bg2: #111114;
+            --text-main: #f4f4f5; --text-muted: rgba(255,255,255,0.5);
+            --glass-bg: rgba(24,24,27,0.72); --glass-border: rgba(255,255,255,0.09);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            --accent: #818cf8; --accent-donate: #f59e0b;
+        }
+        [data-theme="light"] {
+            --bg: #f8f8fc; --bg2: #f0f0f8;
+            --text-main: #18181b; --text-muted: #71717a;
+            --glass-bg: rgba(255,255,255,0.8); --glass-border: rgba(0,0,0,0.08);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            --accent: #5e5ce6; --accent-donate: #d97706;
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: var(--bg); color: var(--text-main);
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: 24px;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px; pointer-events: none; z-index: 0;
+        }
+        [data-theme="light"] body::before {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+        }
+        .card {
+            position: relative; z-index: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px; box-shadow: var(--glass-shadow);
+            padding: 52px 44px; max-width: 480px; width: 100%;
+            text-align: center;
+            animation: fadeInUp 0.7s cubic-bezier(0.2,0.8,0.2,1) both;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(32px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .icon-wrap {
+            width: 96px; height: 96px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 28px; position: relative;
+        }
+        .icon-wrap.success {
+            background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(251,191,36,0.1));
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .icon-wrap.cancel  { background: rgba(113,113,122,0.15); }
+        .icon-wrap.error   { background: rgba(239,68,68,0.12); }
+        .icon-wrap.loading { background: rgba(129,140,248,0.12); }
+        @keyframes pulse {
+            0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245,158,11,0.3); }
+            50%      { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(245,158,11,0); }
+        }
+        .icon-wrap svg { width: 44px; height: 44px; }
+        .particle {
+            position: absolute; font-size: 1.2rem;
+            animation: float-up 2s ease-out forwards; pointer-events: none;
+        }
+        @keyframes float-up {
+            0%   { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-80px) scale(0.5); }
+        }
+        h1 {
+            font-size: clamp(1.5rem, 4vw, 2.1rem); font-weight: 900;
+            letter-spacing: -0.04em; margin-bottom: 10px;
+        }
+        h1.success {
+            background: linear-gradient(135deg, #fff 30%, #fbbf24 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        [data-theme="light"] h1.success {
+            background: linear-gradient(135deg, #18181b 30%, #d97706 100%);
+            -webkit-background-clip: text; background-clip: text;
+        }
+        h1.cancel { color: var(--text-muted); }
+        .sub {
+            font-size: 0.95rem; color: var(--text-muted);
+            line-height: 1.8; margin-bottom: 28px; word-break: keep-all;
+        }
+        .sub strong { color: var(--accent-donate); -webkit-text-fill-color: var(--accent-donate); }
+        .amount-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3);
+            border-radius: 100px; padding: 8px 20px;
+            font-size: 1.1rem; font-weight: 900;
+            color: var(--accent-donate); -webkit-text-fill-color: var(--accent-donate);
+            letter-spacing: -0.03em; margin-bottom: 12px;
+        }
+        .pay-detail {
+            background: rgba(255,255,255,0.04); border: 1px solid var(--glass-border);
+            border-radius: 12px; padding: 14px 18px; margin-bottom: 24px;
+            text-align: left; font-size: 0.82rem; color: var(--text-muted);
+            line-height: 1.9;
+        }
+        .pay-detail span { color: var(--text-main); font-weight: 600; }
+        .verify-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            font-size: 11px; font-weight: 700; padding: 3px 10px;
+            border-radius: 100px; margin-bottom: 20px;
+        }
+        .verify-badge.checking  { background: rgba(129,140,248,0.1); color: #818cf8; }
+        .verify-badge.confirmed { background: rgba(52,211,153,0.1);  color: #34d399; }
+        .verify-badge.pending   { background: rgba(251,191,36,0.1);  color: #fbbf24; }
+        .verify-badge.failed    { background: rgba(239,68,68,0.1);   color: #ef4444; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; }
+        .btn-primary {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #f59e0b, #fbbf24);
+            color: #1c1917; font-size: 0.95rem; font-weight: 800;
+            border: none; border-radius: 12px; cursor: pointer; text-decoration: none;
+            transition: transform .15s, box-shadow .15s;
+            box-shadow: 0 6px 20px rgba(245,158,11,0.35);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(245,158,11,0.45); }
+        .btn-secondary {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            padding: 13px 24px; background: var(--glass-bg);
+            border: 1px solid var(--glass-border); color: var(--text-muted);
+            font-size: 0.9rem; font-weight: 600; border-radius: 12px;
+            cursor: pointer; text-decoration: none;
+            transition: border-color .2s, color .2s;
+        }
+        .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+        .share-note { font-size: 11.5px; color: var(--text-muted); margin-top: 16px; opacity: .7; }
+        .donor-card {
+            position: relative; z-index: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px; box-shadow: var(--glass-shadow);
+            padding: 28px 32px; max-width: 480px; width: 100%;
+            margin-top: 16px;
+            opacity: 0; transform: translateY(16px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .donor-card.visible { opacity: 1; transform: translateY(0); }
+        .donor-card-title {
+            font-size: 0.82rem; font-weight: 800; letter-spacing: .04em;
+            color: var(--text-main); margin-bottom: 4px;
+        }
+        .donor-card-desc {
+            font-size: 0.78rem; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6;
+        }
+        .form-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
+        .form-field label {
+            font-size: 0.75rem; font-weight: 700;
+            color: var(--text-muted); letter-spacing: .04em;
+        }
+        .form-field input[type="text"],
+        .form-field textarea {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px; padding: 10px 14px;
+            font-size: 0.88rem; color: var(--text-main);
+            font-family: inherit; width: 100%;
+            transition: border-color .2s;
+            resize: none;
+        }
+        .form-field input[type="text"]:focus,
+        .form-field textarea:focus { outline: none; border-color: var(--accent-donate); }
+        .form-field textarea { height: 68px; }
+        .check-row {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.85rem; color: var(--text-muted);
+            cursor: pointer; margin-bottom: 16px;
+        }
+        .check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent-donate); cursor: pointer; }
+        .form-result {
+            text-align: center; padding: 14px;
+            border-radius: 12px; font-size: 0.88rem; font-weight: 600;
+        }
+        .form-result.ok  { background: rgba(52,211,153,0.1); color: #34d399; }
+        .form-result.err { background: rgba(239,68,68,0.1);  color: #ef4444; }
+        .spinner {
+            width: 36px; height: 36px;
+            border: 3px solid rgba(129,140,248,0.2);
+            border-top-color: #818cf8;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <div class="icon-wrap loading" id="iconWrap">
+        <div class="spinner"></div>
+    </div>
+    <h1 id="pageTitle" style="color:var(--text-muted)">결제 확인 중...</h1>
+    <div class="amount-badge" id="amountBadge" style="display:none">☕ 소중한 후원</div>
+    <div class="verify-badge checking" id="verifyBadge" style="display:none">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        결제 검증 중...
+    </div>
+    <div class="pay-detail" id="payDetail" style="display:none"></div>
+    <p class="sub" id="pageMsg"></p>
+    <div class="btn-group" id="btnGroup" style="display:none"></div>
+    <p class="share-note" id="shareNote" style="display:none">
+        이 페이지를 공유해서 Vibe Studio를 더 많이 알려주세요 🙌
+    </p>
+</div>
+
+<div class="donor-card" id="donorCard" style="display:none">
+    <p class="donor-card-title">💛 후원자 명단 등록</p>
+    <p class="donor-card-desc">이름과 응원 메시지를 남겨주세요!<br>남기시면 <a href="/donating" style="color:var(--accent-donate);text-decoration:none;font-weight:700;"><strong>후원자 명단</strong></a>에 표시됩니다. 확인된 결제만 등록 가능합니다.</p>
+    <form id="donorForm" onsubmit="return false;">
+        <div class="form-field">
+            <label for="formName">이름 / 닉네임 <span style="color:var(--accent-donate);font-size:11px;vertical-align:middle;">✱ 필수</span></label>
+            <input type="text" id="formName" maxlength="50" placeholder="후원자 명단에 표시될 이름을 입력해주세요" autocomplete="nickname">
+        </div>
+        <div class="form-field">
+            <label for="formMsg">응원 메시지 <span style="color:var(--accent-donate);font-size:11px;vertical-align:middle;">✱ 필수</span></label>
+            <textarea id="formMsg" maxlength="200" placeholder="Vibe Studio에 전하고 싶은 한마디를 남겨주세요!"></textarea>
+        </div>
+        <button type="button" class="btn-primary" id="donorSubmitBtn" onclick="submitDonorInfo()">
+            명단 등록하기
+        </button>
+    </form>
+    <div id="donorFormResult" style="display:none;" class="form-result"></div>
+</div>
+
+<script>
+(function () {
+    // ── 1. PayApp redirecturl 파라미터 파싱 ──────────────────────
+    // PayApp JS API에서 redirect=opener 설정 시 부모창이 redirecturl로 이동하며
+    // 아래 파라미터들이 URL querystring으로 전달됩니다.
+    //
+    // pay_state 값:
+    //   4  = 결제완료 (JS API redirect)
+    //   8,16,31 = 요청취소
+    //   9,64    = 승인취소
+    //  (feedbackurl로 오는 pay_state와 동일)
+    var params    = new URLSearchParams(location.search);
+    var pay_state = params.get('pay_state') || '';
+    var price     = parseInt(params.get('price') || params.get('pay_total') || '0', 10);
+    var mul_no    = params.get('mul_no')    || '';   // PayApp 결제요청번호 (주요 식별자)
+    var order_num = mul_no || params.get('orderid') || params.get('ordernum') || '';
+    var pay_type  = params.get('pay_type')  || '';
+    var reqdate   = params.get('reqdate')   || params.get('pay_date') || '';
+    var payurl    = params.get('payurl')    || '';
+    // PayApp이 redirecturl로 var1(클라이언트 토큰)을 돌려줌 — 새 탭/팝업 모두 대응
+    var url_var1  = params.get('var1')      || '';
+
+    // pay_type 숫자 → 한글 매핑 (PayApp feedbackurl과 동일한 코드)
+    var PAY_TYPE_MAP = {
+        '1':'신용카드','2':'휴대폰결제','4':'대면결제','6':'계좌이체',
+        '7':'가상계좌','15':'카카오페이','16':'네이버페이','21':'스마일페이',
+        '22':'위챗페이','23':'애플페이','24':'내통장결제',
+        // JS API 문자열 형태도 대응
+        'card':'신용카드','kakaopay':'카카오페이','naverpay':'네이버페이',
+        'applepay':'애플페이','phone':'휴대폰결제'
+    };
+
+    // ── 2. UI 요소 참조 ──────────────────────────────────────────
+    var iconWrap   = document.getElementById('iconWrap');
+    var pageTitle  = document.getElementById('pageTitle');
+    var amtBadge   = document.getElementById('amountBadge');
+    var verifyBadg = document.getElementById('verifyBadge');
+    var payDetail  = document.getElementById('payDetail');
+    var pageMsg    = document.getElementById('pageMsg');
+    var btnGroup   = document.getElementById('btnGroup');
+    var shareNote  = document.getElementById('shareNote');
+
+    // ── 3. 헬퍼 ─────────────────────────────────────────────────
+    function amountEmoji(amt) {
+        if (amt >= 10000) return '⭐';
+        if (amt >= 5000)  return '🚀';
+        if (amt >= 3000)  return '💙';
+        return '☕';
+    }
+    function payTypeKo(t) {
+        return PAY_TYPE_MAP[String(t)] || t || '—';
+    }
+    function esc(s) {
+        return String(s)
+            .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+            .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── 4. 결제 성공 화면 ────────────────────────────────────────
+    // pay_state=4: PayApp JS API redirect=opener 사용 시 결제완료 값
+    function showSuccess() {
+        // sessionStorage 즉시 클리어 — 재방문 시 가짜 성공 방지
+        try {
+            sessionStorage.removeItem('vibe_pay_price');
+            sessionStorage.removeItem('vibe_pay_start');
+        } catch(e) {}
+        iconWrap.className = 'icon-wrap success';
+        iconWrap.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="#f59e0b" stroke="none">' +
+            '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06' +
+            'a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06' +
+            'a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+
+        pageTitle.className = 'success';
+        pageTitle.innerHTML = '후원해 주셔서<br>감사합니다! 🎉';
+
+        if (price > 0) {
+            amtBadge.textContent = amountEmoji(price) + ' ' + price.toLocaleString() + '원 후원 완료';
+            amtBadge.style.display = 'inline-flex';
+        }
+
+        var details = [];
+        if (price > 0) details.push('금액: <span>' + price.toLocaleString() + '원</span>');
+        if (pay_type)  details.push('수단: <span>' + payTypeKo(pay_type) + '</span>');
+        if (order_num) details.push('주문번호: <span>' + esc(order_num) + '</span>');
+        if (reqdate)   details.push('결제시각: <span>' + esc(reqdate) + '</span>');
+        if (details.length > 0) {
+            payDetail.innerHTML = details.join('<br>');
+            payDetail.style.display = 'block';
+        }
+
+        pageMsg.innerHTML =
+            '<strong>Vibe Studio</strong>를 응원해 주셔서 진심으로 감사드립니다.<br>' +
+            '여러분의 후원이 더 나은 서비스를 만드는<br>가장 큰 힘이 됩니다. 💛';
+
+        btnGroup.innerHTML =
+            '<a class="btn-primary" href="/donating">' +
+            '<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
+            '추가 후원하기</a>' +
+            '<a class="btn-secondary" href="/">' +
+            '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>' +
+            'Vibe Studio 홈으로</a>';
+
+        btnGroup.style.display = 'flex';
+        shareNote.style.display = 'block';
+
+        // 서버 이중 검증 → 후원자 명단 등록 폼 표시
+        if (order_num) {
+            verifyBadg.style.display = 'inline-flex';
+            verifyWithServer(order_num);
+        } else {
+            // mul_no 없이 성공한 경우도 폼 표시 (웹훅으로 기록은 됨)
+            showDonorForm('');
+        }
+
+        startParticles();
+    }
+
+    // ── 5. 결제 취소 / 실패 화면 ─────────────────────────────────
+    // pay_state: 8,16,31=요청취소 / 9,64=승인취소
+    function showCancelled() {
+        // 취소 시 sessionStorage 정리 — 재방문 시 가짜 성공 방지
+        try {
+            sessionStorage.removeItem('vibe_pay_price');
+            sessionStorage.removeItem('vibe_pay_start');
+        } catch(e) {}
+        iconWrap.className = 'icon-wrap cancel';
+        iconWrap.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.8">' +
+            '<circle cx="12" cy="12" r="10"/>' +
+            '<path d="M15 9l-6 6M9 9l6 6"/></svg>';
+
+        pageTitle.className = '';
+        pageTitle.style.color = 'var(--text-muted)';
+        pageTitle.textContent = '결제가 취소되었습니다';
+
+        pageMsg.innerHTML =
+            '결제 창을 닫거나 결제를 취소하셨습니다.<br>' +
+            '언제든지 다시 시도하실 수 있습니다. 💛';
+
+        btnGroup.innerHTML =
+            '<a class="btn-primary" href="/donating">다시 후원하기</a>' +
+            '<a class="btn-secondary" href="/">Vibe Studio 홈으로</a>';
+        btnGroup.style.display = 'flex';
+    }
+
+    // ── 6. 결제 진행 중 화면 (pay_state 없음) ──────────────────
+    // PayApp이 파라미터 없이(또는 pay_state 없이) redirecturl로 이동 → 이 화면 표시
+    //
+    // 폴링 우선순위:
+    //   ① URL에 mul_no 있음  → poll?mul_no=XXX 로 3초마다 조회
+    //   ② sessionStorage에 price+since 있음 → poll?price=XXX&since=YYY 로 3초마다 조회
+    //   ③ 둘 다 없음 → 15초 후 돌아가기 버튼 노출
+    //
+    // NOTE: PayApp Lite SDK는 var1을 feedbackurl로 전달하지 않음 (실서버 로그 확인)
+    //       토큰(clt_token) 기반 폴링은 실제로 동작하지 않으므로 사용하지 않음
+    function showNoPayment() {
+        iconWrap.className = 'icon-wrap loading';
+        iconWrap.innerHTML = '<div class="spinner"></div>';
+
+        pageTitle.className = '';
+        pageTitle.style.color = 'var(--accent-donate)';
+        pageTitle.innerHTML = '결제가 진행 중이에요 <span style="letter-spacing:2px;">···</span>';
+
+        pageMsg.innerHTML =
+            '결제 창에서 <strong>꼼꼼히 확인</strong>하고 계시는 거죠? 🔐<br>' +
+            '완료되면 이 화면이 자동으로 바뀝니다.<br>' +
+            '<span style="font-size:0.82rem;opacity:.6;">창을 닫지 말고 잠시만 기다려 주세요.</span>';
+
+        btnGroup.innerHTML =
+            '<a class="btn-secondary" href="/donating" id="returnBtn" style="display:none">' +
+            '돌아가서 다시 시도하기</a>';
+        btnGroup.style.display = 'flex';
+
+        // ── 공통: 폴링 성공 시 처리 ──────────────────────────────────
+        function onPollFound(d, _interval) {
+            if (_interval) clearInterval(_interval);
+            try {
+                sessionStorage.removeItem('vibe_pay_price');
+                sessionStorage.removeItem('vibe_pay_start');
+            } catch(e) {}
+            if (d.order_num) order_num = d.order_num;
+            if (d.amount)    price     = d.amount;
+            if (d.pay_type)  pay_type  = d.pay_type;
+            showSuccess();
+        }
+
+        // ── ① URL에 mul_no 있으면 poll?mul_no=XXX 로 3초마다 조회 ───
+        // PayApp이 redirecturl에 mul_no를 포함해서 보내주는 경우
+        if (order_num) {
+            var _mCount = 0;
+            var _mInterval = setInterval(function() {
+                _mCount++;
+                fetch('/donate_webhook.php?action=poll&mul_no=' + encodeURIComponent(order_num))
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) {
+                        if (d.found && d.completed) {
+                            // status='completed' (pay_state=4 웹훅 수신 완료) → 성공
+                            onPollFound(d, _mInterval);
+                        } else if (d.found && !d.completed) {
+                            // status='pending' (pay_state=1 수신, 아직 결제 진행 중) → 계속 대기
+                            // 아무것도 안 함 (폴링 유지)
+                        } else if (_mCount >= 40) {
+                            clearInterval(_mInterval);
+                            var rb = document.getElementById('returnBtn');
+                            if (rb) rb.style.display = 'flex';
+                            pageMsg.innerHTML += '<br><span style="font-size:0.8rem;color:var(--text-muted);opacity:.7;">결제가 완료되지 않은 것 같습니다.</span>';
+                        }
+                    }).catch(function() {});
+            }, 3000);
+            return;
+        }
+
+        // ── ② sessionStorage의 price+since로 3초마다 폴링 (주 경로) ─
+        // donating.html이 PayApp.payrequest() 호출 직전에 저장한 값을 사용
+        // 서버는 price + 시작시각 ±여유 범위로 해당 결제 건을 찾아 반환
+        var _payPrice = 0, _payStart = 0;
+        try {
+            _payPrice = parseInt(sessionStorage.getItem('vibe_pay_price') || '0', 10);
+            _payStart = parseInt(sessionStorage.getItem('vibe_pay_start') || '0', 10);
+        } catch(e) {}
+
+        // ※ 최신성 검증: 5분(300,000ms) 이상 된 데이터는 이전 결제 잔재로 간주 → 즈시 폐기
+        //   (PayApp 실제 결제 소요: ~26초, 5분 초과 = 이전 세션 데이터)
+        var _now = Date.now();
+        if (_payStart > 0 && (_now - _payStart) > 300000) {
+            _payPrice = 0;
+            _payStart = 0;
+            try {
+                sessionStorage.removeItem('vibe_pay_price');
+                sessionStorage.removeItem('vibe_pay_start');
+            } catch(e) {}
+        }
+
+        if (_payPrice >= 1000 && _payStart > 0) {
+            var _pCount = 0;
+            var _pInterval = setInterval(function() {
+                _pCount++;
+                var url = '/donate_webhook.php?action=poll'
+                        + '&price=' + _payPrice
+                        + '&since=' + _payStart;
+                fetch(url)
+                    .then(function(r) { return r.json(); })
+                    .then(function(d) {
+                        if (d.found && d.completed) {
+                            // status='completed' (pay_state=4 웹훅 수신 완료) → 성공
+                            onPollFound(d, _pInterval);
+                        } else if (d.found && !d.completed) {
+                            // status='pending' (pay_state=1, 아직 결제 진행 중) → 계속 대기
+                            // 아무것도 안 함 (폴링 유지)
+                        } else if (_pCount >= 40) {
+                            clearInterval(_pInterval);
+                            var rb = document.getElementById('returnBtn');
+                            if (rb) rb.style.display = 'flex';
+                            pageMsg.innerHTML += '<br><span style="font-size:0.8rem;color:var(--text-muted);opacity:.7;">결제가 완료되지 않은 것 같습니다.</span>';
+                        }
+                    }).catch(function() {});
+            }, 3000);
+            return;
+        }
+
+        // ── ③ 의존할 정보 없음: 15초 후 돌아가기 버튼 노출 ─────────
+        setTimeout(function() {
+            var rb = document.getElementById('returnBtn');
+            if (rb) {
+                rb.style.display = 'flex';
+                pageMsg.innerHTML += '<br><span style="font-size:0.8rem;color:var(--text-muted);opacity:.7;">결제를 완료하지 않으셨나요?</span>';
+            }
+        }, 15000);
+    }
+
+    // ── 7. 서버 이중 검증 ────────────────────────────────────────
+    function verifyWithServer(orderNum) {
+        function onVerified() {
+            verifyBadg.className = 'verify-badge confirmed';
+            verifyBadg.innerHTML =
+                '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' +
+                '결제 서버 검증 완료';
+            showDonorForm(orderNum);
+        }
+        fetch('/donate_webhook.php?action=verify&order_num=' + encodeURIComponent(orderNum))
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (data.success && data.verified) {
+                    onVerified();
+                } else {
+                    verifyBadg.className = 'verify-badge pending';
+                    verifyBadg.innerHTML =
+                        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>' +
+                        '결제 처리 중...';
+                    // 3초 후 재시도 (feedbackurl이 약간 늦을 수 있음)
+                    setTimeout(function() {
+                        fetch('/donate_webhook.php?action=verify&order_num=' + encodeURIComponent(orderNum))
+                            .then(function(r) { return r.json(); })
+                            .then(function(d) {
+                                if (d.success && d.verified) onVerified();
+                                else showDonorForm(orderNum);
+                            }).catch(function() { showDonorForm(orderNum); });
+                    }, 3000);
+                }
+            })
+            .catch(function() {
+                verifyBadg.className = 'verify-badge pending';
+                verifyBadg.innerHTML = '⚠ 검증 서버 연결 실패';
+                showDonorForm(orderNum);
+            });
+    }
+
+    // ── 8. 후원자 명단 등록 폼 표시 ──────────────────────────────
+    function showDonorForm(orderNum) {
+        var card = document.getElementById('donorCard');
+        if (!card) return;
+        card.style.display = 'block';
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() { card.classList.add('visible'); });
+        });
+        window._donorOrderNum = orderNum;
+    }
+
+    // ── 9. 후원자 정보 제출 ──────────────────────────────────────
+    window.submitDonorInfo = function() {
+        var orderNum  = window._donorOrderNum || order_num;
+        var donorName = (document.getElementById('formName').value || '').trim();
+        var msg       = (document.getElementById('formMsg').value  || '').trim();
+        var btn       = document.getElementById('donorSubmitBtn');
+        var result    = document.getElementById('donorFormResult');
+
+        // ── 필수 값 검증 ─────────────────────────────────────────
+        var wittyNameMsgs = [
+            '🙈 이름이 없으면 명단에 "유령"으로 나올 수도 있어요 — 이름을 알려주세요!',
+            '👀 혹시 이름이 너무 멋있어서 쓰기 쑥스러우신 건가요? 😄 꼭 입력해주세요!',
+            '✏️ 이름/닉네임이 비어있네요! 명단에서 찾을 수 있게 남겨주세요 😊',
+        ];
+        var wittyMsgMsgs = [
+            '💬 응원 메시지 한 줄이 저희에겐 큰 힘이 돼요! 꼭 남겨주세요 💛',
+            '🤫 이렇게 조용히 떠나시는 건 너무해요 — 한마디만 남겨주세요 😆',
+            '✍️ 응원 메시지를 입력해주세요. 칭찬도, 격려도, 뭐든 환영이에요! 🙌',
+        ];
+        function randMsg(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        if (!donorName) {
+            alert(randMsg(wittyNameMsgs));
+            document.getElementById('formName').focus();
+            return;
+        }
+        if (!msg) {
+            alert(randMsg(wittyMsgMsgs));
+            document.getElementById('formMsg').focus();
+            return;
+        }
+
+        if (!orderNum) {
+            result.className = 'form-result err';
+            result.textContent = '⚠ 등록 가능한 결제 정보가 없습니다.';
+            result.style.display = 'block';
+            return;
+        }
+        btn.textContent = '등록 중...';
+        btn.disabled = true;
+
+        var fd = new FormData();
+        fd.append('action',     'update_donor_info');
+        fd.append('order_num',  orderNum);
+        fd.append('donor_name', donorName);
+        fd.append('message',    msg);
+        fd.append('is_public',  '1');  // 명단 등록 시 기본 공개 — 관리자가 어드민 패널에서 비공개 전환 가능
+
+        fetch('/donate_webhook.php', { method: 'POST', body: fd })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                document.getElementById('donorForm').style.display = 'none';
+                result.style.display = 'block';
+                if (data.success) {
+                    result.className = 'form-result ok';
+                    result.innerHTML = '✅ 응원 메시지가 등록되었습니다! 감사합니다 💛<br><span style="font-size:0.78rem;opacity:.7;"><a href="/donating" style="color:var(--accent-donate);">후원자 명단 보기 →</a></span>';
+                } else {
+                    result.className = 'form-result err';
+                    result.textContent = '⚠ ' + (data.message || '등록 중 오류가 발생했습니다.');
+                    btn.style.display = 'block';
+                    btn.textContent = '다시 시도';
+                    btn.disabled = false;
+                }
+            })
+            .catch(function() {
+                result.className = 'form-result err';
+                result.textContent = '⚠ 네트워크 오류입니다. 다시 시도해주세요.';
+                result.style.display = 'block';
+                btn.textContent = '다시 시도';
+                btn.disabled = false;
+            });
+    };
+
+    // ── 10. 파티클 이펙트 ────────────────────────────────────────
+    var particleEmojis = ['🎉','⭐','💛','✨','🎊','💪'];
+    function spawnParticle() {
+        var wrap = document.getElementById('iconWrap');
+        var p = document.createElement('span');
+        p.className = 'particle';
+        p.textContent = particleEmojis[Math.floor(Math.random() * particleEmojis.length)];
+        p.style.left = (Math.random() * 80 - 20) + 'px';
+        p.style.top  = (Math.random() * 20 + 20) + 'px';
+        p.style.animationDelay = (Math.random() * 0.5) + 's';
+        wrap.appendChild(p);
+        setTimeout(function() { p.remove(); }, 2200);
+    }
+    function startParticles() {
+        var burst = setInterval(spawnParticle, 300);
+        setTimeout(function() { clearInterval(burst); }, 3000);
+    }
+
+    // ── 11. 진입점 ───────────────────────────────────────────────
+    //
+    // PayApp JS API (redirect=opener) redirecturl 파라미터:
+    //   pay_state=1  → 결제요청(시작) — 아직 미완료! mul_no는 이미 있음
+    //                  → showNoPayment()로 이동 후 poll?mul_no=XXX로 완료 대기
+    //   pay_state=4  → 결제완료 (실제 성공) → showSuccess()
+    //   pay_state=8,16,31 → 요청취소
+    //   pay_state=9,64 → 승인취소
+    //   pay_state='' → 파라미터 없음 (결제 진행 중 대기 화면)
+    //
+    // 실서버 로그 확인:
+    //   feedbackurl: pay_state=1(요청) 먼저, pay_state=4(완료) 나중에 도착
+    //   redirecturl: pay_state=1이 올 때 mul_no 포함 → 이걸로 폴링 가능
+    var SUCCESS_STATES = ['4'];          // 오직 실제 완료만
+    var PENDING_STATES = ['1'];          // 요청 시작 → 폴링 대기
+    var CANCEL_STATES  = ['8', '9', '16', '31', '32', '64', '70', '71']; // 32=요청취소 추가
+
+    if (SUCCESS_STATES.indexOf(pay_state) !== -1) {
+        showSuccess();
+    } else if (CANCEL_STATES.indexOf(pay_state) !== -1) {
+        showCancelled();
+    } else if (pay_state === '' || PENDING_STATES.indexOf(pay_state) !== -1) {
+        // pay_state='' : 파라미터 없음
+        // pay_state=1  : 결제 요청됨 (미완료) → mul_no로 폴링하며 완료 대기
+        showNoPayment();
+    } else {
+        // 알 수 없는 pay_state — 취소 처리
+        showCancelled();
+    }
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,707 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CDN 선제 연결 — LCP 개선 -->
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <title>Contact | Vibe Studio — 웹앱 개발 문의 &amp; 비즈니스 연락</title>
+    <meta name="description" content="Vibe Studio에 웹앱 개발 협업, 비즈니스 제안을 문의하세요. 메일로 빠르게 응답드립니다 — matthew.shim@prisincera.com">
+    <meta name="keywords" content="Vibe Studio 연락, 웹앱 개발 문의, PriSincera 비즈니스 문의, 바이브스튜디오 컨택, 개발 협업">
+    <meta name="author" content="PriSincera">
+    <link rel="canonical" href="https://vibestudio.prisincera.com/contact">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vibestudio.prisincera.com/contact.html">
+    <meta property="og:title" content="Contact | Vibe Studio — 웹앱 개발 문의 &amp; 비즈니스 연락">
+    <meta property="og:description" content="Vibe Studio에 웹앱 개발 협업, 비즈니스 제안을 문의하세요. 메일로 빠르게 응답드립니다.">
+    <meta property="og:image" content="https://vibestudio.prisincera.com/images/og-thumbnail.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="Vibe Studio">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Contact | Vibe Studio — 웹앱 개발 문의 &amp; 비즈니스 연락">
+    <meta name="twitter:description" content="Vibe Studio에 웹앱 개발 협업, 비즈니스 제안을 문의하세요. matthew.shim@prisincera.com">
+    <meta name="twitter:image" content="https://vibestudio.prisincera.com/images/og-thumbnail.png">
+
+    <!-- Schema.org 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "Contact Vibe Studio",
+      "url": "https://vibestudio.prisincera.com/contact.html",
+      "description": "사무실은 없어도 신호는 있어요. Vibe Studio에 메일로 연락하세요.",
+      "inLanguage": "ko",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Vibe Studio",
+        "url": "https://vibestudio.prisincera.com/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "PriSincera",
+        "url": "https://prisincera.com",
+        "email": "matthew.shim@prisincera.com"
+      }
+    }
+    </script>
+
+    <!-- BreadcrumbList: 검색 결과 경로 표시용 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "홈",
+          "item": "https://vibestudio.prisincera.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Contact",
+          "item": "https://vibestudio.prisincera.com/contact.html"
+        }
+      ]
+    }
+    </script>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='100%25' stop-color='%235e5ce6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='25' fill='url(%23g)'/%3E%3Ctext x='50' y='74' font-size='65' font-family='-apple-system, sans-serif' font-weight='900' fill='white' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E">
+    <script>
+        (function() {
+            var saved = localStorage.getItem('vibe-theme');
+            document.documentElement.setAttribute('data-theme', saved || 'dark');
+        })();
+    </script>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+    <style>
+        :root {
+            --bg: #09090b; --bg2: #111114;
+            --text-main: #f4f4f5; --text-muted: rgba(255,255,255,0.5);
+            --glass-bg: rgba(24,24,27,0.72);
+            --glass-border: rgba(255,255,255,0.09);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.6);
+            --accent: #818cf8; --accent2: #38bdf8;
+            --card-hover-border: rgba(129,140,248,0.4);
+        }
+        [data-theme="light"] {
+            --bg: #f8f8fc; --bg2: #f0f0f8;
+            --text-main: #18181b; --text-muted: #71717a;
+            --glass-bg: rgba(255,255,255,0.8);
+            --glass-border: rgba(0,0,0,0.08);
+            --glass-shadow: 0 20px 50px rgba(0,0,0,0.12);
+            --accent: #5e5ce6; --accent2: #0284c7;
+            --card-hover-border: rgba(94,92,230,0.4);
+        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: var(--bg); color: var(--text-main);
+            line-height: 1.6; overflow-x: hidden; min-height: 100vh;
+        }
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px; pointer-events: none; z-index: 0;
+        }
+        [data-theme="light"] body::before {
+            background-image: linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+        }
+
+        /* ── Spotlight ── */
+        #spotlight {
+            position: fixed; width: 700px; height: 700px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(129,140,248,0.13) 0%, rgba(56,189,248,0.05) 40%, transparent 70%);
+            pointer-events: none; transform: translate(-50%,-50%); z-index: 0; transition: opacity 0.4s;
+        }
+        [data-theme="light"] #spotlight { background: radial-gradient(circle, rgba(94,92,230,0.08) 0%, transparent 70%); }
+
+        /* ── Layout ── */
+        .wrapper { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* ── Nav ── */
+        .top-nav {
+            position: fixed; top: 0; left: 0; right: 0; height: 56px;
+            background: rgba(10,10,12,0.72);
+            backdrop-filter: blur(28px) saturate(180%); -webkit-backdrop-filter: blur(28px) saturate(180%);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 22px; z-index: 9000;
+        }
+        [data-theme="light"] .top-nav { background: rgba(245,245,247,0.82); }
+        .nav-brand {
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 800; font-size: 15px; letter-spacing: -0.3px;
+            color: var(--text-main); text-decoration: none;
+        }
+        .nav-brand .lightning {
+            width: 28px; height: 28px; background: linear-gradient(135deg, #a855f7, #5e5ce6);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .nav-brand .lightning svg { width: 16px; height: 16px; fill: #fff; stroke: none; }
+        .nav-right { display: flex; align-items: center; gap: 12px; }
+        .theme-btn {
+            width: 36px; height: 36px; border-radius: 8px; border: none; background: transparent;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; color: var(--text-main); transition: color 0.2s, background 0.2s;
+        }
+        .theme-btn:hover { background: var(--glass-bg); color: var(--accent); }
+        .theme-btn i { width: 15px; height: 15px; }
+        .nav-center-contact {
+            display: flex; align-items: center; gap: 4px;
+            position: absolute; left: 50%; transform: translateX(-50%);
+        }
+        .nav-sep-c { width: 1px; height: 14px; background: var(--glass-border); opacity: 0.6; margin: 0 2px; }
+        .nav-link-c {
+            font-size: 13px; font-weight: 600; color: var(--text-main); text-decoration: none;
+            opacity: 0.7; transition: opacity 0.18s; letter-spacing: -0.1px;
+            background: none; border: none; cursor: pointer; padding: 0;
+        }
+        .nav-link-c:hover { opacity: 1; }
+        .nav-link-c.active { opacity: 1; font-weight: 800; }
+        @media (max-width: 768px) { .nav-center-contact { display: none; } }
+
+        /* ── Hamburger ── */
+        .hamburger-btn {
+            display: none; width: 36px; height: 36px; border: none; background: transparent;
+            border-radius: 8px; cursor: pointer; flex-direction: column;
+            align-items: center; justify-content: center; gap: 5px; padding: 6px;
+            color: var(--text-main); transition: background 0.2s; flex-shrink: 0;
+        }
+        .hamburger-btn span { display: block; width: 18px; height: 2px; background: var(--text-main); border-radius: 2px; transition: transform 0.25s, opacity 0.25s, width 0.25s; }
+        .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger-btn.open span:nth-child(2) { opacity: 0; width: 0; }
+        .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        @media (max-width: 768px) { .hamburger-btn { display: flex; } }
+        .hamburger-wrap { display: none; }
+        @media (max-width: 768px) {
+            .top-nav { display: grid; grid-template-columns: 40px 1fr 40px; padding: 0 14px; }
+            .hamburger-wrap { grid-column: 1; display: flex; align-items: center; }
+            .nav-brand { grid-column: 2; justify-content: center; }
+            .nav-right { grid-column: 3; justify-content: flex-end; gap: 6px; }
+        }
+
+        /* ── Nav Drawer ── */
+        .nav-drawer {
+            position: fixed; top: 0; left: 0; width: min(320px, 85vw); height: 100dvh;
+            background: var(--glass-bg); backdrop-filter: blur(40px) saturate(180%); -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-right: 1px solid var(--glass-border); box-shadow: 6px 0 32px rgba(0,0,0,0.28);
+            z-index: 20000; transform: translateX(-100%); transition: transform 0.32s cubic-bezier(0.16,1,0.3,1);
+            display: flex; flex-direction: column; overflow: hidden; box-sizing: border-box;
+        }
+        .nav-drawer.open { transform: translateX(0); }
+        .nav-drawer-header { display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
+        .nav-drawer-brand { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 15px; color: var(--text-main); text-decoration: none; }
+        .nav-drawer-brand .lightning { width: 28px; height: 28px; background: linear-gradient(135deg,#a855f7,#5e5ce6); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .nav-drawer-brand .lightning svg { width: 15px; height: 15px; fill: #fff; stroke: none; }
+        .nav-drawer-close { width: 32px; height: 32px; border: none; background: transparent; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-muted); transition: background 0.2s, color 0.2s; }
+        .nav-drawer-close:hover { background: var(--glass-border); color: var(--text-main); }
+        .nav-drawer-close svg { width: 18px; height: 18px; }
+        .nav-drawer-body { flex: 1; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; overflow-x: hidden; box-sizing: border-box; width: 100%; }
+        .nav-drawer-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; font-size: 15px; font-weight: 700; color: var(--text-main); text-decoration: none; border: none; background: transparent; cursor: pointer; width: 100%; box-sizing: border-box; text-align: left; transition: background 0.18s, transform 0.15s; }
+        .nav-drawer-item:hover { background: rgba(255,255,255,0.07); transform: translateX(3px); }
+        [data-theme="light"] .nav-drawer-item:hover { background: rgba(0,0,0,0.06); }
+        .nav-drawer-item.active { background: rgba(168,85,247,0.15); color: #c084fc; }
+        [data-theme="light"] .nav-drawer-item.active { color: #a855f7; background: rgba(168,85,247,0.12); }
+        .nav-drawer-item-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .nav-drawer-item-icon svg { width: 18px; height: 18px; }
+        .nav-drawer-footer { padding: 18px 20px; border-top: 1px solid var(--glass-border); flex-shrink: 0; }
+        .nav-drawer-footer-brand { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 12px; color: var(--text-main); margin-bottom: 6px; }
+        .nav-drawer-footer-copy { font-size: 10px; color: var(--text-muted); opacity: 0.6; }
+        .nav-drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.48); backdrop-filter: blur(4px); z-index: 19999; opacity: 0; pointer-events: none; transition: opacity 0.32s; }
+        .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+        /* ── Glass ── */
+        .glass {
+            background: var(--glass-bg); backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--glass-shadow);
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        /* ── Fade-up ── */
+        .fade-up { opacity: 0; transform: translateY(36px); transition: opacity 0.75s cubic-bezier(0.2,0.8,0.2,1), transform 0.75s cubic-bezier(0.2,0.8,0.2,1); }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Hero ── */
+        .hero { padding: 140px 0 60px; text-align: center; }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(129,140,248,0.12); border: 1px solid rgba(129,140,248,0.3);
+            color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+            padding: 5px 14px; border-radius: 100px; margin-bottom: 28px; text-transform: uppercase;
+        }
+        .hero-badge i { width: 13px; height: 13px; }
+        .hero h1 {
+            font-size: clamp(2.2rem, 6vw, 3.8rem); font-weight: 900;
+            letter-spacing: -0.04em; line-height: 1.15; margin-bottom: 20px;
+            background: linear-gradient(145deg, #fff 30%, #a5b4fc 70%, #38bdf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            word-break: keep-all;
+        }
+        [data-theme="light"] .hero h1 {
+            background: linear-gradient(145deg, #18181b 30%, #5e5ce6 75%, #0284c7 100%);
+            -webkit-background-clip: text; background-clip: text;
+        }
+        .hero-sub { font-size: 1.1rem; color: var(--text-muted); max-width: 560px; margin: 0 auto; word-break: keep-all; line-height: 1.8; }
+
+        /* ── Orbit Orb ── */
+        .orb-wrap {
+            position: relative; width: 220px; height: 220px;
+            margin: 50px auto 50px; flex-shrink: 0;
+        }
+        .orb-core {
+            position: absolute; inset: 30px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #a78bfa, #6366f1 60%, #312e81);
+            box-shadow: 0 0 60px rgba(139,92,246,0.5), 0 0 120px rgba(99,102,241,0.2);
+            display: flex; align-items: center; justify-content: center;
+            animation: orbFloat 6s ease-in-out infinite;
+        }
+        .orb-core svg { width: 40px; height: 40px; stroke: rgba(255,255,255,0.9); fill: none; stroke-width: 1.5; }
+        @keyframes orbFloat {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.03); }
+        }
+        .orb-ring {
+            position: absolute; inset: 0; border-radius: 50%;
+            border: 1.5px solid rgba(129,140,248,0.25);
+            animation: ringPulse 3s ease-out infinite;
+        }
+        .orb-ring:nth-child(2) { inset: -16px; border-color: rgba(129,140,248,0.15); animation-delay: 0.8s; }
+        .orb-ring:nth-child(3) { inset: -36px; border-color: rgba(129,140,248,0.08); animation-delay: 1.6s; }
+        @keyframes ringPulse {
+            0% { opacity: 0.8; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.15); }
+        }
+        /* 궤도 도트 */
+        .orb-orbit {
+            position: absolute; inset: -18px; border-radius: 50%;
+            border: 1px dashed rgba(129,140,248,0.15);
+            animation: orbitSpin 12s linear infinite;
+        }
+        .orb-orbit::after {
+            content: ''; position: absolute; top: -5px; left: 50%;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: #818cf8; transform: translateX(-50%);
+            box-shadow: 0 0 12px rgba(129,140,248,0.8);
+        }
+        .orb-orbit-2 {
+            position: absolute; inset: -42px; border-radius: 50%;
+            border: 1px dashed rgba(56,189,248,0.12);
+            animation: orbitSpin 20s linear infinite reverse;
+        }
+        .orb-orbit-2::after {
+            content: ''; position: absolute; bottom: -5px; left: 50%;
+            width: 8px; height: 8px; border-radius: 50%;
+            background: #38bdf8; transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(56,189,248,0.8);
+        }
+        @keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+        /* ── Tags ── */
+        .hero-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 32px; }
+        .tag {
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 7px 16px; border-radius: 100px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            font-size: 13px; font-weight: 600; color: var(--text-muted);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            transition: border-color 0.2s, color 0.2s;
+        }
+        .tag:hover { border-color: var(--accent); color: var(--text-main); }
+        .tag span { font-size: 15px; }
+
+        /* ── Process Section ── */
+        .process-section { padding: 80px 0; }
+        .section-header { text-align: center; margin-bottom: 52px; }
+        .section-header h2 { font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 900; letter-spacing: -0.04em; margin-bottom: 10px; }
+        .section-header p { font-size: 1rem; color: var(--text-muted); }
+
+        .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; position: relative; }
+        .process-grid::before {
+            content: ''; position: absolute; top: 36px; left: calc(16.67% + 10px); right: calc(16.67% + 10px);
+            height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0.3; pointer-events: none;
+        }
+        .process-card {
+            padding: 32px 24px; text-align: center;
+            transition: border-color 0.25s, transform 0.2s;
+        }
+        .process-card:hover { border-color: var(--card-hover-border); transform: translateY(-4px); }
+        .process-num {
+            width: 48px; height: 48px; border-radius: 14px; margin: 0 auto 18px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 900; color: var(--accent);
+            background: rgba(129,140,248,0.1); border: 1px solid rgba(129,140,248,0.2);
+            position: relative;
+        }
+        .process-card h3 { font-size: 1rem; font-weight: 800; margin-bottom: 10px; letter-spacing: -0.3px; }
+        .process-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; word-break: keep-all; }
+
+        /* ── Contact CTA ── */
+        .cta-section { padding: 60px 0 120px; }
+        .cta-card {
+            padding: 60px 48px; text-align: center; position: relative; overflow: hidden;
+            background: linear-gradient(135deg, var(--glass-bg), rgba(129,140,248,0.04));
+            border-color: rgba(129,140,248,0.18);
+        }
+        .cta-card::before {
+            content: '📡'; position: absolute; font-size: 14rem;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            opacity: 0.03; pointer-events: none; line-height: 1;
+        }
+        .cta-card > * { position: relative; z-index: 1; }
+        .cta-card:hover { border-color: rgba(129,140,248,0.35); }
+        .cta-label {
+            display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+            text-transform: uppercase; color: var(--accent); opacity: 0.8; margin-bottom: 18px;
+        }
+        .cta-card h2 {
+            font-size: clamp(1.5rem,4vw,2.2rem); font-weight: 900; letter-spacing: -0.04em;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 40%, #818cf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        [data-theme="light"] .cta-card h2 {
+            background: linear-gradient(135deg, #18181b 40%, #5e5ce6 100%);
+            -webkit-background-clip: text; background-clip: text;
+        }
+        .cta-card p { font-size: 1rem; color: var(--text-muted); line-height: 1.85; margin-bottom: 36px; word-break: keep-all; }
+        .cta-card p strong { color: var(--text-main); font-weight: 700; }
+
+        /* Email Display */
+        .email-box {
+            display: inline-flex; align-items: center; gap: 14px;
+            background: var(--glass-bg); border: 1.5px solid rgba(129,140,248,0.25);
+            border-radius: 16px; padding: 16px 24px;
+            margin-bottom: 28px; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+        .email-box:hover { border-color: rgba(129,140,248,0.5); box-shadow: 0 0 40px rgba(129,140,248,0.1); }
+        .email-icon { color: var(--accent); flex-shrink: 0; }
+        .email-icon svg { width: 20px; height: 20px; display: block; }
+        .email-address {
+            font-size: clamp(15px, 2.5vw, 19px); font-weight: 800;
+            letter-spacing: -0.3px; color: var(--text-main);
+            font-family: ui-monospace, 'SF Mono', monospace;
+        }
+
+        /* CTA buttons */
+        .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 26px; border-radius: 12px;
+            background: linear-gradient(135deg, #5e5ce6, #818cf8);
+            color: #fff; font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
+            border: none; cursor: pointer; text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+            box-shadow: 0 6px 24px rgba(94,92,230,0.4);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(94,92,230,0.5); opacity: 0.95; }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary svg { width: 17px; height: 17px; }
+        .btn-secondary {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 13px 26px; border-radius: 12px;
+            background: var(--glass-bg); border: 1.5px solid var(--glass-border);
+            color: var(--text-main); font-size: 14px; font-weight: 700; letter-spacing: -0.2px;
+            cursor: pointer; transition: border-color 0.2s, transform 0.15s;
+        }
+        .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+        .btn-secondary:active { transform: scale(0.97); }
+        .btn-secondary svg { width: 17px; height: 17px; }
+        .btn-secondary.copied { border-color: #34d399; color: #34d399; }
+
+        /* Copy toast */
+        .copy-toast {
+            position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+            background: rgba(30,30,35,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(52,211,153,0.4); border-radius: 12px;
+            padding: 12px 22px; color: #34d399; font-size: 14px; font-weight: 700;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s;
+            z-index: 9999; white-space: nowrap;
+        }
+        .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        [data-theme="light"] .copy-toast { background: rgba(255,255,255,0.95); color: #059669; border-color: rgba(16,185,129,0.4); }
+
+        /* ── Footer (layout.js 주입 CSS 담당, 여기선 외부 컨테이너만) ── */
+        .footer { border-top: 1px solid var(--glass-border); padding: 18px 28px; font-size: 13px; color: var(--text-muted); background: var(--bg); }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero { padding: 100px 0 40px; }
+            .process-grid { grid-template-columns: 1fr; gap: 14px; }
+            .process-grid::before { display: none; }
+            .cta-card { padding: 40px 24px; }
+            .email-address { font-size: 14px; }
+            .email-box { padding: 13px 18px; gap: 10px; }
+            #spotlight { display: none; }
+            .orb-wrap { width: 180px; height: 180px; }
+            .orb-core { inset: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="spotlight"></div>
+<div class="copy-toast" id="copyToast">✓ 이메일 주소가 복사되었어요</div>
+
+<!-- Nav Drawer Overlay -->
+<div class="nav-drawer-overlay" id="navDrawerOverlay" onclick="closeNavDrawer()"></div>
+
+<!-- Nav Drawer -->
+<nav class="nav-drawer" id="navDrawer">
+    <div class="nav-drawer-header">
+        <a class="nav-drawer-brand" href="/">
+            <div class="lightning"><svg viewBox="0 0 24 24"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg></div>
+            Vibe Studio
+        </a>
+        <button class="nav-drawer-close" onclick="closeNavDrawer()" aria-label="닫기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+    <div class="nav-drawer-body">
+        <a class="nav-drawer-item" href="/">
+            <div class="nav-drawer-item-icon" style="background:rgba(168,85,247,0.15);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            </div>Home
+        </a>
+        <a class="nav-drawer-item" href="/history">
+            <div class="nav-drawer-item-icon" style="background:rgba(255,159,10,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2" stroke-linecap="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>History
+        </a>
+        <a class="nav-drawer-item" href="/signal" style="color:#fb923c;">
+            <div class="nav-drawer-item-icon" style="background:rgba(251,146,60,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
+            </div>Signal
+        </a>
+        <a class="nav-drawer-item" href="/about" style="color:#34d399;">
+            <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            </div>Apps
+        </a>
+        <a class="nav-drawer-item" href="/donating">
+            <div class="nav-drawer-item-icon" style="background:rgba(245,158,11,0.15);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            </div>♥ Support
+        </a>
+        <a class="nav-drawer-item active" href="/contact">
+            <div class="nav-drawer-item-icon" style="background:rgba(52,211,153,0.12);">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>Contact
+        </a>
+    </div>
+    <div class="nav-drawer-footer">
+        <div class="nav-drawer-footer-brand">
+            <svg viewBox="0 0 24 24" style="width:12px;height:12px;" fill="currentColor"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg>
+            Vibe Studio
+        </div>
+        <div class="nav-drawer-footer-copy">&copy; 2026 Vibe Studio. All rights reserved.<br>Powered by <strong>Prisincera</strong></div>
+    </div>
+</nav>
+
+<!-- Top Nav -->
+<nav class="top-nav" id="site-nav"></nav>
+
+<!-- Hero -->
+<div class="wrapper">
+    <header class="hero">
+        <div class="hero-badge fade-up"><i data-lucide="radio"></i> Contact</div>
+        <h1 class="fade-up" style="transition-delay:.08s">
+            사무실은 없어도,<br>신호는 항상 있어요 📡
+        </h1>
+        <p class="hero-sub fade-up" style="transition-delay:.16s">
+            Vibe Studio는 어디서든 일합니다.<br>
+            메일로 신호를 보내주시면, 디지털 어딘가에서 꼭 포착해 드립니다.
+        </p>
+
+        <!-- Animated Orb -->
+        <div class="orb-wrap fade-up" style="transition-delay:.24s">
+            <div class="orb-ring"></div>
+            <div class="orb-ring"></div>
+            <div class="orb-ring"></div>
+            <div class="orb-orbit"></div>
+            <div class="orb-orbit-2"></div>
+            <div class="orb-core">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                    <polyline points="22,6 12,13 2,6"/>
+                </svg>
+            </div>
+        </div>
+
+        <!-- Tags -->
+        <div class="hero-tags fade-up" style="transition-delay:.32s">
+            <div class="tag"><span>🌐</span> 풀 리모트 운영</div>
+            <div class="tag"><span>⚡</span> 메일 중심 커뮤니케이션</div>
+            <div class="tag"><span>🌙</span> 우리의 오피스는 인터넷</div>
+        </div>
+    </header>
+</div>
+
+<!-- Process -->
+<div class="wrapper">
+    <section class="process-section">
+        <div class="section-header fade-up">
+            <h2>이렇게 연결돼요</h2>
+            <p>복잡한 절차 없이, 딱 세 단계예요</p>
+        </div>
+        <div class="process-grid">
+            <div class="glass process-card fade-up" style="transition-delay:.08s">
+                <div class="process-num">01</div>
+                <h3>신호를 보내주세요</h3>
+                <p>아래 이메일로 연락 목적, 간단한 소개와 함께 메시지를 보내주세요. 자유로운 형식으로 충분해요.</p>
+            </div>
+            <div class="glass process-card fade-up" style="transition-delay:.16s">
+                <div class="process-num" style="color:#38bdf8;background:rgba(56,189,248,0.1);border-color:rgba(56,189,248,0.2);">02</div>
+                <h3>신호를 포착합니다</h3>
+                <p>저 어딘가의 Wi-Fi존에서 메일을 확인하고 있어요. 보통 1–2 영업일 내에 읽어봅니다.</p>
+            </div>
+            <div class="glass process-card fade-up" style="transition-delay:.24s">
+                <div class="process-num" style="color:#34d399;background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2);">03</div>
+                <h3>직접 회신드려요</h3>
+                <p>자동 응답이 아닙니다. 직접 내용을 검토하고, 다음 단계를 함께 이야기 나눠요.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- CTA -->
+<div class="wrapper">
+    <section class="cta-section">
+        <div class="glass cta-card fade-up">
+            <div class="cta-label">✉️ Send a Signal</div>
+            <h2>준비되셨으면, 쏘아 올려 주세요</h2>
+            <p>
+                거창한 제안서나 완성된 기획 없이도 괜찮아요.<br>
+                <strong>"이런 게 필요한데, 얘기 나눠볼 수 있을까요?"</strong> 한 문장으로도 충분합니다.
+            </p>
+
+            <div class="email-box">
+                <span class="email-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                </span>
+                <span class="email-address" id="emailAddr">matthew.shim@prisincera.com</span>
+            </div>
+
+            <div class="cta-btns">
+                <a class="btn-primary" href="mailto:matthew.shim@prisincera.com?subject=Vibe Studio에 연락드립니다&body=안녕하세요, Vibe Studio 팀에게%0A%0A연락 목적:%0A%0A간단한 소개:%0A%0A궁금한 점:" id="mailBtn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                    메일 보내기
+                </a>
+                <button class="btn-secondary" id="copyBtn" onclick="copyEmail()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                    </svg>
+                    주소 복사
+                </button>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<footer class="footer" id="site-footer"></footer>
+
+<script>
+    lucide.createIcons();
+
+    /* Theme */
+    (function() {
+        var t = document.documentElement.getAttribute('data-theme') || 'dark';
+        var icon = document.getElementById('themeIcon');
+        if (icon) icon.setAttribute('data-lucide', t === 'dark' ? 'sun' : 'moon');
+        lucide.createIcons();
+    })();
+
+    function toggleTheme() {
+        var html = document.documentElement;
+        var icon = document.getElementById('themeIcon');
+        var isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('vibe-theme', isDark ? 'light' : 'dark');
+        icon.setAttribute('data-lucide', isDark ? 'moon' : 'sun');
+        lucide.createIcons();
+    }
+
+    /* Spotlight */
+    document.addEventListener('mousemove', function(e) {
+        var s = document.getElementById('spotlight');
+        if (s) { s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px'; }
+    });
+
+    /* Fade-up Observer */
+    var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(function(el) { observer.observe(el); });
+
+    /* Nav Drawer */
+    function openNavDrawer() {
+        document.getElementById('navDrawer').classList.add('open');
+        document.getElementById('navDrawerOverlay').classList.add('open');
+        document.getElementById('hamburgerBtn').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDrawer() {
+        document.getElementById('navDrawer').classList.remove('open');
+        document.getElementById('navDrawerOverlay').classList.remove('open');
+        document.getElementById('hamburgerBtn').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNavDrawer(); });
+
+    /* Copy Email */
+    function copyEmail() {
+        var email = document.getElementById('emailAddr').textContent;
+        var btn = document.getElementById('copyBtn');
+        var toast = document.getElementById('copyToast');
+
+        var doCopy = function() {
+            btn.classList.add('copied');
+            btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:17px;height:17px;"><polyline points="20 6 9 17 4 12"/></svg> 복사됨!`;
+            toast.classList.add('show');
+            setTimeout(function() {
+                toast.classList.remove('show');
+                btn.classList.remove('copied');
+                btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" style="width:17px;height:17px;"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> 주소 복사`;
+            }, 2500);
+        };
+
+        if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(email).then(doCopy).catch(function() {
+                var inp = document.createElement('input');
+                inp.value = email; document.body.appendChild(inp);
+                inp.select(); document.execCommand('copy'); document.body.removeChild(inp); doCopy();
+            });
+        } else {
+            var inp = document.createElement('input');
+            inp.value = email; document.body.appendChild(inp);
+            inp.select(); document.execCommand('copy'); document.body.removeChild(inp); doCopy();
+        }
+    }
+</script>
+<script src="js/layout.js?v=20260331"></script>
+</body>
+</html>

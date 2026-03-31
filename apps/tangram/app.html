@@ -1,0 +1,58 @@
+                <div class="tangram-header-area">
+                    <div class="tg-header-top">
+                        <h2 id="tg-stageTitle">🧩 1단계: 다이아몬드</h2>
+                        <p id="tg-stageDesc">1~5단계를 모두 클리어해 랭킹을 등록하세요!</p>
+                    </div>
+                    <div class="tangram-header-controls">
+                        <button class="tangram-btn" id="tg-btnBgm">🎵 BGM 켜기</button>
+                        <button class="tangram-btn" id="tg-btnShowRank">🏆 랭킹 보기</button>
+                    </div>
+                </div>
+
+                <div class="tangram-game-wrapper" id="tg-gameWrapper">
+                    <canvas id="tangramCanvas"></canvas>
+                    <canvas id="tangramConfettiCanvas"></canvas>
+
+                    <div id="tg-timerDisplay" class="tangram-timer-display">00:00.00</div>
+
+                    <div class="tangram-toolbar" id="tg-gameToolbar">
+                        <button class="tangram-btn primary" id="tg-btnHint">💡 힌트 보기</button>
+                        <button class="tangram-btn" id="tg-btnRotLeft" disabled>↺ 좌로 45도</button>
+                        <button class="tangram-btn" id="tg-btnRotRight" disabled>↻ 우로 45도</button>
+                        <button class="tangram-btn" id="tg-btnFlip" disabled>↔ 뒤집기</button>
+                    </div>
+
+                    <div id="tg-startScreen" class="tangram-overlay show">
+                        <div class="tg-title-logo">⏱️ 칠교 스피드런</div>
+                        <p style="color:var(--text-muted); margin-bottom: 24px; font-size: 14px;">5개의 스테이지, 당신의 한계에
+                            도전하세요.</p>
+                        <input type="text" id="tg-playerName" class="tg-nickname-input" placeholder="닉네임을 입력하세요"
+                            maxlength="10">
+                        <button class="tg-start-btn" id="tg-btnStartGame">게임 시작</button>
+                    </div>
+
+                    <div id="tg-clearOverlay" class="tangram-overlay">
+                        <h1 id="tg-clearTitle"
+                            style="font-size: 48px; margin: 0; color: var(--tangram-primary); letter-spacing: -2px;">
+                            CLEAR!</h1>
+                        <p id="tg-wittyMessage"
+                            style="font-size: 17px; font-weight: 600; margin: 14px 0 20px 0; text-align: center; line-height: 1.5; color: var(--text-main);">
+                            완벽합니다!</p>
+                        <button class="tg-start-btn" id="tg-btnNextStage">다음 단계로 계속</button>
+                    </div>
+
+                    <div id="tg-rankingScreen" class="tangram-overlay">
+                        <h2 style="margin-top:0; font-weight:800; letter-spacing:-1px;">🏆 명예의 전당</h2>
+                        <table class="tg-rank-table" id="tg-rankTable">
+                            <thead>
+                                <tr>
+                                    <th>순위</th>
+                                    <th>닉네임</th>
+                                    <th>클리어 타임</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tg-rankBody"></tbody>
+                        </table>
+                        <button class="tangram-btn" id="tg-btnCloseRank" style="padding: 9px 28px;">닫기</button>
+                    </div>
+                </div>

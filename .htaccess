@@ -1,0 +1,70 @@
+# ── 보안 헤더 (H-2) ─────────────────────────────────────────
+<IfModule mod_headers.c>
+    # Clickjacking 방지 — 외부 iframe 삽입 차단
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+    # MIME 타입 스니핑 방지
+    Header always set X-Content-Type-Options "nosniff"
+
+    # XSS 필터 활성화 (구형 브라우저 대응)
+    Header always set X-XSS-Protection "1; mode=block"
+
+    # 외부 링크 Referer 헤더 제한
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+    # HTTPS 강제 유지 1년 (HSTS)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+    # 콘텐츠 보안 정책 (XSS 인라인 스크립트 제한)
+    Header always set Content-Security-Policy "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://lite.payapp.kr; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; img-src 'self' data: blob: https:; connect-src 'self' https:; font-src 'self' https://cdn.jsdelivr.net; frame-src 'self' https://payapp.kr https://lite.payapp.kr; frame-ancestors 'self';"
+
+    # 서버 기술 스택 정보 은닉
+    Header always unset X-Powered-By
+    Header always set Server "WebServer"
+
+    # PHP 파일 응답 캐시 차단 (민감 데이터 보호)
+    <FilesMatch "\.(php)$">
+        Header always set Cache-Control "no-store, no-cache, must-revalidate, private"
+        Header always set Pragma "no-cache"
+    </FilesMatch>
+</IfModule>
+
+# ── 내부 도구 직접 HTTP 접근 차단 ────────────────────────────
+<Files "og-generator.html">
+    Require all denied
+</Files>
+
+# ── 디렉터리 목록 비활성화 ────────────────────────────────────
+Options -Indexes
+
+# ── 민감 파일 보호 ────────────────────────────────────────────
+<FilesMatch "^(\.env|\.git|composer\.json|composer\.lock|package\.json)$">
+    Require all denied
+</FilesMatch>
+
+# ── PHP 세션 보안 강화 (L-3) ──────────────────────────────────
+<IfModule mod_php.c>
+    php_flag session.cookie_httponly On
+    php_flag session.cookie_secure   On
+    php_flag session.use_strict_mode On
+</IfModule>
+
+# ── Clean URL (mod_rewrite) ───────────────────────────────────
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # 1. HTTPS 강제 리다이렉트
+    RewriteCond %{HTTPS} off
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    # 2. .html 직접 접근 → Clean URL로 301 리다이렉트
+    #    (index.html 제외: 루트 접근이 이미 처리됨)
+    RewriteCond %{THE_REQUEST} \s/+(about|history|contact|app_unavailable|donating|donate_complete)\.html[\s?] [NC]
+    RewriteRule ^(about|history|contact|app_unavailable|donating|donate_complete)\.html$ /$1 [R=301,L]
+
+    # 3. Clean URL → 실제 .html 파일로 내부 서빙
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}.html -f
+    RewriteRule ^(about|history|contact|app_unavailable|donating|donate_complete)$ $1.html [L]
+</IfModule>

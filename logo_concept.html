@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Vibe Studio — ∞ Möbius v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&family=JetBrains+Mono:wght@600&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #060010; color: #f5f5f7; font-family: 'Inter', sans-serif; }
+.preview { padding: 60px 40px; }
+.preview-title { text-align:center; font-size:11px; font-weight:700; letter-spacing:2.5px;
+  text-transform:uppercase; color:#a855f7; margin-bottom:6px; }
+.preview-desc { text-align:center; color:rgba(255,255,255,.4); font-size:12px; margin-bottom:48px; }
+.size-row { display:flex; justify-content:center; align-items:flex-end; gap:52px; flex-wrap:wrap; margin-bottom:48px; }
+.size-cell { display:flex; flex-direction:column; align-items:center; gap:12px; }
+.size-label { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,.3); }
+.divider { height:1px; background:rgba(255,255,255,.07); margin:8px 0 48px; }
+.nav-mock { display:flex; align-items:center; justify-content:space-between;
+  background:rgba(8,6,18,.92); border:1px solid rgba(255,255,255,.09);
+  border-radius:14px; padding:12px 22px; max-width:480px; margin:0 auto 32px; }
+.nav-brand { display:flex; align-items:center; gap:9px; font-weight:800; font-size:15px; }
+.nav-links { display:flex; gap:18px; font-size:12px; color:rgba(255,255,255,.38); }
+
+/* light theme nav preview */
+.nav-mock-light { background:rgba(245,245,247,.96); border:1px solid rgba(0,0,0,.1);
+  border-radius:14px; padding:12px 22px; max-width:480px; margin:0 auto 32px; }
+.nav-brand-dark { display:flex; align-items:center; gap:9px; font-weight:800; font-size:15px; color:#18181b; }
+.nav-links-dark { display:flex; gap:18px; font-size:12px; color:rgba(0,0,0,.38); }
+
+.panel-mock { background:rgba(14,6,30,.96); border:1px solid rgba(168,85,247,.15);
+  border-radius:20px; padding:30px 22px; width:250px; text-align:center; margin:0 auto; }
+.panel-badge { display:inline-block; font-size:9px; font-weight:800; letter-spacing:2.5px;
+  text-transform:uppercase; color:#a855f7; background:rgba(168,85,247,.1);
+  border:1px solid rgba(168,85,247,.22); border-radius:100px; padding:4px 14px; margin:10px 0 14px; }
+.panel-title { font-size:21px; font-weight:900; line-height:1.2; }
+.panel-title span { color:#c084fc; }
+.panel-desc { font-size:12px; color:rgba(255,255,255,.4); margin:8px 0 18px; line-height:1.6; }
+.panel-btn { width:100%; padding:13px; border-radius:12px; border:none;
+  background:linear-gradient(135deg,#a855f7,#d946ef); color:white; font-size:14px; font-weight:700; cursor:pointer; }
+</style>
+</head>
+<body>
+<section class="preview">
+  <div class="preview-title">∞ Möbius — 소형 로고 v3</div>
+  <div class="preview-desc">밝은 리본 + 고대비 배경 + 두꺼운 밴드 + 명확한 교차점</div>
+
+  <div class="size-row">
+    <!-- 28px -->
+    <div class="size-cell">
+      <svg width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg28" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#1a0035"/>
+            <stop offset="100%" stop-color="#2d0050"/>
+          </linearGradient>
+          <linearGradient id="ribbon28" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#f5e0ff"/>
+            <stop offset="40%" stop-color="#d8a4ff"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+          <linearGradient id="ribbonBack28" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#7c1fa8"/>
+            <stop offset="100%" stop-color="#a21caf"/>
+          </linearGradient>
+          <filter id="glow28">
+            <feGaussianBlur stdDeviation="0.6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <rect width="28" height="28" rx="7" fill="url(#bg28)"/>
+        <g filter="url(#glow28)">
+          <!-- ∞ ribbon: evenodd = ribbon band (outer minus inner holes) -->
+          <path fill-rule="evenodd" fill="url(#ribbon28)" d="
+            M14,8.2
+            C15.6,6.5 18.4,5.8 21,6.6
+            C23.6,7.4 25.2,10 24.6,12.4
+            C24,14.8 21.6,16.8 18.8,17.4
+            C16.6,17.9 15,16.5 14,15.4
+            C13,16.5 11.4,17.9 9.2,17.4
+            C6.4,16.8 4,14.8 3.4,12.4
+            C2.8,10 4.4,7.4 7,6.6
+            C9.6,5.8 12.4,6.5 14,8.2 Z
+            M8.6,9.2 C10.2,8.2 12.2,9.6 12.2,11.9
+            C12.2,14.2 10.2,15.8 8.6,15.4
+            C7,15 5.6,13.4 5.6,11.9
+            C5.6,10.2 7,9.6 8.6,9.2 Z
+            M19.4,9.2 C21,9.6 22.4,10.2 22.4,11.9
+            C22.4,13.4 21,15 19.4,15.4
+            C17.8,15.8 15.8,14.2 15.8,11.9
+            C15.8,9.6 17.8,8.2 19.4,9.2 Z
+          "/>
+          <!-- top highlight sweep (ribbon face is lit) -->
+          <path fill="rgba(255,255,255,.55)" d="
+            M14,8.2 C15.6,6.5 18.4,5.8 21,6.6 C23.6,7.4 25.2,10 24.6,12.4
+            C22.8,9 20,7.8 17.2,8.2 C15.8,8.4 14.8,9.4 14,10.2
+            C13.2,9.4 12.2,8.4 10.8,8.2 C8,7.8 5.2,9 3.4,12.4
+            C2.8,10 4.4,7.4 7,6.6 C9.6,5.8 12.4,6.5 14,8.2 Z
+          "/>
+          <!-- crossing: "behind" ribbon (darker, narrower) -->
+          <path fill="url(#ribbonBack28)" d="
+            M12.4,13.6 C12.8,15 13.4,15.6 14,15.6
+            C14,16.5 13.2,16.5 12.6,15.8
+            C12,15 11.8,14 12.4,13.6 Z
+          "/>
+          <!-- crossing: "front" ribbon (bright, clear) -->
+          <path fill="url(#ribbon28)" d="
+            M12.8,8 C13.4,7.6 14.6,7.6 15.2,8
+            C15.6,9.4 15.6,12 15.2,15.8
+            C14.6,16.2 13.4,16.2 12.8,15.8
+            C12.4,12 12.4,9.4 12.8,8 Z
+          "/>
+          <!-- rim highlight on front crossing -->
+          <path fill="rgba(255,255,255,.85)" d="
+            M12.8,8 C13.4,7.2 14.6,7.2 15.2,8
+            C14.6,8.6 13.4,8.6 12.8,8 Z
+          "/>
+          <!-- inner loop shadow edge -->
+          <path stroke="rgba(0,0,20,.7)" stroke-width="1.5" fill="none" d="
+            M8.6,9.2 C10.2,8.2 12.2,9.6 12.2,11.9 C12.2,14.2 10.2,15.8 8.6,15.4
+            C7,15 5.6,13.4 5.6,11.9 C5.6,10.2 7,9.6 8.6,9.2 Z"/>
+          <path stroke="rgba(0,0,20,.7)" stroke-width="1.5" fill="none" d="
+            M19.4,9.2 C21,9.6 22.4,10.2 22.4,11.9 C22.4,13.4 21,15 19.4,15.4
+            C17.8,15.8 15.8,14.2 15.8,11.9 C15.8,9.6 17.8,8.2 19.4,9.2 Z"/>
+        </g>
+      </svg>
+      <div class="size-label">28px · Nav</div>
+    </div>
+
+    <!-- 48px -->
+    <div class="size-cell">
+      <svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg48" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#160030"/>
+            <stop offset="100%" stop-color="#280048"/>
+          </linearGradient>
+          <linearGradient id="ribbon48" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#f8eeff"/>
+            <stop offset="35%" stop-color="#d8a4ff"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+          <linearGradient id="back48" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6b0ca1"/>
+            <stop offset="100%" stop-color="#9d174d"/>
+          </linearGradient>
+          <filter id="glow48">
+            <feGaussianBlur stdDeviation="1" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="48" height="48" rx="13" fill="url(#bg48)"/>
+        <!-- subtle inner glow -->
+        <rect width="48" height="48" rx="13" fill="rgba(168,85,247,.08)"/>
+        <g filter="url(#glow48)">
+          <path fill-rule="evenodd" fill="url(#ribbon48)" d="
+            M24,14.5
+            C26.5,11.8 30.8,10.5 35,11.8
+            C39.2,13.1 41.5,17.2 40.8,21.2
+            C40.1,25.2 36.7,28.5 32.4,29.5
+            C29,30.2 26.2,28 24,26.2
+            C21.8,28 19,30.2 15.6,29.5
+            C11.3,28.5 7.9,25.2 7.2,21.2
+            C6.5,17.2 8.8,13.1 13,11.8
+            C17.2,10.5 21.5,11.8 24,14.5 Z
+            M14.8,15.8 C17.4,14.2 20.8,16.2 20.8,20.5
+            C20.8,24.8 17.4,27 14.8,26.2
+            C12.2,25.4 9.8,23 9.8,20.5
+            C9.8,17.8 12.2,16.5 14.8,15.8 Z
+            M33.2,15.8 C35.8,16.5 38.2,17.8 38.2,20.5
+            C38.2,23 35.8,25.4 33.2,26.2
+            C30.6,27 27.2,24.8 27.2,20.5
+            C27.2,16.2 30.6,14.2 33.2,15.8 Z
+          "/>
+          <!-- top highlight -->
+          <path fill="rgba(255,255,255,.5)" d="
+            M24,14.5 C26.5,11.8 30.8,10.5 35,11.8 C39.2,13.1 41.5,17.2 40.8,21.2
+            C38.5,16 34,13.8 29.5,14.5 C27.2,14.9 25.3,16.5 24,18
+            C22.7,16.5 20.8,14.9 18.5,14.5 C14,13.8 9.5,16 7.2,21.2
+            C6.5,17.2 8.8,13.1 13,11.8 C17.2,10.5 21.5,11.8 24,14.5 Z
+          "/>
+          <!-- crossing back -->
+          <path fill="url(#back48)" d="
+            M21.5,23 C22.2,26 23.2,27.5 24,27.5
+            C24,29 22.5,29 21.5,27.8
+            C20.5,26.5 20.5,24 21.5,23 Z
+          "/>
+          <!-- crossing front -->
+          <path fill="url(#ribbon48)" d="
+            M22,14 C23,13.4 25,13.4 26,14
+            C26.5,16.5 26.5,21 26,28
+            C25,28.6 23,28.6 22,28
+            C21.5,21 21.5,16.5 22,14 Z
+          "/>
+          <!-- rim on crossing -->
+          <path fill="rgba(255,255,255,.85)" d="
+            M22,14 C23,12.8 25,12.8 26,14
+            C25,14.8 23,14.8 22,14 Z
+          "/>
+          <!-- inner loop shadows -->
+          <path stroke="rgba(0,0,20,.75)" stroke-width="2.5" fill="none" d="
+            M14.8,15.8 C17.4,14.2 20.8,16.2 20.8,20.5 C20.8,24.8 17.4,27 14.8,26.2
+            C12.2,25.4 9.8,23 9.8,20.5 C9.8,17.8 12.2,16.5 14.8,15.8 Z"/>
+          <path stroke="rgba(0,0,20,.75)" stroke-width="2.5" fill="none" d="
+            M33.2,15.8 C35.8,16.5 38.2,17.8 38.2,20.5 C38.2,23 35.8,25.4 33.2,26.2
+            C30.6,27 27.2,24.8 27.2,20.5 C27.2,16.2 30.6,14.2 33.2,15.8 Z"/>
+        </g>
+      </svg>
+      <div class="size-label">48px · Panel</div>
+    </div>
+
+    <!-- 72px -->
+    <div class="size-cell">
+      <svg width="72" height="72" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg72" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#160030"/>
+            <stop offset="100%" stop-color="#280050"/>
+          </linearGradient>
+          <linearGradient id="ribbon72" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#fdf4ff"/>
+            <stop offset="30%" stop-color="#e9b8ff"/>
+            <stop offset="65%" stop-color="#c084fc"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+          <linearGradient id="back72" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="100%" stop-color="#9d174d"/>
+          </linearGradient>
+          <filter id="glow72">
+            <feGaussianBlur stdDeviation="1.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="100" height="100" rx="26" fill="url(#bg72)"/>
+        <rect width="100" height="100" rx="26" fill="rgba(168,85,247,.07)"/>
+        <g filter="url(#glow72)">
+          <path fill-rule="evenodd" fill="url(#ribbon72)" d="
+            M50,31
+            C55,24.5 64.5,21.5 74,24
+            C83.5,26.5 88,35 86.5,43.5
+            C85,52 77.5,59 67.5,61
+            C60,62.5 53.5,58 50,55
+            C46.5,58 40,62.5 32.5,61
+            C22.5,59 15,52 13.5,43.5
+            C12,35 16.5,26.5 26,24
+            C35.5,21.5 45,24.5 50,31 Z
+            M30,35.5 C35,32.5 42,36.5 42,44
+            C42,51.5 35,56 30,54.5
+            C25,53 20,48 20,44
+            C20,39.5 25,37 30,35.5 Z
+            M70,35.5 C75,37 80,39.5 80,44
+            C80,48 75,53 70,54.5
+            C65,56 58,51.5 58,44
+            C58,36.5 65,32.5 70,35.5 Z
+          "/>
+          <!-- top highlight -->
+          <path fill="rgba(255,255,255,.5)" d="
+            M50,31 C55,24.5 64.5,21.5 74,24 C83.5,26.5 88,35 86.5,43.5
+            C83,34 74,29 64,30.5 C58.5,31.5 53.5,35.5 50,39
+            C46.5,35.5 41.5,31.5 36,30.5 C26,29 17,34 13.5,43.5
+            C12,35 16.5,26.5 26,24 C35.5,21.5 45,24.5 50,31 Z
+          "/>
+          <!-- crossing back -->
+          <path fill="url(#back72)" d="
+            M44.5,50 C46,56 48,59.5 50,59.5
+            C50,62 47.5,62 45.5,59.8
+            C43.5,57.5 43,53 44.5,50 Z
+          "/>
+          <!-- crossing front -->
+          <path fill="url(#ribbon72)" d="
+            M46,30.5 C48,29.5 52,29.5 54,30.5
+            C55,34.5 55,43 54,60
+            C52,61 48,61 46,60
+            C45,43 45,34.5 46,30.5 Z
+          "/>
+          <path fill="rgba(255,255,255,.8)" d="
+            M46,30.5 C48,28.5 52,28.5 54,30.5
+            C52,31.5 50,31.8 48,31.2 C47,30.8 46,30.5 46,30.5 Z
+          "/>
+          <!-- inner shadows -->
+          <path stroke="rgba(0,0,20,.75)" stroke-width="3.5" fill="none" d="
+            M30,35.5 C35,32.5 42,36.5 42,44 C42,51.5 35,56 30,54.5
+            C25,53 20,48 20,44 C20,39.5 25,37 30,35.5 Z"/>
+          <path stroke="rgba(0,0,20,.75)" stroke-width="3.5" fill="none" d="
+            M70,35.5 C75,37 80,39.5 80,44 C80,48 75,53 70,54.5
+            C65,56 58,51.5 58,44 C58,36.5 65,32.5 70,35.5 Z"/>
+        </g>
+      </svg>
+      <div class="size-label">72px · Large</div>
+    </div>
+
+    <!-- 100px favicon -->
+    <div class="size-cell">
+      <svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="bg100" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#160030"/>
+            <stop offset="100%" stop-color="#280050"/>
+          </linearGradient>
+          <linearGradient id="ribbon100" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stop-color="#fdf4ff"/>
+            <stop offset="30%" stop-color="#e9b8ff"/>
+            <stop offset="65%" stop-color="#c084fc"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+          <linearGradient id="back100" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#581c87"/>
+            <stop offset="100%" stop-color="#9d174d"/>
+          </linearGradient>
+          <filter id="glow100">
+            <feGaussianBlur stdDeviation="2" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="100" height="100" rx="26" fill="url(#bg100)"/>
+        <rect width="100" height="100" rx="26" fill="rgba(168,85,247,.07)"/>
+        <g filter="url(#glow100)">
+          <path fill-rule="evenodd" fill="url(#ribbon100)" d="
+            M50,31 C55,24.5 64.5,21.5 74,24 C83.5,26.5 88,35 86.5,43.5
+            C85,52 77.5,59 67.5,61 C60,62.5 53.5,58 50,55
+            C46.5,58 40,62.5 32.5,61 C22.5,59 15,52 13.5,43.5
+            C12,35 16.5,26.5 26,24 C35.5,21.5 45,24.5 50,31 Z
+            M30,35.5 C35,32.5 42,36.5 42,44 C42,51.5 35,56 30,54.5
+            C25,53 20,48 20,44 C20,39.5 25,37 30,35.5 Z
+            M70,35.5 C75,37 80,39.5 80,44 C80,48 75,53 70,54.5
+            C65,56 58,51.5 58,44 C58,36.5 65,32.5 70,35.5 Z
+          "/>
+          <path fill="rgba(255,255,255,.5)" d="
+            M50,31 C55,24.5 64.5,21.5 74,24 C83.5,26.5 88,35 86.5,43.5
+            C83,34 74,29 64,30.5 C58.5,31.5 53.5,35.5 50,39
+            C46.5,35.5 41.5,31.5 36,30.5 C26,29 17,34 13.5,43.5
+            C12,35 16.5,26.5 26,24 C35.5,21.5 45,24.5 50,31 Z
+          "/>
+          <path fill="url(#back100)" d="
+            M44.5,50 C46,56 48,59.5 50,59.5 C50,62 47.5,62 45.5,59.8
+            C43.5,57.5 43,53 44.5,50 Z
+          "/>
+          <path fill="url(#ribbon100)" d="
+            M46,30.5 C48,29.5 52,29.5 54,30.5 C55,34.5 55,43 54,60
+            C52,61 48,61 46,60 C45,43 45,34.5 46,30.5 Z
+          "/>
+          <path fill="rgba(255,255,255,.82)" d="
+            M46,30.5 C48,28.5 52,28.5 54,30.5 C52,31.5 50,31.8 48,31.2
+            C47,30.8 46,30.5 46,30.5 Z
+          "/>
+          <path stroke="rgba(0,0,20,.75)" stroke-width="3.5" fill="none" d="
+            M30,35.5 C35,32.5 42,36.5 42,44 C42,51.5 35,56 30,54.5
+            C25,53 20,48 20,44 C20,39.5 25,37 30,35.5 Z"/>
+          <path stroke="rgba(0,0,20,.75)" stroke-width="3.5" fill="none" d="
+            M70,35.5 C75,37 80,39.5 80,44 C80,48 75,53 70,54.5
+            C65,56 58,51.5 58,44 C58,36.5 65,32.5 70,35.5 Z"/>
+        </g>
+      </svg>
+      <div class="size-label">100px · Favicon</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Dark Nav -->
+  <div class="nav-mock">
+    <div class="nav-brand">
+      <svg width="28" height="28" viewBox="0 0 28 28">
+        <rect width="28" height="28" rx="7" fill="url(#bg28)"/>
+        <g filter="url(#glow28)">
+          <path fill-rule="evenodd" fill="url(#ribbon28)" d="
+            M14,8.2 C15.6,6.5 18.4,5.8 21,6.6 C23.6,7.4 25.2,10 24.6,12.4
+            C24,14.8 21.6,16.8 18.8,17.4 C16.6,17.9 15,16.5 14,15.4
+            C13,16.5 11.4,17.9 9.2,17.4 C6.4,16.8 4,14.8 3.4,12.4
+            C2.8,10 4.4,7.4 7,6.6 C9.6,5.8 12.4,6.5 14,8.2 Z
+            M8.6,9.2 C10.2,8.2 12.2,9.6 12.2,11.9 C12.2,14.2 10.2,15.8 8.6,15.4
+            C7,15 5.6,13.4 5.6,11.9 C5.6,10.2 7,9.6 8.6,9.2 Z
+            M19.4,9.2 C21,9.6 22.4,10.2 22.4,11.9 C22.4,13.4 21,15 19.4,15.4
+            C17.8,15.8 15.8,14.2 15.8,11.9 C15.8,9.6 17.8,8.2 19.4,9.2 Z
+          "/>
+          <path fill="rgba(255,255,255,.55)" d="
+            M14,8.2 C15.6,6.5 18.4,5.8 21,6.6 C23.6,7.4 25.2,10 24.6,12.4
+            C22.8,9 20,7.8 17.2,8.2 C15.8,8.4 14.8,9.4 14,10.2
+            C13.2,9.4 12.2,8.4 10.8,8.2 C8,7.8 5.2,9 3.4,12.4
+            C2.8,10 4.4,7.4 7,6.6 C9.6,5.8 12.4,6.5 14,8.2 Z
+          "/>
+          <path fill="url(#ribbonBack28)" d="
+            M12.4,13.6 C12.8,15 13.4,15.6 14,15.6 C14,16.5 13.2,16.5 12.6,15.8
+            C12,15 11.8,14 12.4,13.6 Z"/>
+          <path fill="url(#ribbon28)" d="
+            M12.8,8 C13.4,7.6 14.6,7.6 15.2,8 C15.6,9.4 15.6,12 15.2,15.8
+            C14.6,16.2 13.4,16.2 12.8,15.8 C12.4,12 12.4,9.4 12.8,8 Z"/>
+          <path fill="rgba(255,255,255,.85)" d="M12.8,8 C13.4,7.2 14.6,7.2 15.2,8 C14.6,8.6 13.4,8.6 12.8,8 Z"/>
+        </g>
+      </svg>
+      Vibe Studio
+    </div>
+    <div class="nav-links"><span>Home</span><span>Signal</span><span>Apps</span><span>Support</span></div>
+  </div>
+
+  <!-- Light Nav -->
+  <div class="nav-mock-light">
+    <div class="nav-brand-dark">
+      <svg width="28" height="28" viewBox="0 0 28 28">
+        <rect width="28" height="28" rx="7" fill="url(#bg28)"/>
+        <g filter="url(#glow28)">
+          <path fill-rule="evenodd" fill="url(#ribbon28)" d="
+            M14,8.2 C15.6,6.5 18.4,5.8 21,6.6 C23.6,7.4 25.2,10 24.6,12.4
+            C24,14.8 21.6,16.8 18.8,17.4 C16.6,17.9 15,16.5 14,15.4
+            C13,16.5 11.4,17.9 9.2,17.4 C6.4,16.8 4,14.8 3.4,12.4
+            C2.8,10 4.4,7.4 7,6.6 C9.6,5.8 12.4,6.5 14,8.2 Z
+            M8.6,9.2 C10.2,8.2 12.2,9.6 12.2,11.9 C12.2,14.2 10.2,15.8 8.6,15.4
+            C7,15 5.6,13.4 5.6,11.9 C5.6,10.2 7,9.6 8.6,9.2 Z
+            M19.4,9.2 C21,9.6 22.4,10.2 22.4,11.9 C22.4,13.4 21,15 19.4,15.4
+            C17.8,15.8 15.8,14.2 15.8,11.9 C15.8,9.6 17.8,8.2 19.4,9.2 Z
+          "/>
+          <path fill="rgba(255,255,255,.55)" d="M14,8.2 C15.6,6.5 18.4,5.8 21,6.6 C23.6,7.4 25.2,10 24.6,12.4 C22.8,9 20,7.8 17.2,8.2 C15.8,8.4 14.8,9.4 14,10.2 C13.2,9.4 12.2,8.4 10.8,8.2 C8,7.8 5.2,9 3.4,12.4 C2.8,10 4.4,7.4 7,6.6 C9.6,5.8 12.4,6.5 14,8.2 Z"/>
+          <path fill="url(#ribbon28)" d="M12.8,8 C13.4,7.6 14.6,7.6 15.2,8 C15.6,9.4 15.6,12 15.2,15.8 C14.6,16.2 13.4,16.2 12.8,15.8 C12.4,12 12.4,9.4 12.8,8 Z"/>
+          <path fill="rgba(255,255,255,.85)" d="M12.8,8 C13.4,7.2 14.6,7.2 15.2,8 C14.6,8.6 13.4,8.6 12.8,8 Z"/>
+        </g>
+      </svg>
+      Vibe Studio
+    </div>
+    <div class="nav-links-dark"><span>Home</span><span>Signal</span><span>Apps</span><span>Support</span></div>
+  </div>
+
+  <!-- Panel mockup -->
+  <div class="panel-mock">
+    <svg width="56" height="56" viewBox="0 0 48 48" style="display:block;margin:0 auto">
+      <rect width="48" height="48" rx="13" fill="url(#bg48)"/>
+      <rect width="48" height="48" rx="13" fill="rgba(168,85,247,.08)"/>
+      <g filter="url(#glow48)">
+        <path fill-rule="evenodd" fill="url(#ribbon48)" d="
+          M24,14.5 C26.5,11.8 30.8,10.5 35,11.8 C39.2,13.1 41.5,17.2 40.8,21.2
+          C40.1,25.2 36.7,28.5 32.4,29.5 C29,30.2 26.2,28 24,26.2
+          C21.8,28 19,30.2 15.6,29.5 C11.3,28.5 7.9,25.2 7.2,21.2
+          C6.5,17.2 8.8,13.1 13,11.8 C17.2,10.5 21.5,11.8 24,14.5 Z
+          M14.8,15.8 C17.4,14.2 20.8,16.2 20.8,20.5 C20.8,24.8 17.4,27 14.8,26.2
+          C12.2,25.4 9.8,23 9.8,20.5 C9.8,17.8 12.2,16.5 14.8,15.8 Z
+          M33.2,15.8 C35.8,16.5 38.2,17.8 38.2,20.5 C38.2,23 35.8,25.4 33.2,26.2
+          C30.6,27 27.2,24.8 27.2,20.5 C27.2,16.2 30.6,14.2 33.2,15.8 Z
+        "/>
+        <path fill="rgba(255,255,255,.5)" d="M24,14.5 C26.5,11.8 30.8,10.5 35,11.8 C39.2,13.1 41.5,17.2 40.8,21.2 C38.5,16 34,13.8 29.5,14.5 C27.2,14.9 25.3,16.5 24,18 C22.7,16.5 20.8,14.9 18.5,14.5 C14,13.8 9.5,16 7.2,21.2 C6.5,17.2 8.8,13.1 13,11.8 C17.2,10.5 21.5,11.8 24,14.5 Z"/>
+        <path fill="url(#back48)" d="M21.5,23 C22.2,26 23.2,27.5 24,27.5 C24,29 22.5,29 21.5,27.8 C20.5,26.5 20.5,24 21.5,23 Z"/>
+        <path fill="url(#ribbon48)" d="M22,14 C23,13.4 25,13.4 26,14 C26.5,16.5 26.5,21 26,28 C25,28.6 23,28.6 22,28 C21.5,21 21.5,16.5 22,14 Z"/>
+        <path fill="rgba(255,255,255,.85)" d="M22,14 C23,12.8 25,12.8 26,14 C25,14.8 23,14.8 22,14 Z"/>
+        <path stroke="rgba(0,0,20,.75)" stroke-width="2.5" fill="none" d="M14.8,15.8 C17.4,14.2 20.8,16.2 20.8,20.5 C20.8,24.8 17.4,27 14.8,26.2 C12.2,25.4 9.8,23 9.8,20.5 C9.8,17.8 12.2,16.5 14.8,15.8 Z"/>
+        <path stroke="rgba(0,0,20,.75)" stroke-width="2.5" fill="none" d="M33.2,15.8 C35.8,16.5 38.2,17.8 38.2,20.5 C38.2,23 35.8,25.4 33.2,26.2 C30.6,27 27.2,24.8 27.2,20.5 C27.2,16.2 30.6,14.2 33.2,15.8 Z"/>
+      </g>
+    </svg>
+    <div class="panel-badge">Early Access</div>
+    <div class="panel-title">먼저 경험하는<br><span>Vibe Studio</span></div>
+    <div class="panel-desc">Google 계정으로 10초 만에<br>사전예약을 완료하세요.</div>
+    <button class="panel-btn">Google로 시작하기</button>
+  </div>
+</section>
+</body>
+</html>

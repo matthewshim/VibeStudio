@@ -1,0 +1,184 @@
+    <!-- 사전예약 플로팅 UI -->
+    <div class="floating-container">
+        <div class="registration-panel" id="regPanel">
+
+            <!-- 헤더 -->
+            <div class="reg-header">
+                <div class="reg-header-brand">
+                    <div class="reg-header-logo">
+                        <svg viewBox="0 0 24 24" fill="none" width="13" height="13">
+                            <path fill-rule="evenodd" d="M14,9.5 C15.5,7.8 18.2,7 20.8,7.8 C23.4,8.6 24.8,11 24.2,13.2 C23.6,15.4 21.4,17.2 18.8,17.8 C16.8,18.2 15.2,17 14,15.8 C12.8,17 11.2,18.2 9.2,17.8 C6.6,17.2 4.4,15.4 3.8,13.2 C3.2,11 4.6,8.6 7.2,7.8 C9.8,7 12.5,7.8 14,9.5 Z M8.8,10.2 C10.2,9.4 12.2,10.6 12.2,13 C12.2,15.4 10.2,16.6 8.8,16.2 C7.4,15.8 5.8,14.2 5.8,13 C5.8,11.5 7.4,10.8 8.8,10.2 Z M19.2,10.2 C20.6,10.8 22.2,11.5 22.2,13 C22.2,14.2 20.6,15.8 19.2,16.2 C17.8,16.6 15.8,15.4 15.8,13 C15.8,10.6 17.8,9.4 19.2,10.2 Z" fill="#fff"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h2>PRE-REGISTRATION</h2>
+                        <div class="reg-header-sub">Vibe Studio 얼리 액세스</div>
+                    </div>
+                </div>
+                <div class="reg-close-btn" onclick="toggleRegPanel()" title="닫기">
+                    <i data-lucide="x" style="width:13px; height:13px;"></i>
+                </div>
+            </div>
+
+            <!-- 콘텐츠 영역 -->
+            <div class="reg-content">
+
+                <!-- ── STEP 0: Google 로그인 유도 ── -->
+                <div id="reg-step0" class="reg-view active">
+
+                    <!-- Hero 비주얼 -->
+                    <div class="step0-visual">
+                        <div class="step0-logo-ring">
+                            <div class="step0-logo-box">
+                                <svg viewBox="0 0 24 24" fill="none" width="22" height="22">
+                                    <path fill-rule="evenodd" d="M14,9.5 C15.5,7.8 18.2,7 20.8,7.8 C23.4,8.6 24.8,11 24.2,13.2 C23.6,15.4 21.4,17.2 18.8,17.8 C16.8,18.2 15.2,17 14,15.8 C12.8,17 11.2,18.2 9.2,17.8 C6.6,17.2 4.4,15.4 3.8,13.2 C3.2,11 4.6,8.6 7.2,7.8 C9.8,7 12.5,7.8 14,9.5 Z M8.8,10.2 C10.2,9.4 12.2,10.6 12.2,13 C12.2,15.4 10.2,16.6 8.8,16.2 C7.4,15.8 5.8,14.2 5.8,13 C5.8,11.5 7.4,10.8 8.8,10.2 Z M19.2,10.2 C20.6,10.8 22.2,11.5 22.2,13 C22.2,14.2 20.6,15.8 19.2,16.2 C17.8,16.6 15.8,15.4 15.8,13 C15.8,10.6 17.8,9.4 19.2,10.2 Z" fill="#fff"/>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="step0-badge">Early Access</div>
+                    </div>
+
+                    <h3 class="step0-title">
+                        먼저 경험하는<br>
+                        <span class="step0-title-accent">Vibe Studio</span>
+                    </h3>
+                    <p class="step0-desc">
+                        Google 계정으로 10초 만에 사전예약을 완료하세요.<br>
+                        <span class="step0-desc-sub">웹앱 출시 / 업데이트 소식을 가장 먼저 받아보실 수 있어요.</span>
+                    </p>
+
+                    <!-- 구글 로그인 버튼 -->
+                    <button class="reg-google-btn" id="regGoogleBtn" onclick="startFanGoogleLogin()">
+                        <svg width="18" height="18" viewBox="0 0 48 48" style="flex-shrink:0;">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                        </svg>
+                        <span id="regGoogleBtnText">Google로 시작하기</span>
+                    </button>
+
+                    <div class="step0-features">
+                        <div class="step0-feature-item">
+                            <i data-lucide="zap" style="width:12px;height:12px;"></i>
+                            <span>10초 가입</span>
+                        </div>
+                        <div class="step0-feature-sep">·</div>
+                        <div class="step0-feature-item">
+                            <i data-lucide="shield-check" style="width:12px;height:12px;"></i>
+                            <span>이메일 인증 불필요</span>
+                        </div>
+                        <div class="step0-feature-sep">·</div>
+                        <div class="step0-feature-item">
+                            <i data-lucide="lock" style="width:12px;height:12px;"></i>
+                            <span>이메일만 수집</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ── STEP 1: 정보 입력 + 동의 ── -->
+                <div id="reg-webapp" class="reg-view">
+
+                    <!-- Google 인증 완료 배지 -->
+                    <div class="step1-google-badge" id="step1GoogleBadge">
+                        <i data-lucide="check-circle" style="width:14px;height:14px;"></i>
+                        <span id="step1BadgeEmail">Google 인증 완료</span>
+                    </div>
+
+                    <!-- [1] 신청 항목 선택 -->
+                    <div class="step1-section-label">
+                        <i data-lucide="sparkles" style="width:13px;height:13px;"></i>
+                        어떤 소식을 받아볼까요?
+                    </div>
+
+                    <div class="fan-picker">
+                        <label class="fan-chip active" id="chip-webapp">
+                            <input type="checkbox" class="chip-item" id="applyWebapp" checked onchange="toggleFanChip('webapp', this)">
+                            <i data-lucide="layers"></i>
+                            <span>웹앱</span>
+                        </label>
+                        <label class="fan-chip" id="chip-content">
+                            <input type="checkbox" class="chip-item" id="applyContent" onchange="toggleFanChip('content', this)">
+                            <i data-lucide="rss"></i>
+                            <span>컨텐츠</span>
+                        </label>
+                        <label class="fan-chip" id="chip-coffee">
+                            <input type="checkbox" class="chip-item" id="applyCoffee" onchange="toggleFanChip('coffee', this)">
+                            <i data-lucide="coffee"></i>
+                            <span>커피챗</span>
+                        </label>
+                    </div>
+
+                    <!-- 알림 영역 -->
+                    <div class="notify-area" id="regNotify">
+                        <i data-lucide="info" style="width:13px; height:13px; flex-shrink:0;"></i>
+                        <span id="regNotifyText">Google 인증 후 항목을 선택하세요.</span>
+                    </div>
+
+                    <!-- 동의 섹션 -->
+                    <div class="consent-section">
+                        <label class="consent-item all-agree-row">
+                            <input type="checkbox" id="agreeAll" onchange="toggleAllAgree(this)">
+                            <span class="consent-text consent-all">전체 동의</span>
+                        </label>
+                        <div class="consent-divider"></div>
+                        <label class="consent-item">
+                            <input type="checkbox" class="agree-item req" id="agreeAge">
+                            <span class="consent-text"><span class="consent-req">[필수]</span> 만 15세 이상입니다</span>
+                        </label>
+                        <label class="consent-item">
+                            <input type="checkbox" class="agree-item req" id="agreePrivacy">
+                            <span class="consent-text"><span class="consent-req">[필수]</span> 개인정보 수집 및 이용 동의</span>
+                        </label>
+                        <label class="consent-item" style="margin-bottom:0;">
+                            <input type="checkbox" class="agree-item" id="agreeMarketing">
+                            <span class="consent-text"><span class="consent-opt">[선택]</span> 광고성 정보 수신 동의</span>
+                        </label>
+                    </div>
+
+                    <!-- CTA 버튼 -->
+                    <button class="reg-cta-btn" onclick="submitReg()" id="regCtaBtn">
+                        <i data-lucide="zap" style="width:15px;height:15px;"></i>
+                        Vibe Studio Fan 신청하기
+                    </button>
+
+                    <!-- 계정 전환 (CTA 하단) -->
+                    <button class="step1-switch-btn" id="step1SwitchBtn" onclick="switchFanGoogleAccount()">
+                        <i data-lucide="refresh-cw" style="width:11px;height:11px;"></i>
+                        다른 구글 계정으로 신청하기
+                    </button>
+
+                </div>
+
+                <!-- ② 컨텐츠 구독 -->
+                <div id="reg-content" class="reg-view">
+                    <div class="reg-coming-soon">
+                        <div class="cs-icon" style="background: rgba(167,139,250,0.12);">
+                            <i data-lucide="mail" style="width:28px; height:28px; color:#a78bfa;"></i>
+                        </div>
+                        <h3>컨텐츠 구독예약</h3>
+                        <p>Vibe Studio 프리미엄 컨텐츠<br>구독 서비스를 곧 만나보세요.<br><br>런칭 알림을 먼저 받으실 분들을<br>위한 사전 구독 신청을 준비 중입니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- ③ 커피챗 예약 -->
+                <div id="reg-coffee" class="reg-view">
+                    <div class="reg-coming-soon">
+                        <div class="cs-icon" style="background: rgba(255,159,10,0.12);">
+                            <i data-lucide="coffee" style="width:28px; height:28px; color:#ff9f0a;"></i>
+                        </div>
+                        <h3>커피챗 예약</h3>
+                        <p>전문가와의 1:1 커피챗으로<br>Vibe Studio를 깊이 경험해보세요.<br><br>일정 선택 및 예약 기능을<br>준비하고 있습니다.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- PRE-REGISTER 사이드 버튼 -->
+        <div class="floating-bookmark" id="regBookmark" onclick="toggleRegPanel()">
+            PRE-REGISTER
+        </div>
+    </div>
+

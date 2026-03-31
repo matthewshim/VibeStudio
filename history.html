@@ -1,0 +1,1039 @@
+﻿<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
+    <title>History | Vibe Studio가 걸어온 길</title>
+    <meta name="description" content="기획자의 AI 바이브 코딩으로 탄생한 Vibe Studio. 아이디어가 앱이 되기까지, 그 여정을 기록합니다.">
+    <meta name="keywords" content="Vibe Studio 히스토리, 바이브 코딩, AI 개발 일지, 앱 개발 과정, PriSincera">
+    <meta name="author" content="PriSincera">
+    <link rel="canonical" href="https://vibestudio.prisincera.com/history">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://vibestudio.prisincera.com/history.html">
+    <meta property="og:title" content="History — Vibe Studio가 걸어온 길">
+    <meta property="og:description" content="기획자의 AI 바이브 코딩으로 탄생한 Vibe Studio. 아이디어가 앱이 되기까지의 여정을 기록합니다.">
+    <meta property="og:image" content="https://vibestudio.prisincera.com/images/og-thumbnail.png">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="Vibe Studio">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "History — Vibe Studio",
+      "url": "https://vibestudio.prisincera.com/history.html",
+      "description": "기획자의 AI 바이브 코딩으로 탄생한 Vibe Studio의 개발 여정",
+      "inLanguage": "ko",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Vibe Studio",
+        "url": "https://vibestudio.prisincera.com/"
+      }
+    }
+    </script>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='100%25' stop-color='%235e5ce6'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='25' fill='url(%23g)'/%3E%3Ctext x='50' y='74' font-size='65' font-family='-apple-system,sans-serif' font-weight='900' fill='white' text-anchor='middle'%3E%3C/text%3E%3Cpath%20fill-rule%3D%27evenodd%27%20fill%3D%27white%27%20d%3D%27M50%2C32%20C55%2C25%2065%2C22%2076%2C25%20C87%2C28%2092%2C38%2091%2C47%20C90%2C56%2083%2C64%2071%2C66%20C61%2C67.5%2054%2C61%2050%2C57%20C46%2C61%2039%2C67.5%2029%2C66%20C17%2C64%2010%2C56%209%2C47%20C8%2C38%2013%2C28%2024%2C25%20C35%2C22%2045%2C25%2050%2C32%20Z%20M29.5%2C38%20C35%2C35%2041%2C39%2041%2C47%20C41%2C55%2035%2C59%2029.5%2C57.5%20C24%2C56%2018%2C51.5%2018%2C47%20C18%2C42.5%2024%2C39.5%2029.5%2C38%20Z%20M70.5%2C38%20C76%2C39.5%2082%2C42.5%2082%2C47%20C82%2C51.5%2076%2C56%2070.5%2C57.5%20C65%2C59%2059%2C55%2059%2C47%20C59%2C39%2065%2C35%2070.5%2C38%20Z%27%2F%3E%3C%2Fsvg%3E">
+
+    <!-- 테마 깜빡임 방지 -->
+    <script>(function(){var t=localStorage.getItem('vibe-theme');document.documentElement.setAttribute('data-theme',t||'dark')})();</script>
+
+    <!-- 폰트 -->
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/variable/pretendardvariable.css" rel="stylesheet">
+    <!-- 아이콘 -->
+    <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
+
+    <style>
+        /* ── 리셋 & 기본 ──────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-main:      #050507;
+            --glass-bg:     rgba(30, 30, 32, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-shadow: 0 8px 40px rgba(0,0,0,0.28);
+            --text-main:    #f5f5f7;
+            --text-sub:     #a1a1aa;
+            --text-muted:   #71717a;
+            --accent:       #818cf8;
+            --accent2:      #38bdf8;
+            --accent-blue:  #5e5ce6;
+            --accent-green: #34d399;
+            --accent-warm:  #ff9f0a;
+            --card-hover-border: rgba(129,140,248,0.35);
+
+            /* 타임라인 Phase 색상 */
+            --p1: #5e5ce6; --p2: #007aff; --p3: #ff6b35;
+            --p4: #ff2d55; --p5: #34d399; --p6: #a855f7;
+            --p7: #ff9f0a; --p8: #22d3ee;
+            --p9: #f59e0b; --p10: #e879f9;
+        }
+
+        [data-theme="light"] {
+            --bg-main:      #f5f5f7;
+            --glass-bg:     rgba(255,255,255,0.82);
+            --glass-border: rgba(0,0,0,0.07);
+            --glass-shadow: 0 8px 32px rgba(0,0,0,0.10);
+            --text-main:    #1d1d1f;
+            --text-sub:     #6e6e73;
+            --text-muted:   #a1a1aa;
+            --accent:       #5e5ce6;
+            --accent2:      #0284c7;
+            --card-hover-border: rgba(94,92,230,0.35);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+        }
+
+        /* ── Grid background (about/contact 동일) ─────────── */
+        body::before {
+            content: ''; position: fixed; inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px; pointer-events: none; z-index: 0;
+        }
+        [data-theme="light"] body::before {
+            background-image:
+                linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+        }
+
+        /* ── Mouse spotlight (about/contact 동일) ────────── */
+        #spotlight {
+            position: fixed; width: 700px; height: 700px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(129,140,248,0.13) 0%, rgba(56,189,248,0.05) 40%, transparent 70%);
+            pointer-events: none; transform: translate(-50%,-50%); z-index: 0; transition: opacity 0.4s;
+        }
+        [data-theme="light"] #spotlight {
+            background: radial-gradient(circle, rgba(94,92,230,0.08) 0%, transparent 70%);
+        }
+        @media (max-width: 768px) { #spotlight { display: none; } }
+
+        /* ── 레이아웃 ────────────────────────────────────── */
+        .page-wrap { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; padding: 0 24px 100px; }
+
+        /* ── 히어로 ─────────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 150px 0 80px;
+        }
+        .hero-eyebrow {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px;
+            background: rgba(168,85,247,0.12);
+            border: 1px solid rgba(168,85,247,0.25);
+            border-radius: 100px;
+            font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+            color: var(--accent); text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+        .hero-title {
+            font-size: clamp(32px, 6vw, 56px);
+            font-weight: 800; line-height: 1.15;
+            letter-spacing: -0.02em;
+            background: linear-gradient(145deg, #fff 30%, #a5b4fc 75%, #38bdf8 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+        }
+        [data-theme="light"] .hero-title {
+            background: linear-gradient(145deg, #18181b 30%, #5e5ce6 75%, #0284c7 100%);
+            -webkit-background-clip: text; background-clip: text;
+        }
+        .hero-sub {
+            font-size: 17px; color: var(--text-sub); max-width: 480px; margin: 0 auto 40px;
+            line-height: 1.7;
+        }
+
+        /* ── 통계 바 ─────────────────────────────────────── */
+        .stats-bar {
+            display: flex; justify-content: center; gap: 0;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
+            margin-bottom: 70px;
+        }
+        .stat-item {
+            flex: 1; text-align: center;
+            padding: 22px 16px;
+            border-right: 1px solid var(--glass-border);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-num {
+            font-size: 28px; font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .stat-label {
+            font-size: 11px; color: var(--text-muted); font-weight: 500;
+            margin-top: 4px; letter-spacing: 0.04em;
+        }
+
+        /* ── 섹션 제목 ───────────────────────────────────── */
+        .section-title {
+            font-size: 13px; font-weight: 700; letter-spacing: 0.12em;
+            text-transform: uppercase; color: var(--accent);
+            margin-bottom: 28px;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .section-title::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, var(--glass-border), transparent);
+        }
+
+        /* ── 타임라인 ───────────────────────────────────── */
+        .timeline { position: relative; padding-left: 40px; }
+        .timeline::before {
+            content: '';
+            position: absolute; left: 13px; top: 8px;
+            width: 2px; bottom: 0;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 44px;
+        }
+        .timeline-dot {
+            position: absolute; left: -34px; top: 4px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            border: 3px solid var(--bg-main);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 9px;
+            box-shadow: 0 0 0 1px var(--glass-border), 0 0 16px rgba(168,85,247,0.25);
+            transition: transform 0.2s;
+        }
+        .timeline-item:hover .timeline-dot { transform: scale(1.25); }
+
+        .timeline-header {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .timeline-phase {
+            font-size: 11px; font-weight: 700; letter-spacing: 0.06em;
+            padding: 3px 10px; border-radius: 100px;
+        }
+        .timeline-date {
+            font-size: 12px; color: var(--text-muted); font-weight: 500;
+        }
+        .timeline-title {
+            font-size: 18px; font-weight: 700; margin-bottom: 8px; line-height: 1.3;
+        }
+        .timeline-desc {
+            font-size: 14px; color: var(--text-sub); line-height: 1.7;
+        }
+
+        .timeline-tags {
+            display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px;
+        }
+        .tag {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 4px 10px;
+            background: var(--glass-bg); border: 1px solid var(--glass-border);
+            border-radius: 100px;
+            font-size: 11px; color: var(--text-sub); font-weight: 500;
+        }
+        .tag i { width: 11px; height: 11px; }
+
+        /* 타임라인 카드 (큰 이벤트) */
+        .timeline-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 20px;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            margin-top: 12px;
+            transition: border-color 0.2s;
+        }
+        .timeline-item:hover .timeline-card { border-color: rgba(168,85,247,0.25); }
+
+        /* ── 앱 출시 그리드 ─────────────────────────────── */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 14px;
+        }
+        .app-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 16px;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            text-align: center;
+            transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+            cursor: default;
+        }
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(168,85,247,0.3);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        }
+        .app-icon {
+            width: 52px; height: 52px;
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; margin: 0 auto 12px;
+        }
+        .app-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+        .app-date { font-size: 11px; color: var(--text-muted); }
+        .app-badge {
+            display: inline-block; margin-top: 8px;
+            font-size: 10px; font-weight: 600;
+            padding: 2px 8px; border-radius: 100px;
+        }
+        /* ── Signal 서비스 카드 (full-row) ──────────────── */
+        .signal-svc-card {
+            grid-column: 1 / -1;
+            display: flex; align-items: center; gap: 20px;
+            padding: 20px 22px;
+            background: var(--glass-bg);
+            border: 1px solid rgba(251,146,60,0.28);
+            border-radius: 18px;
+            text-decoration: none; color: inherit;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            transition: border-color 0.2s, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s;
+        }
+        .signal-svc-card:hover {
+            border-color: rgba(251,146,60,0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.22), 0 0 20px rgba(251,146,60,0.07);
+        }
+        [data-theme="light"] .signal-svc-card { border-color: rgba(251,146,60,0.25); }
+        .signal-svc-icon {
+            width: 52px; height: 52px; border-radius: 15px; flex-shrink: 0;
+            background: linear-gradient(135deg, #fb923c, #f97316);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.6rem;
+            box-shadow: 0 6px 18px rgba(251,146,60,0.28);
+        }
+        .signal-svc-body { flex: 1; min-width: 0; }
+        .signal-svc-name { font-size: 15px; font-weight: 800; color: var(--text-main); margin-bottom: 3px; letter-spacing: -0.2px; }
+        .signal-svc-date { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+        .signal-svc-desc { font-size: 13px; color: var(--text-sub); line-height: 1.6; word-break: keep-all; }
+        .signal-svc-right {
+            flex-shrink: 0; display: flex; flex-direction: column;
+            align-items: flex-end; gap: 5px;
+        }
+        .signal-svc-badge {
+            font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 100px;
+            background: rgba(251,146,60,0.12); color: #fb923c;
+        }
+        .signal-svc-type {
+            font-size: 10px; font-weight: 600; color: var(--text-muted);
+            letter-spacing: 0.04em; text-transform: uppercase;
+        }
+
+        /* ── 철학 섹션 ──────────────────────────────────── */
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 16px;
+        }
+        .phil-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+        }
+        .phil-icon {
+            width: 42px; height: 42px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+        }
+        .phil-icon i { width: 20px; height: 20px; }
+        .phil-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+        .phil-desc  { font-size: 13px; color: var(--text-sub); line-height: 1.65; }
+
+        /* ── 인용구 ─────────────────────────────────────── */
+        .quote-block {
+            text-align: center;
+            padding: 56px 24px;
+        }
+        .quote-text {
+            font-size: clamp(20px, 4vw, 28px);
+            font-weight: 700; line-height: 1.5;
+            letter-spacing: -0.01em;
+            color: var(--text-main);
+            max-width: 600px; margin: 0 auto 16px;
+        }
+        .quote-em {
+            background: linear-gradient(135deg, #a855f7, #5e5ce6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .quote-attr { font-size: 13px; color: var(--text-muted); }
+
+        /* ── Fade-up 등장 애니메이션 (about.html 동일) ── */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(36px);
+            transition: opacity 0.75s cubic-bezier(0.2,0.8,0.2,1), transform 0.75s cubic-bezier(0.2,0.8,0.2,1);
+        }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+        /* ── Nav Drawer (fixed 포지셔닝 必須 — 없으면 block으로 렌더돼 page height 폭발) ── */
+        .nav-drawer {
+            position: fixed; top: 0; left: 0;
+            width: min(320px, 85vw); height: 100dvh;
+            background: var(--glass-bg);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border-right: 1px solid var(--glass-border);
+            box-shadow: 6px 0 32px rgba(0,0,0,0.28);
+            z-index: 20000;
+            transform: translateX(-100%);
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; flex-direction: column;
+            overflow: hidden; box-sizing: border-box;
+        }
+        .nav-drawer.open { transform: translateX(0); }
+        .nav-drawer-overlay {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.48);
+            backdrop-filter: blur(4px);
+            z-index: 19999; opacity: 0; pointer-events: none;
+            transition: opacity 0.32s;
+        }
+        .nav-drawer-overlay.open { opacity: 1; pointer-events: auto; }
+        .nav-drawer-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 18px 20px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0;
+        }
+        .nav-drawer-brand {
+            display: flex; align-items: center; gap: 9px;
+            font-weight: 800; font-size: 15px;
+            color: var(--text-main); text-decoration: none;
+        }
+        .nav-drawer-brand .lightning {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg,#a855f7,#5e5ce6);
+            border-radius: 8px; display: flex; align-items: center; justify-content: center;
+        }
+        .nav-drawer-brand .lightning svg { width: 15px; height: 15px; fill: #fff; stroke: none; }
+        .nav-drawer-close {
+            width: 32px; height: 32px; border: none; background: transparent;
+            border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); transition: background 0.2s, color 0.2s;
+        }
+        .nav-drawer-close:hover { background: var(--glass-border); color: var(--text-main); }
+        .nav-drawer-close svg { width: 18px; height: 18px; }
+        .nav-drawer-body {
+            flex: 1; padding: 16px 12px;
+            display: flex; flex-direction: column; gap: 4px;
+            overflow-y: auto; overflow-x: hidden;
+            box-sizing: border-box; width: 100%;
+        }
+        .nav-drawer-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 14px; border-radius: 12px;
+            font-size: 15px; font-weight: 700;
+            color: var(--text-main); text-decoration: none;
+            transition: background 0.18s, transform 0.15s;
+        }
+        .nav-drawer-item:hover { background: rgba(255,255,255,0.07); transform: translateX(3px); }
+        .nav-drawer-item.active { background: rgba(168,85,247,0.15); color: #c084fc; }
+        .nav-drawer-item-icon {
+            width: 36px; height: 36px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .nav-drawer-item-icon svg { width: 18px; height: 18px; }
+        .nav-drawer-footer { padding: 18px 20px; border-top: 1px solid var(--glass-border); flex-shrink: 0; }
+        .nav-drawer-footer-brand {
+            display: flex; align-items: center; gap: 6px;
+            font-weight: 800; font-size: 12px; color: var(--text-main); margin-bottom: 6px;
+        }
+        .nav-drawer-footer-copy { font-size: 10px; color: var(--text-muted); opacity: 0.6; }
+
+        /* ── Footer container ───────────────────────────────── */
+        .footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 18px 28px;
+            font-size: 13px;
+            color: var(--text-muted);
+            background: var(--bg-main);
+        }
+
+        /* ── 반응형 ─────────────────────────────────────── */
+        @media (max-width: 640px) {
+            /* Stats bar: 2×2 그리드로 변경 */
+            .stats-bar {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 0;
+            }
+            .stat-item {
+                border-right: 1px solid var(--glass-border);
+                border-bottom: 1px solid var(--glass-border);
+            }
+            /* 오른쪽 열 border-right 제거 */
+            .stat-item:nth-child(2n) { border-right: none; }
+            /* 마지막 행 border-bottom 제거 */
+            .stat-item:nth-child(3),
+            .stat-item:nth-child(4) { border-bottom: none; }
+
+            /* Philosophy: 2열 그리드 */
+            .philosophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .phil-card { padding: 18px 14px; }
+            .phil-icon { width: 36px; height: 36px; margin-bottom: 10px; }
+
+            /* 타임라인 여백 조정 */
+            .timeline { padding-left: 28px; }
+            .timeline-dot { left: -22px; width: 16px; height: 16px; }
+            .timeline::before { left: 7px; }
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- 모바일 햄버거 드로어 (layout.js가 주입) -->
+<div class="nav-drawer-overlay" id="navDrawerOverlay" onclick="closeNavDrawer()"></div>
+<nav class="nav-drawer" id="navDrawer">
+  <div class="nav-drawer-header">
+    <a class="nav-drawer-brand" href="/">
+      <div class="lightning"><svg viewBox="0 0 28 28"><path fill-rule="evenodd" fill="white" d="M14,9.5 C15.5,7.8 18.2,7 20.8,7.8 C23.4,8.6 24.8,11 24.2,13.2 C23.6,15.4 21.4,17.2 18.8,17.8 C16.8,18.2 15.2,17 14,15.8 C12.8,17 11.2,18.2 9.2,17.8 C6.6,17.2 4.4,15.4 3.8,13.2 C3.2,11 4.6,8.6 7.2,7.8 C9.8,7 12.5,7.8 14,9.5 Z M8.8,10.2 C10.2,9.4 12.2,10.6 12.2,13 C12.2,15.4 10.2,16.6 8.8,16.2 C7.4,15.8 5.8,14.2 5.8,13 C5.8,11.5 7.4,10.8 8.8,10.2 Z M19.2,10.2 C20.6,10.8 22.2,11.5 22.2,13 C22.2,14.2 20.6,15.8 19.2,16.2 C17.8,16.6 15.8,15.4 15.8,13 C15.8,10.6 17.8,9.4 19.2,10.2 Z"/></svg></div>Vibe Studio
+    </a>
+    <button class="nav-drawer-close" onclick="closeNavDrawer()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="nav-drawer-body">
+    <a class="nav-drawer-item" href="/"><div class="nav-drawer-item-icon" style="background:rgba(168,85,247,.15)"><svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>Home</a>
+    <a class="nav-drawer-item active" href="/history"><div class="nav-drawer-item-icon" style="background:rgba(52,211,153,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg></div>History</a>
+    <a class="nav-drawer-item" href="/signal" style="color:#fb923c;"><div class="nav-drawer-item-icon" style="background:rgba(251,146,60,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#fb923c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/></svg></div>Signal</a>
+    <a class="nav-drawer-item" href="/about" style="color:#34d399;"><div class="nav-drawer-item-icon" style="background:rgba(52,211,153,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div>Apps</a>
+    <a class="nav-drawer-item" href="/donating"><div class="nav-drawer-item-icon" style="background:rgba(245,158,11,0.15);"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>♥ Support</a>
+    <a class="nav-drawer-item" href="/contact"><div class="nav-drawer-item-icon" style="background:rgba(255,159,10,.12)"><svg viewBox="0 0 24 24" fill="none" stroke="#ff9f0a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>Contact</a>
+  </div>
+  <div class="nav-drawer-footer">
+    <div class="nav-drawer-footer-brand"><svg viewBox="0 0 28 28" style="width:12px;height:12px" fill="currentColor"><path fill-rule="evenodd" fill="#f5f5f7" d="M14,9.5 C15.5,7.8 18.2,7 20.8,7.8 C23.4,8.6 24.8,11 24.2,13.2 C23.6,15.4 21.4,17.2 18.8,17.8 C16.8,18.2 15.2,17 14,15.8 C12.8,17 11.2,18.2 9.2,17.8 C6.6,17.2 4.4,15.4 3.8,13.2 C3.2,11 4.6,8.6 7.2,7.8 C9.8,7 12.5,7.8 14,9.5 Z M8.8,10.2 C10.2,9.4 12.2,10.6 12.2,13 C12.2,15.4 10.2,16.6 8.8,16.2 C7.4,15.8 5.8,14.2 5.8,13 C5.8,11.5 7.4,10.8 8.8,10.2 Z M19.2,10.2 C20.6,10.8 22.2,11.5 22.2,13 C22.2,14.2 20.6,15.8 19.2,16.2 C17.8,16.6 15.8,15.4 15.8,13 C15.8,10.6 17.8,9.4 19.2,10.2 Z"/></svg>Vibe Studio</div>
+    <div class="nav-drawer-footer-copy">&copy; 2026 Vibe Studio. All rights reserved.<br>Powered by <strong>Prisincera</strong></div>
+  </div>
+</nav>
+
+<!-- 스포트라이트 (layout.js 활용) -->
+<div id="spotlight"></div>
+
+<!-- 공통 헤더 -->
+<nav class="top-nav" id="site-nav"></nav>
+
+<!-- ───────────────────────────── MAIN ───────────────────────────── -->
+<main>
+
+<div class="page-wrap">
+
+    <!-- ── 히어로 ─────────────────────────────────── -->
+    <section class="hero fade-up">
+        <div class="hero-eyebrow">
+            <i data-lucide="clock" style="width:12px;height:12px"></i>
+            Development History
+        </div>
+        <h1 class="hero-title">아이디어가 앱이 되는<br>여정의 기록</h1>
+        <p class="hero-sub">
+            기획자의 상상이 AI와 만나 현실이 된 순간들.<br>
+            Vibe Studio가 걸어온 모든 발자국을 담았습니다.
+        </p>
+    </section>
+
+    <!-- ── 통계 바 ─────────────────────────────────── -->
+    <div class="stats-bar fade-up" style="transition-delay:.1s">
+        <div class="stat-item">
+            <div class="stat-num">8</div>
+            <div class="stat-label">Web Apps</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">10</div>
+            <div class="stat-label">Dev Phases</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">AI</div>
+            <div class="stat-label">Vibe Coding</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-num">2026</div>
+            <div class="stat-label">Since</div>
+        </div>
+    </div>
+
+    <!-- ── 인용구 ─────────────────────────────────── -->
+    <div class="quote-block fade-up" style="transition-delay:.05s">
+        <p class="quote-text">
+            "코딩을 몰라도 <span class="quote-em">만들 수 있다</span>는 것을<br>
+            직접 증명하고 싶었습니다."
+        </p>
+        <p class="quote-attr">— Vibe Studio, 기획자 노트에서</p>
+    </div>
+
+    <!-- ── 개발 타임라인 ──────────────────────────── -->
+    <div style="margin-bottom:60px" class="fade-up">
+        <div class="section-title">
+            <i data-lucide="git-branch" style="width:14px;height:14px"></i>
+            Development Timeline
+        </div>
+
+        <div class="timeline">
+
+            <!-- Phase 1 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p1)">
+                    <i data-lucide="zap" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(94,92,230,0.15);color:var(--p1)">Phase 1</span>
+                    <span class="timeline-date">2026년 초</span>
+                </div>
+                <div class="timeline-title">기반 설계 — 세계관을 만들다</div>
+                <div class="timeline-desc">
+                    Vibe Studio의 첫 줄이 쓰인 순간. macOS 스타일 글라스모피즘 UI를 기반으로
+                    독(Dock) 인터페이스, 라이트/다크 테마, 파티클 배경을 설계했습니다.
+                    단 하나의 페이지에서 무한한 앱을 담을 수 있는 SPA 구조의 초석이 세워졌습니다.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag"><i data-lucide="layout-dashboard"></i>SPA 아키텍처</span>
+                    <span class="tag"><i data-lucide="sun"></i>테마 시스템</span>
+                    <span class="tag"><i data-lucide="sparkles"></i>글라스모피즘</span>
+                    <span class="tag"><i data-lucide="mail"></i>이메일 사전예약</span>
+                </div>
+            </div>
+
+            <!-- Phase 2 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p2)">
+                    <i data-lucide="package" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(0,122,255,0.15);color:var(--p2)">Phase 2</span>
+                    <span class="timeline-date">2026년 2월 ~ 3월 초</span>
+                </div>
+                <div class="timeline-title">핵심 앱 출시 — 생산성 도구의 탄생</div>
+                <div class="timeline-desc">
+                    생산성과 유틸리티를 위한 첫 번째 앱들이 연달아 탄생했습니다.
+                    PDF 분리, QR 생성·해독, 맞춤법 검사기, 박수 소음 측정기, 서버 모니터.
+                    "코딩 없이 만든다"는 개념이 실제 작동하는 도구로 증명된 단계입니다.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">📄 PDF Splitter</span>
+                    <span class="tag">🔗 QR Master</span>
+                    <span class="tag">✍️ Spell Check</span>
+                    <span class="tag">👏 Clap Meter</span>
+                    <span class="tag">🖥️ Server Monitor</span>
+                </div>
+            </div>
+
+            <!-- Phase 3 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p3)">
+                    <i data-lucide="gamepad-2" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(255,107,53,0.15);color:var(--p3)">Phase 3</span>
+                    <span class="timeline-date">2026년 3월 10일 ~ 12일</span>
+                </div>
+                <div class="timeline-title">게임 앱 통합 — 즐거움을 더하다</div>
+                <div class="timeline-card">
+                    <div style="font-size:13px;color:var(--text-sub);line-height:1.7">
+                        생산성만으로는 부족했습니다. 두 개의 게임이 Vibe Studio에 합류했습니다.
+                        <strong style="color:var(--text-main)">파친코</strong>는 중력 물리 시뮬레이션 기반의 미니 아케이드,
+                        <strong style="color:var(--text-main)">탱그램</strong>은 7개 조각으로 완성하는 두뇌 자극 퍼즐.
+                        두 앱 모두 Canvas 기반으로 완전히 브라우저에서 실행됩니다.
+                        탱그램 이식 과정에서 발생한 좌표계 문제를 해결하며 기술적 깊이도 높아졌습니다.
+                    </div>
+                    <div class="timeline-tags" style="margin-top:12px">
+                        <span class="tag">🎰 Pachinko</span>
+                        <span class="tag">🧩 Tangram</span>
+                        <span class="tag"><i data-lucide="cpu"></i>Canvas 물리엔진</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 4 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p4)">
+                    <i data-lucide="smartphone" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(255,45,85,0.15);color:var(--p4)">Phase 4</span>
+                    <span class="timeline-date">2026년 3월 15일 ~ 17일</span>
+                </div>
+                <div class="timeline-title">UI/UX 전면 리뉴얼 — 모바일을 품다</div>
+                <div class="timeline-desc">
+                    "PC에서만 잘 보이면 된다"는 생각을 버렸습니다.
+                    모바일 터치 드래그 컨트롤, 햄버거 메뉴 드로어, 헤더/푸터 완전 통일.
+                    Vibe Studio는 이 단계를 거쳐 진정한 반응형 서비스로 거듭났습니다.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag">👆 터치 컨트롤</span>
+                    <span class="tag"><i data-lucide="menu"></i>햄버거 드로어</span>
+                    <span class="tag"><i data-lucide="monitor-smartphone"></i>반응형 완성</span>
+                </div>
+            </div>
+
+            <!-- Phase 5 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p5)">
+                    <i data-lucide="search" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(52,211,153,0.15);color:var(--p5)">Phase 5</span>
+                    <span class="timeline-date">2026년 3월 18일</span>
+                </div>
+                <div class="timeline-title">홈 리뉴얼 &amp; SEO — 세상에 알리다</div>
+                <div class="timeline-desc">
+                    아무리 좋은 서비스도 찾지 못하면 의미 없습니다.
+                    홈페이지 전면 리뉴얼과 함께 각 앱의 전용 랜딩 페이지를 제작했습니다.
+                    Schema.org 구조화 데이터, OG 태그, Canonical URL로 검색 엔진 최적화를 완성했고,
+                    어드민 패널에 보안 이벤트 모니터링 기능을 추가했습니다.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag"><i data-lucide="globe"></i>SEO 최적화</span>
+                    <span class="tag"><i data-lucide="file-text"></i>7개 랜딩 페이지</span>
+                    <span class="tag"><i data-lucide="shield"></i>보안 모니터링</span>
+                </div>
+            </div>
+
+            <!-- Phase 6 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p6)">
+                    <i data-lucide="code-2" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(168,85,247,0.15);color:var(--p6)">Phase 6</span>
+                    <span class="timeline-date">2026년 3월 19일</span>
+                </div>
+                <div class="timeline-title">코드 품질 — 지속 가능성을 설계하다</div>
+                <div class="timeline-card">
+                    <div style="font-size:13px;color:var(--text-sub);line-height:1.7">
+                        기능을 추가하는 것만큼 중요한 것은 <em style="color:var(--text-main);font-style:normal;font-weight:600">유지보수 가능한 코드</em>를 만드는 일입니다.
+                        보안 자격증명 중앙화, 알림 UI 개선(팝업 → 토스트), 랜딩 페이지 템플릿 엔진 도입으로
+                        7개 파일의 반복 코드를 설정 20줄로 압축했습니다.
+                        자동화 배포 스크립트와 개발자 가이드도 이 단계에서 완성됐습니다.
+                    </div>
+                    <div class="timeline-tags" style="margin-top:12px">
+                        <span class="tag"><i data-lucide="lock"></i>보안 강화</span>
+                        <span class="tag"><i data-lucide="bell"></i>토스트 알림</span>
+                        <span class="tag"><i data-lucide="layers"></i>템플릿 엔진</span>
+                        <span class="tag"><i data-lucide="rocket"></i>배포 자동화</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 7 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p7)">
+                    <i data-lucide="book-open" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(255,159,10,0.15);color:var(--p7)">Phase 7</span>
+                    <span class="timeline-date">2026년 3월 19일</span>
+                </div>
+                <div class="timeline-title">히스토리 공개 — 여정을 나누다</div>
+                <div class="timeline-desc">
+                    개발 과정을 외부와 공유하기 위한 공개 히스토리 페이지를 신설했습니다.
+                    Phase별 마일스톤, 앱 출시 연대기, 제작 철학을 담아 Vibe Studio의 이야기를 투명하게 공개했습니다.
+                    내비게이션도 Home · About · History · Contact 4탭 구조로 확장됐습니다.
+                </div>
+                <div class="timeline-tags">
+                    <span class="tag"><i data-lucide="clock"></i>History 페이지</span>
+                    <span class="tag"><i data-lucide="navigation"></i>4탭 내비게이션</span>
+                    <span class="tag"><i data-lucide="share-2"></i>공개 아카이브</span>
+                </div>
+            </div>
+
+            <!-- Phase 8 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p8)">
+                    <i data-lucide="zap" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(34,211,238,0.15);color:var(--p8)">Phase 8</span>
+                    <span class="timeline-date">2026년 3월 23일 ~ 25일</span>
+                </div>
+                <div class="timeline-title">Signal 출시 — AI 뉴스를 매일 전달하다</div>
+                <div class="timeline-card">
+                    <div style="font-size:13px;color:var(--text-sub);line-height:1.7">
+                        단순히 도구를 만드는 것을 넘어, <em style="color:var(--text-main);font-style:normal;font-weight:600">콘텐츠 서비스</em>로 확장했습니다.
+                        <strong style="color:var(--text-main)">Signal</strong>은 Gemini AI가 매일 수백 개의 AI 뉴스 중
+                        신뢰도·중요도 기반으로 최대 8건을 선별해 한국어로 요약·게시하는 일간 AI 뉴스 서비스입니다.
+                        PHP + MariaDB 기반 파이프라인이 매일 오전 KST 기준으로 자동 수집·요약하며,
+                        구독자에게는 헤드라인 이메일을 발송합니다.
+                        구독에는 <strong style="color:var(--text-main)">Google OAuth</strong> 원클릭 방식을 도입해
+                        어느 페이지에서든 로그인한 계정이 자동으로 인식되는 전역 세션 구조를 구현했습니다.
+                        내비게이션에 <strong style="color:var(--text-main)">Signal 메뉴</strong>가 추가되어
+                        서비스 전면에 노출됐습니다.
+                    </div>
+                    <div class="timeline-tags" style="margin-top:12px">
+                        <span class="tag"><i data-lucide="zap"></i>Signal 서비스</span>
+                        <span class="tag"><i data-lucide="newspaper"></i>AI 뉴스 큐레이션</span>
+                        <span class="tag"><i data-lucide="log-in"></i>Google OAuth 구독</span>
+                        <span class="tag"><i data-lucide="archive"></i>날짜별 아카이브</span>
+                        <span class="tag"><i data-lucide="mail"></i>이메일 알림</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 9 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p9)">
+                    <i data-lucide="heart" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(245,158,11,0.15);color:var(--p9)">Phase 9</span>
+                    <span class="timeline-date">2026년 3월 25일</span>
+                </div>
+                <div class="timeline-title">후원 시스템 — 응원을 만나다</div>
+                <div class="timeline-card">
+                    <div style="font-size:13px;color:var(--text-sub);line-height:1.7">
+                        서비스를 좋아해주는 분들이 직접 응원을 표현할 수 있는 공간을 만들었습니다.
+                        <strong style="color:var(--text-main)">PayApp PG</strong> 연동으로 실제 결제가 가능하고,
+                        후원 완료 후 이름과 응원 메시지를 남기면 <strong style="color:var(--text-main)">후원자 명단</strong>에 공개됩니다.
+                        결제 상태 실시간 폴링, 이중 서버 검증, 취소 처리까지 완성된 결제 시스템입니다.
+                    </div>
+                    <div class="timeline-tags" style="margin-top:12px">
+                        <span class="tag"><i data-lucide="credit-card"></i>PayApp PG</span>
+                        <span class="tag"><i data-lucide="users"></i>후원자 명단</span>
+                        <span class="tag"><i data-lucide="refresh-cw"></i>실시간 폴링</span>
+                        <span class="tag"><i data-lucide="shield-check"></i>이중 검증</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phase 10 -->
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:var(--p10)">
+                    <i data-lucide="settings" style="width:10px;height:10px;color:#fff"></i>
+                </div>
+                <div class="timeline-header">
+                    <span class="timeline-phase" style="background:rgba(232,121,249,0.15);color:var(--p10)">Phase 10</span>
+                    <span class="timeline-date">2026년 3월 26일</span>
+                </div>
+                <div class="timeline-title">후원 관리 고도화 — 데이터 정합성을 완성하다</div>
+                <div class="timeline-card">
+                    <div style="font-size:13px;color:var(--text-sub);line-height:1.7">
+                        실제 후원 데이터를 운영하며 발견한 과제들을 해결했습니다.
+                        어드민 패널에 <strong style="color:var(--text-main)">후원 관리 탭</strong>을 신설해
+                        KPI 대시보드, 상태 필터, 공개/비공개 토글, 수동 취소 기능을 갖췄습니다.
+                        취소 웹훅 처리 강화, UTC→KST 시각 통일, 중복 DB 연결 제거로
+                        후원 시스템이 안정적인 운영 체계를 갖추게 됐습니다.
+                    </div>
+                    <div class="timeline-tags" style="margin-top:12px">
+                        <span class="tag"><i data-lucide="bar-chart-2"></i>후원 관리 탭</span>
+                        <span class="tag"><i data-lucide="clock"></i>KST 시각 통일</span>
+                        <span class="tag"><i data-lucide="shield"></i>데이터 정합성</span>
+                        <span class="tag"><i data-lucide="code-2"></i>코드 리팩토링</span>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /timeline -->
+    </div>
+
+    <!-- ── 앱 출시 연대기 ──────────────────────────── -->
+    <div style="margin-bottom:60px" class="fade-up">
+        <div class="section-title">
+            <i data-lucide="grid-3x3" style="width:14px;height:14px"></i>
+            LAUNCH TIME LINE
+        </div>
+
+        <div class="app-grid">
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#34d399,#10b981)">🖥️</div>
+                <div class="app-name">Server Monitor</div>
+                <div class="app-date">2026년 2월</div>
+                <span class="app-badge" style="background:rgba(52,211,153,.12);color:#34d399">#1 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#ff6b63,#ff3b30)">📄</div>
+                <div class="app-name">PDF Splitter</div>
+                <div class="app-date">2026년 2월</div>
+                <span class="app-badge" style="background:rgba(255,59,48,.12);color:#ff3b30">#2 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#40b3ff,#007aff)">🔗</div>
+                <div class="app-name">QR Master</div>
+                <div class="app-date">2026년 2월</div>
+                <span class="app-badge" style="background:rgba(0,122,255,.12);color:#007aff">#3 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#ffcc00,#ff9500)">👏</div>
+                <div class="app-name">Clap Meter</div>
+                <div class="app-date">2026년 2월</div>
+                <span class="app-badge" style="background:rgba(255,149,0,.12);color:#ff9500">#4 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6)">✍️</div>
+                <div class="app-name">Spell Check</div>
+                <div class="app-date">2026년 3월 초</div>
+                <span class="app-badge" style="background:rgba(139,92,246,.12);color:#a78bfa">#5 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#ff5274,#d81b60)">🎰</div>
+                <div class="app-name">Pachinko</div>
+                <div class="app-date">2026년 3월 10일</div>
+                <span class="app-badge" style="background:rgba(255,45,85,.12);color:#ff2d55">#6 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#ff8c5a,#ff6b35)">🧩</div>
+                <div class="app-name">Tangram</div>
+                <div class="app-date">2026년 3월 11일</div>
+                <span class="app-badge" style="background:rgba(255,107,53,.12);color:#ff6b35">#7 출시</span>
+            </div>
+            <div class="app-card">
+                <div class="app-icon" style="background:linear-gradient(135deg,#8b89ff,#5e5ce6)">⚡</div>
+                <div class="app-name">System Info</div>
+                <div class="app-date">2026년 2월</div>
+                <span class="app-badge" style="background:rgba(94,92,230,.12);color:#5e5ce6">#8 출시</span>
+            </div>
+            <!-- Signal: 서비스 소개 카드 (full-row) -->
+            <a href="/signal" class="signal-svc-card">
+                <div class="signal-svc-icon">
+                    <svg viewBox="0 0 24 24" fill="white" style="width:24px;height:24px"><path fill-rule="evenodd" fill="#f5f5f7" d="M14,9.5 C15.5,7.8 18.2,7 20.8,7.8 C23.4,8.6 24.8,11 24.2,13.2 C23.6,15.4 21.4,17.2 18.8,17.8 C16.8,18.2 15.2,17 14,15.8 C12.8,17 11.2,18.2 9.2,17.8 C6.6,17.2 4.4,15.4 3.8,13.2 C3.2,11 4.6,8.6 7.2,7.8 C9.8,7 12.5,7.8 14,9.5 Z M8.8,10.2 C10.2,9.4 12.2,10.6 12.2,13 C12.2,15.4 10.2,16.6 8.8,16.2 C7.4,15.8 5.8,14.2 5.8,13 C5.8,11.5 7.4,10.8 8.8,10.2 Z M19.2,10.2 C20.6,10.8 22.2,11.5 22.2,13 C22.2,14.2 20.6,15.8 19.2,16.2 C17.8,16.6 15.8,15.4 15.8,13 C15.8,10.6 17.8,9.4 19.2,10.2 Z"/></svg>
+                </div>
+                <div class="signal-svc-body">
+                    <div class="signal-svc-name">Signal</div>
+                    <div class="signal-svc-date">2026년 3월 24일</div>
+                    <div class="signal-svc-desc">Gemini AI가 매일 선별·요약한 AI 핵심 뉴스 큐레이션 서비스. 날짜별 누적 아카이브 제공, 구독하면 매일 아침 이메일로 도착합니다.</div>
+                </div>
+                <div class="signal-svc-right">
+                    <span class="signal-svc-badge">#9 출시</span>
+                    <span class="signal-svc-type">AI News Service</span>
+                </div>
+            </a>
+            <div class="app-card" style="border-style:dashed;opacity:0.55">
+                <div class="app-icon" style="background:rgba(168,85,247,0.1)">
+                    <i data-lucide="plus" style="width:24px;height:24px;color:var(--accent)"></i>
+                </div>
+                <div class="app-name" style="color:var(--text-muted)">Coming Soon</div>
+                <div class="app-date">준비 중</div>
+                <span class="app-badge" style="background:rgba(168,85,247,.08);color:var(--accent)">Next Up</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── 제작 철학 ────────────────────────────────── -->
+    <div style="margin-bottom:60px" class="fade-up">
+        <div class="section-title">
+            <i data-lucide="heart" style="width:14px;height:14px"></i>
+            Design Philosophy
+        </div>
+
+        <div class="philosophy-grid">
+            <div class="phil-card">
+                <div class="phil-icon" style="background:rgba(94,92,230,0.12)">
+                    <i data-lucide="sparkles" style="color:#5e5ce6"></i>
+                </div>
+                <div class="phil-title">AI 바이브 코딩</div>
+                <div class="phil-desc">코딩 지식 없이 아이디어만으로 앱을 만드는 새로운 방식. 기획자의 사고로 AI를 지휘합니다.</div>
+            </div>
+            <div class="phil-card">
+                <div class="phil-icon" style="background:rgba(0,122,255,0.12)">
+                    <i data-lucide="layers" style="color:#007aff"></i>
+                </div>
+                <div class="phil-title">글라스모피즘</div>
+                <div class="phil-desc">반투명 유리 질감의 UI로 깊이감과 프리미엄함을 동시에. macOS의 미학을 웹으로 재해석했습니다.</div>
+            </div>
+            <div class="phil-card">
+                <div class="phil-icon" style="background:rgba(52,211,153,0.12)">
+                    <i data-lucide="zap" style="color:#34d399"></i>
+                </div>
+                <div class="phil-title">설치 없는 자유</div>
+                <div class="phil-desc">앱 스토어 없이, 설치 없이, 브라우저 하나로. 모든 도구가 즉시 실행됩니다.</div>
+            </div>
+            <div class="phil-card">
+                <div class="phil-icon" style="background:rgba(255,159,10,0.12)">
+                    <i data-lucide="refresh-cw" style="color:#ff9f0a"></i>
+                </div>
+                <div class="phil-title">끊임없는 개선</div>
+                <div class="phil-desc">출시가 끝이 아닙니다. 사용자 경험, 성능, 코드 품질 — 모든 것이 지속적으로 발전합니다.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── 마무리 인용구 ──────────────────────────── -->
+    <div class="quote-block fade-up" style="padding-top:20px">
+        <p class="quote-text" style="font-size:clamp(16px,3vw,22px); color:var(--text-sub); font-weight:500">
+            이 페이지 자체도<br>
+            <span class="quote-em">AI와 함께 만들었습니다.</span>
+        </p>
+        <p class="quote-attr" style="margin-top:8px">Vibe Studio는 계속 성장 중입니다 ✦</p>
+    </div>
+
+</div><!-- /page-wrap -->
+</main>
+
+<!-- 공통 푸터 -->
+<footer class="footer" id="site-footer"></footer>
+
+<!-- 공통 레이아웃 & 네비 -->
+<script>window.LAYOUT_ROOT = './';</script>
+<script src="js/layout.js?v=20260331"></script>
+
+<script>
+    // 아이콘 초기화
+    if (window.lucide) lucide.createIcons();
+
+    // Spotlight
+    document.addEventListener('mousemove', function(e) {
+        var s = document.getElementById('spotlight');
+        if (s) { s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px'; }
+    });
+
+    // Fade-up Observer
+    var _observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(function(el) { _observer.observe(el); });
+
+    // Nav Drawer
+    function openNavDrawer() {
+        document.getElementById('navDrawer').classList.add('open');
+        document.getElementById('navDrawerOverlay').classList.add('open');
+        document.getElementById('hamburgerBtn').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeNavDrawer() {
+        document.getElementById('navDrawer').classList.remove('open');
+        document.getElementById('navDrawerOverlay').classList.remove('open');
+        document.getElementById('hamburgerBtn').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNavDrawer(); });
+
+    // Theme toggle
+    function toggleTheme() {
+        var html = document.documentElement;
+        var icon = document.getElementById('themeIcon');
+        var isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        localStorage.setItem('vibe-theme', isDark ? 'light' : 'dark');
+        if (icon) icon.setAttribute('data-lucide', isDark ? 'moon' : 'sun');
+        if (window.lucide) lucide.createIcons();
+    }
+</script>
+
+</body>
+</html>

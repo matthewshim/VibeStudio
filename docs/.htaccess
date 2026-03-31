@@ -1,0 +1,3 @@
+# docs 디렉터리 외부 접근 전면 차단
+Order Deny,Allow
+Deny from all

@@ -1,0 +1,704 @@
+<div class="admin-container">
+
+    <!-- ── 로그인 뷰 ──────────────────────────────────── -->
+    <div id="admin-login" class="admin-sub-view">
+        <div class="admin-login-view">
+            <div class="admin-login-card">
+                <i data-lucide="shield-check"
+                    style="width: 48px; height: 48px; color: var(--sys-primary); margin-bottom: 14px;"></i>
+                <h2>관리자 인증</h2>
+                <input type="text" id="admin-id" class="mac-input" placeholder="아이디" autofocus>
+                <input type="password" id="admin-pw" class="mac-input" placeholder="비밀번호">
+                <button class="mac-btn" onclick="tryAdminLogin()"
+                    style="background: var(--sys-primary); color: white;">로그인</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ── 관리자 패널 뷰 ─────────────────────────────── -->
+    <div id="admin-panel" class="admin-sub-view" style="display:none;">
+
+        <!-- 탭 네비게이션 -->
+        <div class="admin-tabs">
+            <div class="admin-tabs-scroll">
+                <button class="admin-tab active" id="tab-stats" onclick="showAdminTab('stats')">
+                    <i data-lucide="bar-chart-2" style="width:13px;height:13px;"></i> 통계
+                </button>
+                <button class="admin-tab" id="tab-fans" onclick="showAdminTab('fans')">
+                    <i data-lucide="users" style="width:13px;height:13px;"></i> Fan
+                </button>
+                <button class="admin-tab" id="tab-settings" onclick="showAdminTab('settings')">
+                    <i data-lucide="shield" style="width:13px;height:13px;"></i> 관리자
+                </button>
+                <button class="admin-tab" id="tab-webapp" onclick="showAdminTab('webapp')">
+                    <i data-lucide="layout-grid" style="width:13px;height:13px;"></i> 웹앱
+                </button>
+                <button class="admin-tab" id="tab-seclog" onclick="showAdminTab('seclog')">
+                    <i data-lucide="shield-alert" style="width:13px;height:13px;"></i> 보안
+                </button>
+                <button class="admin-tab" id="tab-google" onclick="showAdminTab('google')">
+                    <i data-lucide="fingerprint" style="width:13px;height:13px;"></i> Google
+                </button>
+                <button class="admin-tab" id="tab-signal" onclick="showAdminTab('signal')">
+                    <i data-lucide="zap" style="width:13px;height:13px;"></i> Signal
+                </button>
+                <button class="admin-tab" id="tab-support" onclick="showAdminTab('support')">
+                    <i data-lucide="heart" style="width:13px;height:13px;"></i> Support
+                </button>
+            </div>
+            <div class="admin-tabs-actions">
+                <button class="admin-btn danger" onclick="adminLogout()">
+                    <i data-lucide="log-out" style="width:12px;height:12px;"></i> 로그아웃
+                </button>
+            </div>
+        </div>
+
+        <!-- ① 통계 뷰 -->
+        <div id="admin-view-stats" class="admin-panel-view active">
+            <!-- 날짜 필터 -->
+            <div class="stats-filter-bar">
+                <div class="stats-filter-presets">
+                    <button class="stats-preset active" onclick="setStatPreset(7, this)">7일</button>
+                    <button class="stats-preset" onclick="setStatPreset(14, this)">14일</button>
+                    <button class="stats-preset" onclick="setStatPreset(30, this)">30일</button>
+                </div>
+                <div class="stats-filter-custom">
+                    <input type="date" id="stats-from" class="stats-date-input">
+                    <span style="opacity:0.5;font-size:12px;">~</span>
+                    <input type="date" id="stats-to" class="stats-date-input">
+                    <button class="admin-btn primary" onclick="loadStats()" style="height:32px;padding:0 12px;font-size:12px;">
+                        <i data-lucide="search" style="width:12px;height:12px;"></i> 조회
+                    </button>
+                </div>
+            </div>
+
+            <!-- 요약 카드 -->
+            <div class="stats-summary-grid" id="stats-summary">
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">방문 수</div>
+                    <div class="stats-summary-value" id="sum-visit">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">Fan 신규 등록</div>
+                    <div class="stats-summary-value" id="sum-fan-reg">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">전체 Fan 수</div>
+                    <div class="stats-summary-value" id="sum-total-fan">—</div>
+                </div>
+                <div class="stats-summary-card loading">
+                    <div class="stats-summary-label">앱 실행 (합계)</div>
+                    <div class="stats-summary-value" id="sum-apps">—</div>
+                </div>
+            </div>
+
+            <!-- 차트: 방문 추이 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="trending-up" style="width:15px;height:15px;color:var(--sys-primary);"></i>
+                    일별 방문 수
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="chart-visit"></canvas>
+                </div>
+            </div>
+
+            <!-- 차트: 앱별 실행 수 (바 차트) -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="layout-grid" style="width:15px;height:15px;color:#a855f7;"></i>
+                    앱별 실행 수
+                </div>
+                <div class="stats-chart-wrap">
+                    <canvas id="chart-apps"></canvas>
+                </div>
+            </div>
+
+            <!-- 일별 상세 테이블 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="table" style="width:15px;height:15px;color:#34d399;"></i>
+                    일별 상세 데이터
+                </div>
+                <div class="admin-table-container" id="stats-detail-table-wrap" style="margin-top:10px;">
+                    <table class="admin-table" id="stats-detail-table">
+                        <thead>
+                            <tr>
+                                <th>날짜</th>
+                                <th>방문</th>
+                                <th>신규 Fan</th>
+                                <th>탱그램</th>
+                                <th>파친코</th>
+                                <th>서버 모니터</th>
+                                <th>시스템</th>
+                                <th>PDF</th>
+                                <th>QR</th>
+                                <th>클랩미터</th>
+                                <th>맞춤법</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-detail-body">
+                            <tr><td colspan="11" style="text-align:center;padding:30px;color:var(--text-muted);">날짜를 선택하고 조회하세요</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ② Fan 목록 뷰 -->
+        <div id="admin-view-fans" class="admin-panel-view">
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(94,92,230,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="users" style="width: 20px; height: 20px; color: var(--sys-primary);"></i>
+                    </div>
+                    Fan 목록
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAdminList()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- PC: 테이블 -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>이메일 주소</th>
+                            <th>신청 항목</th>
+                            <th>마케팅</th>
+                            <th>가입 방식</th>
+                            <th>완료 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-list-body">
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                                데이터를 불러오는 중...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Mobile: 카드 리스트 -->
+            <div class="admin-card-list" id="admin-card-list">
+                <div style="text-align:center; padding: 40px 0; color: var(--text-muted); font-size:14px;">
+                    데이터를 불러오는 중...
+                </div>
+            </div>
+        </div>
+
+        <!-- ③ 관리자 설정 뷰 -->
+        <div id="admin-view-settings" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(168,85,247,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="shield" style="width: 20px; height: 20px; color: #a855f7;"></i>
+                    </div>
+                    관리자 설정
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAdminAccounts()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- 계정 추가 폼 -->
+            <div class="acct-add-card">
+                <div class="acct-add-title">
+                    <i data-lucide="user-plus" style="width:16px;height:16px;color:#a855f7;"></i>
+                    새 관리자 계정 추가
+                </div>
+                <div class="acct-add-form">
+                    <div class="acct-field-group">
+                        <label class="acct-label">아이디</label>
+                        <input type="text" id="new-admin-id" class="acct-input" placeholder="3~50자 영문/숫자" autocomplete="off">
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">이름</label>
+                        <input type="text" id="new-admin-name" class="acct-input" placeholder="표시 이름 (선택)" autocomplete="off">
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">비밀번호</label>
+                        <div class="acct-pw-wrap">
+                            <input type="password" id="new-admin-pw" class="acct-input" placeholder="최소 4자 이상" autocomplete="new-password">
+                            <button class="acct-pw-toggle" type="button" onclick="toggleNewPw(this)" title="비밀번호 표시">
+                                <i data-lucide="eye" style="width:14px;height:14px;"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="acct-field-group">
+                        <label class="acct-label">권한</label>
+                        <select id="new-admin-role" class="acct-input acct-select">
+                            <option value="admin">Admin</option>
+                            <option value="superadmin">Super Admin</option>
+                        </select>
+                    </div>
+                    <button class="acct-add-btn" onclick="addAdminAccount()">
+                        <i data-lucide="plus" style="width:15px;height:15px;"></i>
+                        계정 추가
+                    </button>
+                </div>
+                <div id="acct-add-msg" class="acct-msg" style="display:none;"></div>
+            </div>
+
+            <!-- 계정 목록 -->
+            <div class="acct-list-block">
+                <div class="acct-list-title">
+                    <i data-lucide="users" style="width:15px;height:15px;color:var(--sys-primary);"></i>
+                    관리자 계정 목록
+                    <span id="acct-count-badge" class="acct-count-badge">—</span>
+                </div>
+
+                <!-- PC Table -->
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>아이디</th>
+                                <th>이름</th>
+                                <th>권한</th>
+                                <th>생성일</th>
+                                <th>수정일</th>
+                                <th>관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acct-table-body">
+                            <tr><td colspan="7" style="text-align:center;padding:30px;color:var(--text-muted);">불러오는 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Mobile Card -->
+                <div class="admin-card-list" id="acct-card-list">
+                    <div style="text-align:center;padding:30px 0;color:var(--text-muted);font-size:14px;">불러오는 중...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ④ 웹앱 설정 뷰 -->
+        <div id="admin-view-webapp" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(52,211,153,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="layout-grid" style="width: 20px; height: 20px; color: #34d399;"></i>
+                    </div>
+                    웹앱 설정
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchAppSettings()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <p style="font-size:13px;color:var(--text-muted);margin:0 0 18px;line-height:1.6;">
+                독(Dock)에 노출할 웹앱을 선택하세요. OFF로 설정된 앱은 메인 화면 독에서 숨겨집니다.
+            </p>
+
+            <!-- 앱 토글 카드 목록 -->
+            <div id="webapp-toggle-list" class="webapp-toggle-list">
+                <div style="text-align:center;padding:40px;color:var(--text-muted);">불러오는 중...</div>
+            </div>
+
+        </div>
+
+        <!-- ⑤ 보안 로그 뷰 -->
+        <div id="admin-view-seclog" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(255,69,58,0.12); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="shield-alert" style="width: 20px; height: 20px; color: #ff453a;"></i>
+                    </div>
+                    보안 로그
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchSecurityLogs()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- 요약 카드 -->
+            <div class="seclog-summary-grid" id="seclog-summary">
+                <div class="seclog-summary-card" id="seclog-card-success">
+                    <div class="seclog-summary-icon" style="background:rgba(52,211,153,0.15);">
+                        <i data-lucide="check-circle" style="width:18px;height:18px;color:#34d399;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">로그인 성공</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="seclog-success-24h">—</span>
+                            <span class="seclog-num-sub" id="seclog-success-total">합계 —</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seclog-summary-card" id="seclog-card-fail">
+                    <div class="seclog-summary-icon" style="background:rgba(255,159,10,0.15);">
+                        <i data-lucide="alert-triangle" style="width:18px;height:18px;color:#ff9f0a;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">로그인 실패</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="seclog-fail-24h">—</span>
+                            <span class="seclog-num-sub" id="seclog-fail-total">합계 —</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seclog-summary-card" id="seclog-card-blocked">
+                    <div class="seclog-summary-icon" style="background:rgba(255,69,58,0.15);">
+                        <i data-lucide="shield-x" style="width:18px;height:18px;color:#ff453a;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">IP 잠금</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="seclog-blocked-24h">—</span>
+                            <span class="seclog-num-sub" id="seclog-blocked-total">합계 —</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 검색 + 필터 바 -->
+            <div class="seclog-filter-bar">
+                <div class="seclog-filter-types">
+                    <button class="seclog-type-btn active" data-type="" onclick="setSeclogType('', this)">전체</button>
+                    <button class="seclog-type-btn" data-type="login_success" onclick="setSeclogType('login_success', this)">성공</button>
+                    <button class="seclog-type-btn" data-type="login_fail" onclick="setSeclogType('login_fail', this)">실패</button>
+                    <button class="seclog-type-btn" data-type="login_blocked" onclick="setSeclogType('login_blocked', this)">잠금</button>
+                </div>
+                <div class="seclog-search-wrap">
+                    <i data-lucide="search" style="width:13px;height:13px;color:var(--text-muted);"></i>
+                    <input type="text" id="seclog-search" class="seclog-search-input"
+                        placeholder="아이디 또는 IP 검색"
+                        oninput="onSeclogSearch(this.value)">
+                </div>
+            </div>
+
+            <!-- 로그 총 건수 -->
+            <div id="seclog-count-info" style="font-size:12px;color:var(--text-muted);margin:0 0 8px;"></div>
+
+            <!-- PC 테이블 -->
+            <div class="admin-table-container">
+                <table class="admin-table" id="seclog-table">
+                    <thead>
+                        <tr>
+                            <th style="width:32px;">#</th>
+                            <th style="width:100px;">이벤트</th>
+                            <th>아이디</th>
+                            <th>IP 주소</th>
+                            <th>User-Agent</th>
+                            <th style="width:130px;">시각</th>
+                        </tr>
+                    </thead>
+                    <tbody id="seclog-table-body">
+                        <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">로드 중...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 모바일 카드 -->
+            <div class="admin-card-list" id="seclog-card-list"></div>
+
+            <!-- 페이지네이션 -->
+            <div class="seclog-pagination" id="seclog-pagination"></div>
+
+        </div>
+
+        <!-- ⑥ Google 멤버 뷰 -->
+        <div id="admin-view-google" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background: rgba(66,133,244,0.15); padding: 7px; border-radius: 10px; display: flex; flex-shrink: 0;">
+                        <i data-lucide="fingerprint" style="width: 20px; height: 20px; color: #4285F4;"></i>
+                    </div>
+                    Google 멤버
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchGoogleMembers()">
+                        <i data-lucide="refresh-cw" style="width:13px; height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px;line-height:1.6;">
+                Google 로그인으로 사전예약한 회원 목록입니다. 추후 Google 기반 회원 전용 서비스에 활용됩니다.
+            </p>
+
+            <!-- 요약 카드 -->
+            <div style="display:flex;gap:12px;margin-bottom:18px;">
+                <div class="stats-summary-card" style="flex:1;min-width:0;">
+                    <div class="stats-summary-label">Google 멤버 수</div>
+                    <div class="stats-summary-value" id="google-member-count">—</div>
+                </div>
+            </div>
+
+            <!-- PC 테이블 -->
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>이메일 주소</th>
+                            <th>Google ID</th>
+                            <th>신청 항목</th>
+                            <th>마케팅</th>
+                            <th>가입 시간</th>
+                        </tr>
+                    </thead>
+                    <tbody id="google-member-table-body">
+                        <tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">데이터를 불러오는 중...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 모바일 카드 -->
+            <div class="admin-card-list" id="google-member-card-list"></div>
+
+        </div>
+
+        <!-- ⑦ Signal 뷰 -->
+        <div id="admin-view-signal" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background:rgba(251,146,60,0.15);padding:7px;border-radius:10px;display:flex;flex-shrink:0;">
+                        <i data-lucide="zap" style="width:20px;height:20px;color:#fb923c;"></i>
+                    </div>
+                    Signal 서비스
+                </h2>
+                <div class="admin-header-actions">
+                    <button class="admin-btn primary" onclick="fetchSignalOverview()">
+                        <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- ① 핵심 지표 카드 -->
+            <div class="seclog-summary-grid" id="signal-kpi-grid" style="margin-bottom:20px;">
+                <div class="seclog-summary-card">
+                    <div class="seclog-summary-icon" style="background:rgba(251,146,60,0.15);">
+                        <i data-lucide="users" style="width:18px;height:18px;color:#fb923c;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">구독자 수</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="signal-sub-total">—</span>
+                            <span class="seclog-num-sub">content_subscribe</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seclog-summary-card" id="signal-today-card">
+                    <div class="seclog-summary-icon" style="background:rgba(52,211,153,0.15);">
+                        <i data-lucide="mail-check" style="width:18px;height:18px;color:#34d399;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">오늘 발송</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="signal-today-sent">—</span>
+                            <span class="seclog-num-sub" id="signal-today-sub">확인 중</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seclog-summary-card">
+                    <div class="seclog-summary-icon" style="background:rgba(94,92,230,0.15);">
+                        <i data-lucide="newspaper" style="width:18px;height:18px;color:#5e5ce6;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">오늘 수집 기사</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="signal-news-today">—</span>
+                            <span class="seclog-num-sub" id="signal-last-collect">수집 시각 —</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seclog-summary-card">
+                    <div class="seclog-summary-icon" style="background:rgba(56,189,248,0.15);">
+                        <i data-lucide="globe" style="width:18px;height:18px;color:#38bdf8;"></i>
+                    </div>
+                    <div class="seclog-summary-body">
+                        <div class="seclog-summary-label">웹 페이지 게시</div>
+                        <div class="seclog-summary-nums">
+                            <span class="seclog-num-main" id="signal-page-status">—</span>
+                            <span class="seclog-num-sub" id="signal-last-page">최근 게시 —</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ② 스케줄러 상태 (날짜별 수집 기사) -->
+            <div class="stats-chart-block" style="margin-bottom:16px;">
+                <div class="stats-chart-title" style="display:flex;justify-content:space-between;align-items:center;">
+                    <span>
+                        <i data-lucide="clock" style="width:15px;height:15px;color:#fb923c;"></i>
+                        스케줄러 상태 — 수집된 기사
+                    </span>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <input type="date" id="signal-sched-date" class="stats-date-input"
+                            style="height:28px;font-size:12px;"
+                            onchange="fetchSignalScheduler()">
+                    </div>
+                </div>
+                <div id="signal-scheduler-body" style="margin-top:12px;">
+                    <div style="text-align:center;padding:30px;color:var(--text-muted);font-size:13px;">로드 중...</div>
+                </div>
+            </div>
+
+            <!-- ③ 메일 발송 이력 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="send" style="width:15px;height:15px;color:#34d399;"></i>
+                    메일 발송 이력
+                    <span id="signal-log-count" style="font-size:11px;font-weight:500;color:var(--text-muted);margin-left:8px;"></span>
+                </div>
+                <!-- PC 테이블 -->
+                <div class="admin-table-container" style="margin-top:12px;">
+                    <table class="admin-table" id="signal-log-table">
+                        <thead>
+                            <tr>
+                                <th>발송일</th>
+                                <th>제목</th>
+                                <th style="width:60px;">구독자</th>
+                                <th style="width:60px;">성공</th>
+                                <th style="width:60px;">실패</th>
+                                <th style="width:130px;">발송 시각</th>
+                            </tr>
+                        </thead>
+                        <tbody id="signal-log-body">
+                            <tr><td colspan="6" style="text-align:center;padding:30px;color:var(--text-muted);">로드 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 모바일 카드 -->
+                <div class="admin-card-list" id="signal-log-card-list"></div>
+                <!-- 페이지네이션 -->
+                <div id="signal-log-pagination" style="display:flex;justify-content:center;gap:6px;margin-top:12px;"></div>
+            </div>
+
+        </div>
+
+        <!-- ⑧ Support 후원 관리 뷰 -->
+        <div id="admin-view-support" class="admin-panel-view">
+
+            <!-- 헤더 -->
+            <div class="admin-header-flex">
+                <h2 class="admin-header-title">
+                    <div style="background:rgba(245,158,11,0.15);padding:7px;border-radius:10px;display:flex;flex-shrink:0;">
+                        <i data-lucide="heart" style="width:20px;height:20px;color:#f59e0b;"></i>
+                    </div>
+                    Support 후원 관리
+                </h2>
+                <div class="admin-header-actions">
+                    <select id="support-range-select" class="stats-date-input" onchange="fetchDonations()" style="height:34px;font-size:12px;cursor:pointer;">
+                        <option value="all">전체</option>
+                        <option value="today">오늘</option>
+                        <option value="7d">최근 7일</option>
+                        <option value="30d">최근 30일</option>
+                    </select>
+                    <button class="admin-btn primary" onclick="fetchDonations()">
+                        <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i> 새로고침
+                    </button>
+                </div>
+            </div>
+
+            <!-- KPI 요약 카드 -->
+            <div class="stats-summary-grid" id="support-kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px;">
+                <div class="stats-summary-card">
+                    <div class="stats-summary-label">💰 총 후원금 <span style="font-weight:400;opacity:.6;">(완료 기준)</span></div>
+                    <div class="stats-summary-value" id="kpi-total-amount">—</div>
+                    <div id="kpi-pending-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
+                </div>
+                <div class="stats-summary-card">
+                    <div class="stats-summary-label">✅ 완료 건수</div>
+                    <div class="stats-summary-value" id="kpi-completed">—</div>
+                    <div id="kpi-pending-count-note" style="font-size:11px;color:var(--text-muted);margin-top:4px;"></div>
+                </div>
+                <div class="stats-summary-card">
+                    <div class="stats-summary-label">📅 오늘 후원금 <span style="font-weight:400;opacity:.6;">(완료 기준)</span></div>
+                    <div class="stats-summary-value" id="kpi-today-amount">—</div>
+                </div>
+                <div class="stats-summary-card">
+                    <div class="stats-summary-label">👥 공개 명단</div>
+                    <div class="stats-summary-value" id="kpi-public-cnt">—</div>
+                </div>
+            </div>
+
+            <!-- 후원 로그 테이블 -->
+            <div class="stats-chart-block" style="margin-bottom:16px;">
+                <div class="stats-chart-title">
+                    <i data-lucide="list" style="width:15px;height:15px;color:#f59e0b;"></i>
+                    후원 로그
+                    <span id="support-log-count" style="font-size:11px;font-weight:500;color:var(--text-muted);margin-left:8px;"></span>
+                    <div style="margin-left:auto;display:flex;gap:6px;">
+                        <button class="seclog-type-btn active" data-status="" onclick="setSupportStatus('',this)">전체</button>
+                        <button class="seclog-type-btn" data-status="completed" onclick="setSupportStatus('completed',this)">완료</button>
+                        <button class="seclog-type-btn" data-status="pending" onclick="setSupportStatus('pending',this)">대기</button>
+                        <button class="seclog-type-btn" data-status="cancelled" onclick="setSupportStatus('cancelled',this)">취소</button>
+                    </div>
+                </div>
+                <!-- PC 테이블 -->
+                <div class="admin-table-container" style="margin-top:12px;">
+                    <table class="admin-table" id="support-log-table">
+                        <thead>
+                            <tr>
+                                <th style="width:36px;">#</th>
+                                <th>후원자명</th>
+                                <th>메시지</th>
+                                <th style="width:80px;">금액</th>
+                                <th style="width:70px;">상태</th>
+                                <th style="width:70px;">공개</th>
+                                <th style="width:130px;">일시</th>
+                            </tr>
+                        </thead>
+                        <tbody id="support-log-body">
+                            <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">로드 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 모바일 카드 -->
+                <div class="admin-card-list" id="support-log-card-list"></div>
+            </div>
+
+            <!-- 취소/실패 이력 -->
+            <div class="stats-chart-block">
+                <div class="stats-chart-title">
+                    <i data-lucide="x-circle" style="width:15px;height:15px;color:#ff453a;"></i>
+                    취소/실패 이력 (donation_attempts)
+                    <span id="support-attempt-count" style="font-size:11px;font-weight:500;color:var(--text-muted);margin-left:8px;"></span>
+                </div>
+                <div class="admin-table-container" style="margin-top:12px;">
+                    <table class="admin-table" id="support-attempt-table">
+                        <thead>
+                            <tr>
+                                <th style="width:36px;">#</th>
+                                <th>pay_state</th>
+                                <th>상태</th>
+                                <th style="width:80px;">금액</th>
+                                <th style="width:130px;">일시</th>
+                            </tr>
+                        </thead>
+                        <tbody id="support-attempt-body">
+                            <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--text-muted);">로드 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>

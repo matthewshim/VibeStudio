@@ -1,0 +1,25 @@
+
+                <div class="content-box">
+                    <label class="pdf-upload-box" for="pdfInput">
+                        <i data-lucide="file-up" style="width: 36px; height: 36px; color: var(--text-muted);"></i>
+                        <div style="font-weight: 600;">클릭하여 PDF 파일을 선택하세요</div>
+                        <div id="fileNameDisplay" style="font-size: 14px; color: var(--pdf-primary);"></div>
+                    </label>
+                    <input type="file" id="pdfInput" accept="application/pdf">
+                    <div id="previewHeader"
+                        style="display:none; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div style="font-size: 15px; font-weight: 700;">페이지 선택</div>
+                        <div>
+                            <button class="qr-tab-btn" onclick="selectAllPages()"
+                                style="font-size:12px; padding:6px 10px;">전체
+                                선택</button>
+                            <button class="qr-tab-btn" onclick="deselectAllPages()"
+                                style="font-size:12px; padding:6px 10px;">해제</button>
+                        </div>
+                    </div>
+                    <div id="previewGrid"></div>
+                    <button id="extractBtn" class="mac-btn" style="background: var(--pdf-primary);"
+                        onclick="extractSelectedPages()" disabled>
+                        <i data-lucide="download" style="width: 20px;"></i> 추출하여 저장
+                    </button>
+                </div>

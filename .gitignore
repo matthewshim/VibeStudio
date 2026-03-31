@@ -1,0 +1,29 @@
+# === 보안 민감 파일 ===
+config.php
+
+# === SSH 키 ===
+*.pem
+
+# === Composer 의존성 ===
+vendor/
+
+# === 백업 파일 ===
+*.bak
+
+# === 임시/디버그 파일 ===
+/tmp/
+debug_*.php
+patch_*.php
+patch_*.sh
+fix_*.sh
+republish.sh
+test_*.py
+
+# === OS/IDE ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# === Gemini AI Agent ===
+.gemini/

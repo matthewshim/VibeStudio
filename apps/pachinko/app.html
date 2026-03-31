@@ -1,0 +1,54 @@
+
+<div class="pachinko-container">
+    <!-- 상단 스코어보드 -->
+    <div class="pachinko-top-bar">
+        <div class="pachinko-stat">
+            <span class="pachinko-stat-label">BALLS</span>
+            <span id="balls" class="pachinko-stat-value">3</span>
+        </div>
+        <div class="pachinko-stat">
+            <span class="pachinko-stat-label">SCORE</span>
+            <span id="score" class="pachinko-stat-value">0</span>
+        </div>
+        <div class="pachinko-stat best">
+            <div class="best-group">
+                <span class="pachinko-stat-label">BEST</span>
+                <span id="best-score" class="pachinko-stat-value">0</span>
+            </div>
+            <button class="rank-mini-btn" id="rank-btn" title="순위 보기">
+                <i data-lucide="award"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 게임 캔버스 영역 -->
+    <div class="pachinko-game-wrapper">
+        <canvas id="gameCanvas" width="440" height="650"></canvas>
+
+        <!-- 게임 준비 오버레이 -->
+        <div class="pachinko-overlay active" id="pachinko-ready-overlay">
+            <div class="pachinko-ready-content">
+                <div class="ready-icon"><i data-lucide="user-plus"></i></div>
+                <h3>도전자 등록</h3>
+                <p>닉네임을 입력하고 게임을 시작하세요!</p>
+                <input type="text" id="nickname" class="mac-input" placeholder="닉네임 (최대 8자)" maxlength="8">
+                <button class="mac-btn" id="start-btn" style="background:#ff2d55;">게임 시작하기 🚀</button>
+                <div class="pachinko-guide-text">
+                    <b>PC:</b> 화살표 키로 이동, 마우스 클릭 유지로 발사<br>
+                    <b>MOBILE:</b> 화면 터치/드래그로 이동 및 발사
+                </div>
+            </div>
+        </div>
+
+        <!-- 모달 (공용) -->
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="ranking-modal" id="ranking-modal">
+            <div class="modal-header">
+                <h2>🏆 명예의 전당</h2>
+                <button class="modal-close" id="close-rank-btn"><i data-lucide="x"></i></button>
+            </div>
+            <ul class="modal-rank-list" id="rank-list"></ul>
+        </div>
+    </div>
+
+</div>
