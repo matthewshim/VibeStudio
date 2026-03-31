@@ -113,10 +113,13 @@ function cat_config(string $cat): array {
 }
 
 // ── 편집자 노트 Gemini 자동 생성 ─────────────────────────────
-function generate_editor_note(array $news): string {
+function generate_editor_note(array $news, ?string $model = null): string {
     $fallback = "오늘도 AI 세계에서 꼭 알아야 할 소식을 골랐습니다. 천천히 읽어보세요.";
     $api_key  = defined('GEMINI_API_KEY') ? GEMINI_API_KEY : '';
-    if (!$api_key) return $fallback;
+    if (!$api_key) { log_msg('⚠ GEMINI_API_KEY 미설정'); return $fallback; }
+
+    // gemini-2.5-flash를 기본으로 사용 (summarize.php와 동일)
+    $model = $model ?? (defined('GEMINI_MODEL_ALT') ? GEMINI_MODEL_ALT : 'gemini-2.5-flash');
 
     $context = '';
     foreach (array_slice($news, 0, 3) as $i => $item) {
@@ -130,19 +133,36 @@ function generate_editor_note(array $news): string {
         'contents'         => [['parts' => [['text' => $prompt]]]],
         'generationConfig' => ['maxOutputTokens' => 120, 'temperature' => 0.75],
     ]);
-    $url = GEMINI_API_URL . (defined('GEMINI_MODEL') ? GEMINI_MODEL : 'gemini-2.0-flash') . ':generateContent?key=' . $api_key;
+    $url = GEMINI_API_URL . $model . ':generateContent?key=' . $api_key;
+    log_msg("  Gemini 모델: {$model}");
     $ctx = stream_context_create(['http' => [
         'method'        => 'POST',
         'header'        => "Content-Type: application/json\r\n",
         'content'       => $payload,
-        'timeout'       => 15,
+        'timeout'       => 20,
         'ignore_errors' => true,
     ]]);
     $resp = @file_get_contents($url, false, $ctx);
-    if (!$resp) return $fallback;
-    $json = json_decode($resp, true);
-    $text = trim($json['candidates'][0]['content']['parts'][0]['text'] ?? '');
-    return $text ?: $fallback;
+    $status = isset($http_response_header[0]) ? (int)substr($http_response_header[0], 9, 3) : 0;
+    log_msg("  Gemini HTTP: {$status}");
+
+    if ($status === 200 && $resp) {
+        $json = json_decode($resp, true);
+        $text = trim($json['candidates'][0]['content']['parts'][0]['text'] ?? '');
+        if ($text) return $text;
+        log_msg('⚠ Gemini 응답에 텍스트 없음');
+    }
+
+    // 폴백: 다른 모델로 재시도 (1회)
+    $fallback_model = defined('GEMINI_MODEL') ? GEMINI_MODEL : 'gemini-2.0-flash';
+    if ($model !== $fallback_model) {
+        log_msg("⚠ {$model} 실패 (HTTP {$status}) — {$fallback_model} 폴백 시도");
+        sleep(3);
+        return generate_editor_note($news, $fallback_model);
+    }
+
+    log_msg('✗ 편집자 노트 Gemini 생성 실패 — 기본 텍스트 사용');
+    return $fallback;
 }
 
 // ── 헤드라인·메타 ─────────────────────────────────────────
