@@ -1170,25 +1170,43 @@ if ($action === 'signal_editor_note_update') {
 
         $html_updated = false;
         $file_path = $page['file_path'];
-        if (!$file_path) {
-            $file_path = '/opt/bitnami/apache2/htdocs/signal/' . $page['publish_date'] . '.html';
+
+        // file_path가 상대경로인 경우 (/signal/2026-04-01.html) htdocs 루트 prefix 추가
+        if ($file_path && $file_path[0] === '/' && !file_exists($file_path)) {
+            $file_path = __DIR__ . $file_path;
         }
+        // file_path가 비어 있으면 규칙 기반 절대경로 생성
+        if (!$file_path) {
+            $file_path = __DIR__ . '/signal/' . $page['publish_date'] . '.html';
+        }
+
+        error_log('[VibeAdmin] editor_note_update: resolved path=' . $file_path . ' exists=' . (file_exists($file_path) ? 'Y' : 'N'));
+
         if (file_exists($file_path)) {
             $html = file_get_contents($file_path);
             $escaped_note = htmlspecialchars($editor_note, ENT_QUOTES, 'UTF-8');
+
+            // editor-text div 내용 교체
+            $count = 0;
             $html = preg_replace(
                 '/<div class="editor-text">.*?<\/div>/s',
                 '<div class="editor-text">' . $escaped_note . '</div>',
-                $html
+                $html, 1, $count
             );
-            $json_note = json_encode($editor_note, JSON_UNESCAPED_UNICODE);
-            $html = preg_replace(
-                '/"editor_note"\s*:\s*"[^"]*"/',
-                '"editor_note":' . $json_note,
-                $html
-            );
+
+            // JSON editor_note 필드도 교체 (있는 경우에만)
+            if (preg_match('/"editor_note"/', $html)) {
+                $json_note = json_encode($editor_note, JSON_UNESCAPED_UNICODE);
+                $html = preg_replace(
+                    '/"editor_note"\s*:\s*"[^"]*"/',
+                    '"editor_note":' . $json_note,
+                    $html
+                );
+            }
+
             file_put_contents($file_path, $html);
             $html_updated = true;
+            error_log('[VibeAdmin] editor_note HTML updated: regex_matches=' . $count);
         }
 
         error_log('[VibeAdmin] editor_note updated: date=' . $page['publish_date'] . ' html=' . ($html_updated ? 'Y' : 'N'));
