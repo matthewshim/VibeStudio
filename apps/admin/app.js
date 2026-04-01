@@ -1315,6 +1315,7 @@ window.gotoSignalLogPage = function(p) {
 // ==========================================
 
 let _editorNoteState = { page: 0, perPage: 10, total: 0 };
+let _editorNoteMap = {};
 
 window.fetchEditorNotes = async function() {
     const tbody    = document.getElementById('editor-note-body');
@@ -1341,6 +1342,10 @@ function renderEditorNotes(list) {
     const cardList = document.getElementById('editor-note-card-list');
     const FALLBACK = '오늘도 AI 세계에서 꼭 알아야 할 소식을 골랐습니다';
 
+    // 편집자 노트 데이터를 전역 맵에 저장 (onclick에서 ID로 조회)
+    _editorNoteMap = {};
+    if (list) list.forEach(function(item) { _editorNoteMap[item.id] = item.editor_note || ''; });
+
     if (!list || list.length === 0) {
         if (tbody)    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:var(--text-muted);">편집자 노트가 없습니다.</td></tr>';
         if (cardList) cardList.innerHTML = '';
@@ -1366,7 +1371,7 @@ function renderEditorNotes(list) {
                     escapeHtml(notePreview) + statusBadge +
                 '</td>' +
                 '<td>' +
-                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ',' + JSON.stringify(escapeHtml(item.editor_note || '')) + ')" title="수정">' +
+                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ')" title="수정">' +
                         '<i data-lucide="pencil" style="width:11px;height:11px;"></i> 수정' +
                     '</button>' +
                 '</td>';
@@ -1393,7 +1398,7 @@ function renderEditorNotes(list) {
                     escapeHtml(item.editor_note || '-') +
                 '</div>' +
                 '<div style="display:flex;justify-content:flex-end;">' +
-                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ',' + JSON.stringify(escapeHtml(item.editor_note || '')) + ')">' +
+                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ')">' +
                         '<i data-lucide="pencil" style="width:11px;height:11px;"></i> 수정' +
                     '</button>' +
                 '</div>';
@@ -1402,11 +1407,9 @@ function renderEditorNotes(list) {
     }
 }
 
-window.editEditorNote = function(id, currentNote) {
-    // HTML 엔티티 디코드
-    const tmp = document.createElement('textarea');
-    tmp.innerHTML = currentNote;
-    const decoded = tmp.value;
+window.editEditorNote = function(id) {
+    // 전역 맵에서 편집자 노트 조회
+    const decoded = _editorNoteMap[id] || '';
 
     // PC row 인라인 편집
     const tr = document.getElementById('ednote-row-' + id);
