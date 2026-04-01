@@ -1115,6 +1115,96 @@ if ($action === 'donation_force_cancel') {
     exit;
 }
 
+/* ── Signal: 편집자 노트 목록 조회 ─────────────────────── */
+if ($action === 'signal_editor_notes') {
+    if (!isset($_SESSION['admin_auth']) || $_SESSION['admin_auth'] !== true) {
+        echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']); exit;
+    }
+    $pdo = get_db_conn();
+    if (!$pdo) { echo json_encode(['success' => false, 'message' => 'DB 연결 실패']); exit; }
+    try {
+        $limit  = min((int)($_GET['limit']  ?? 30), 100);
+        $offset = max((int)($_GET['offset'] ?? 0), 0);
+        $total  = (int)$pdo->query("SELECT COUNT(*) FROM news_pages")->fetchColumn();
+        $rows   = $pdo->query(
+            "SELECT id, publish_date, editor_note, file_path, published_at
+             FROM news_pages ORDER BY publish_date DESC
+             LIMIT $limit OFFSET $offset"
+        )->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode(['success' => true, 'list' => $rows, 'total' => $total]);
+    } catch (PDOException $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
+}
+
+/* ── Signal: 편집자 노트 수정 ─────────────────────────── */
+if ($action === 'signal_editor_note_update') {
+    if (!isset($_SESSION['admin_auth']) || $_SESSION['admin_auth'] !== true) {
+        echo json_encode(['success' => false, 'message' => '인증이 필요합니다.']); exit;
+    }
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        echo json_encode(['success' => false, 'message' => '잘못된 요청 방식']); exit;
+    }
+    $id          = (int)($_POST['id']          ?? 0);
+    $editor_note = trim($_POST['editor_note']  ?? '');
+    if (!$id || $editor_note === '') {
+        echo json_encode(['success' => false, 'message' => 'ID와 편집자 노트를 입력해주세요.']); exit;
+    }
+    if (mb_strlen($editor_note) > 300) {
+        echo json_encode(['success' => false, 'message' => '편집자 노트는 300자 이내로 작성해주세요.']); exit;
+    }
+
+    $pdo = get_db_conn();
+    if (!$pdo) { echo json_encode(['success' => false, 'message' => 'DB 연결 실패']); exit; }
+    try {
+        $row = $pdo->prepare("SELECT publish_date, file_path FROM news_pages WHERE id = ?");
+        $row->execute([$id]);
+        $page = $row->fetch(PDO::FETCH_ASSOC);
+        if (!$page) {
+            echo json_encode(['success' => false, 'message' => '해당 페이지를 찾을 수 없습니다.']); exit;
+        }
+
+        $upd = $pdo->prepare("UPDATE news_pages SET editor_note = ? WHERE id = ?");
+        $upd->execute([$editor_note, $id]);
+
+        $html_updated = false;
+        $file_path = $page['file_path'];
+        if (!$file_path) {
+            $file_path = '/opt/bitnami/apache2/htdocs/signal/' . $page['publish_date'] . '.html';
+        }
+        if (file_exists($file_path)) {
+            $html = file_get_contents($file_path);
+            $escaped_note = htmlspecialchars($editor_note, ENT_QUOTES, 'UTF-8');
+            $html = preg_replace(
+                '/<div class="editor-text">.*?<\/div>/s',
+                '<div class="editor-text">' . $escaped_note . '</div>',
+                $html
+            );
+            $json_note = json_encode($editor_note, JSON_UNESCAPED_UNICODE);
+            $html = preg_replace(
+                '/"editor_note"\s*:\s*"[^"]*"/',
+                '"editor_note":' . $json_note,
+                $html
+            );
+            file_put_contents($file_path, $html);
+            $html_updated = true;
+        }
+
+        error_log('[VibeAdmin] editor_note updated: date=' . $page['publish_date'] . ' html=' . ($html_updated ? 'Y' : 'N'));
+        echo json_encode([
+            'success'      => true,
+            'message'      => ($html_updated ? 'DB + HTML 반영 완료' : 'DB만 반영 (HTML 파일 없음)'),
+            'html_updated' => $html_updated,
+        ]);
+    } catch (PDOException $e) {
+        error_log('[VibeAdmin] editor_note_update error: ' . $e->getMessage());
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
+}
+
+
 
 echo json_encode(['success' => false, 'message' => '잘못된 요청']);
 ?>

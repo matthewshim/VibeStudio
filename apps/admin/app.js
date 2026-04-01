@@ -1145,6 +1145,7 @@ function initSignalTab() {
     if (dateEl && !dateEl.value) dateEl.value = fmt(new Date());
     fetchSignalOverview();
     fetchSignalScheduler();
+    fetchEditorNotes();
     fetchSignalDigestLogs();
 }
 
@@ -1307,6 +1308,230 @@ window.gotoSignalLogPage = function(p) {
     _signalLogState.page = p;
     fetchSignalDigestLogs();
 };
+
+
+// ==========================================
+// Signal 편집자 노트 관리
+// ==========================================
+
+let _editorNoteState = { page: 0, perPage: 10, total: 0 };
+
+window.fetchEditorNotes = async function() {
+    const tbody    = document.getElementById('editor-note-body');
+    const cardList = document.getElementById('editor-note-card-list');
+    const countEl  = document.getElementById('editor-note-count');
+    if (tbody) tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:var(--text-muted);">로드 중...</td></tr>';
+    if (cardList) cardList.innerHTML = '';
+
+    const { page, perPage } = _editorNoteState;
+    try {
+        const res  = await fetch('admin.php?action=signal_editor_notes&limit=' + perPage + '&offset=' + (page * perPage));
+        const data = await res.json();
+        if (!data.success) return;
+        _editorNoteState.total = data.total;
+        if (countEl) countEl.textContent = '(전체 ' + data.total + '건)';
+        renderEditorNotes(data.list);
+        renderEditorNotePagination();
+        if (window.lucide) window.lucide.createIcons();
+    } catch(e) { console.error('fetchEditorNotes error', e); }
+};
+
+function renderEditorNotes(list) {
+    const tbody    = document.getElementById('editor-note-body');
+    const cardList = document.getElementById('editor-note-card-list');
+    const FALLBACK = '오늘도 AI 세계에서 꼭 알아야 할 소식을 골랐습니다';
+
+    if (!list || list.length === 0) {
+        if (tbody)    tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:var(--text-muted);">편집자 노트가 없습니다.</td></tr>';
+        if (cardList) cardList.innerHTML = '';
+        return;
+    }
+
+    // PC 테이블
+    if (tbody) {
+        tbody.innerHTML = '';
+        list.forEach(function(item) {
+            const isFallback = item.editor_note && item.editor_note.indexOf(FALLBACK) === 0;
+            const notePreview = item.editor_note
+                ? (item.editor_note.length > 60 ? item.editor_note.substring(0, 60) + '…' : item.editor_note)
+                : '-';
+            const statusBadge = isFallback
+                ? '<span style="display:inline-block;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:600;background:rgba(255,159,10,0.12);color:#ff9f0a;margin-left:6px;">기본 텍스트</span>'
+                : '<span style="display:inline-block;padding:2px 6px;border-radius:10px;font-size:10px;font-weight:600;background:rgba(52,211,153,0.12);color:#34d399;margin-left:6px;">AI 생성</span>';
+            const tr = document.createElement('tr');
+            tr.id = 'ednote-row-' + item.id;
+            tr.innerHTML =
+                '<td style="font-weight:700;white-space:nowrap;">' + item.publish_date + '</td>' +
+                '<td style="font-size:12px;color:var(--text-main);" title="' + escapeHtml(item.editor_note || '') + '">' +
+                    escapeHtml(notePreview) + statusBadge +
+                '</td>' +
+                '<td>' +
+                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ',' + JSON.stringify(escapeHtml(item.editor_note || '')) + ')" title="수정">' +
+                        '<i data-lucide="pencil" style="width:11px;height:11px;"></i> 수정' +
+                    '</button>' +
+                '</td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    // 모바일 카드
+    if (cardList) {
+        cardList.innerHTML = '';
+        list.forEach(function(item) {
+            const isFallback = item.editor_note && item.editor_note.indexOf(FALLBACK) === 0;
+            const statusLabel = isFallback ? '기본 텍스트' : 'AI 생성';
+            const statusColor = isFallback ? '#ff9f0a' : '#34d399';
+            const card = document.createElement('div');
+            card.className = 'admin-card';
+            card.id = 'ednote-card-' + item.id;
+            card.innerHTML =
+                '<div class="admin-card-row">' +
+                    '<span style="font-weight:700;font-size:14px;">' + item.publish_date + '</span>' +
+                    '<span style="padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;color:' + statusColor + ';">' + statusLabel + '</span>' +
+                '</div>' +
+                '<div style="font-size:12px;color:var(--text-muted);margin:6px 0 8px;line-height:1.5;word-break:break-all;">' +
+                    escapeHtml(item.editor_note || '-') +
+                '</div>' +
+                '<div style="display:flex;justify-content:flex-end;">' +
+                    '<button class="acct-edit-btn" onclick="editEditorNote(' + item.id + ',' + JSON.stringify(escapeHtml(item.editor_note || '')) + ')">' +
+                        '<i data-lucide="pencil" style="width:11px;height:11px;"></i> 수정' +
+                    '</button>' +
+                '</div>';
+            cardList.appendChild(card);
+        });
+    }
+}
+
+window.editEditorNote = function(id, currentNote) {
+    // HTML 엔티티 디코드
+    const tmp = document.createElement('textarea');
+    tmp.innerHTML = currentNote;
+    const decoded = tmp.value;
+
+    // PC row 인라인 편집
+    const tr = document.getElementById('ednote-row-' + id);
+    if (tr) {
+        tr.dataset.origHtml = tr.innerHTML;
+        tr.innerHTML =
+            '<td style="font-weight:700;white-space:nowrap;vertical-align:top;padding-top:14px;">' + tr.cells[0].textContent + '</td>' +
+            '<td style="padding:8px 12px;">' +
+                '<textarea id="ednote-input-' + id + '" class="acct-input" ' +
+                    'style="width:100%;height:60px;resize:vertical;font-size:12px;line-height:1.5;padding:8px 10px;" ' +
+                    'maxlength="300">' + escapeHtml(decoded) + '</textarea>' +
+                '<div style="font-size:10px;color:var(--text-muted);margin-top:4px;" id="ednote-charcount-' + id + '"></div>' +
+            '</td>' +
+            '<td style="vertical-align:top;padding-top:12px;">' +
+                '<div style="display:flex;flex-direction:column;gap:4px;">' +
+                    '<button class="acct-edit-btn" style="background:rgba(52,211,153,0.12);color:#10b981;border-color:rgba(52,211,153,0.3);" ' +
+                        'onclick="saveEditorNote(' + id + ')">' +
+                        '<i data-lucide="check" style="width:11px;height:11px;"></i> 저장' +
+                    '</button>' +
+                    '<button class="acct-delete-btn" onclick="cancelEditorNoteEdit(' + id + ')">취소</button>' +
+                '</div>' +
+            '</td>';
+        if (window.lucide) window.lucide.createIcons();
+        const ta = document.getElementById('ednote-input-' + id);
+        if (ta) {
+            ta.focus();
+            updateEditorNoteCharCount(id);
+            ta.addEventListener('input', function() { updateEditorNoteCharCount(id); });
+        }
+    }
+
+    // 모바일 카드 인라인 편집
+    const card = document.getElementById('ednote-card-' + id);
+    if (card) {
+        card.dataset.origHtml = card.innerHTML;
+        const dateText = card.querySelector('.admin-card-row span')?.textContent || '';
+        card.innerHTML =
+            '<div class="admin-card-row"><span style="font-weight:700;font-size:14px;">' + dateText + '</span></div>' +
+            '<textarea id="ednote-input-m-' + id + '" class="acct-input" ' +
+                'style="width:100%;height:70px;resize:vertical;font-size:12px;line-height:1.5;padding:8px 10px;margin:8px 0;" ' +
+                'maxlength="300">' + escapeHtml(decoded) + '</textarea>' +
+            '<div style="display:flex;justify-content:flex-end;gap:6px;">' +
+                '<button class="acct-edit-btn" style="background:rgba(52,211,153,0.12);color:#10b981;border-color:rgba(52,211,153,0.3);" ' +
+                    'onclick="saveEditorNote(' + id + ',true)">' +
+                    '<i data-lucide="check" style="width:11px;height:11px;"></i> 저장' +
+                '</button>' +
+                '<button class="acct-delete-btn" onclick="cancelEditorNoteEdit(' + id + ',true)">취소</button>' +
+            '</div>';
+        if (window.lucide) window.lucide.createIcons();
+    }
+};
+
+function updateEditorNoteCharCount(id) {
+    const ta = document.getElementById('ednote-input-' + id);
+    const el = document.getElementById('ednote-charcount-' + id);
+    if (ta && el) {
+        el.textContent = ta.value.length + ' / 300자';
+    }
+}
+
+window.saveEditorNote = async function(id, isMobile) {
+    const inputId = isMobile ? 'ednote-input-m-' + id : 'ednote-input-' + id;
+    const ta = document.getElementById(inputId);
+    if (!ta) return;
+    const note = ta.value.trim();
+    if (!note) { vibeToast('편집자 노트를 입력해주세요.', 'warn'); return; }
+    if (note.length > 300) { vibeToast('300자 이내로 작성해주세요.', 'warn'); return; }
+
+    try {
+        const res = await fetch('admin.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'action=signal_editor_note_update&id=' + id + '&editor_note=' + encodeURIComponent(note)
+        });
+        const data = await res.json();
+        if (data.success) {
+            vibeToast(data.message, 'success');
+            fetchEditorNotes();
+        } else {
+            vibeToast('저장 실패: ' + data.message, 'error');
+        }
+    } catch(e) {
+        vibeToast('네트워크 오류가 발생했습니다.', 'error');
+    }
+};
+
+window.cancelEditorNoteEdit = function(id, isMobile) {
+    if (isMobile) {
+        const card = document.getElementById('ednote-card-' + id);
+        if (card && card.dataset.origHtml) {
+            card.innerHTML = card.dataset.origHtml;
+            delete card.dataset.origHtml;
+            if (window.lucide) window.lucide.createIcons();
+        }
+    } else {
+        const tr = document.getElementById('ednote-row-' + id);
+        if (tr && tr.dataset.origHtml) {
+            tr.innerHTML = tr.dataset.origHtml;
+            delete tr.dataset.origHtml;
+            if (window.lucide) window.lucide.createIcons();
+        }
+    }
+};
+
+function renderEditorNotePagination() {
+    const el = document.getElementById('editor-note-pagination');
+    if (!el) return;
+    const { page, perPage, total } = _editorNoteState;
+    const pages = Math.ceil(total / perPage);
+    if (pages <= 1) { el.innerHTML = ''; return; }
+    let html = '';
+    if (page > 0) html += '<button class="seclog-page-btn" onclick="gotoEditorNotePage(' + (page-1) + ')"><i data-lucide="chevron-left" style="width:13px;height:13px;"></i></button>';
+    const start = Math.max(0, page-2), end = Math.min(pages, start+5);
+    for (let p = start; p < end; p++)
+        html += '<button class="seclog-page-btn' + (p===page?' active':'') + '" onclick="gotoEditorNotePage(' + p + ')">' + (p+1) + '</button>';
+    if (page < pages-1) html += '<button class="seclog-page-btn" onclick="gotoEditorNotePage(' + (page+1) + ')"><i data-lucide="chevron-right" style="width:13px;height:13px;"></i></button>';
+    el.innerHTML = html;
+    if (window.lucide) window.lucide.createIcons();
+}
+
+window.gotoEditorNotePage = function(p) {
+    _editorNoteState.page = p;
+    fetchEditorNotes();
+};
+
 
 // ══════════════════════════════════════════════════
 // ♥ Support 후원 관리 탭

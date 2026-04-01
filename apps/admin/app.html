@@ -558,6 +558,42 @@
                 </div>
             </div>
 
+            <!-- ②-2 편집자 노트 관리 -->
+            <div class="stats-chart-block" style="margin-bottom:16px;">
+                <div class="stats-chart-title" style="display:flex;justify-content:space-between;align-items:center;">
+                    <span>
+                        <i data-lucide="pen-line" style="width:15px;height:15px;color:#a78bfa;"></i>
+                        편집자 노트 관리
+                        <span id="editor-note-count" style="font-size:11px;font-weight:500;color:var(--text-muted);margin-left:8px;"></span>
+                    </span>
+                    <button class="admin-btn primary" onclick="fetchEditorNotes()" style="height:28px;padding:0 10px;font-size:12px;">
+                        <i data-lucide="refresh-cw" style="width:12px;height:12px;"></i> 새로고침
+                    </button>
+                </div>
+                <p style="font-size:12px;color:var(--text-muted);margin:8px 0 14px;line-height:1.5;">
+                    AI가 자동 생성한 편집자 노트를 수동으로 수정할 수 있습니다. 수정 시 DB와 HTML 파일이 동시에 업데이트됩니다.
+                </p>
+                <!-- PC 테이블 -->
+                <div class="admin-table-container" style="margin-top:8px;">
+                    <table class="admin-table" id="editor-note-table">
+                        <thead>
+                            <tr>
+                                <th style="width:100px;">발행일</th>
+                                <th>편집자 노트</th>
+                                <th style="width:70px;">관리</th>
+                            </tr>
+                        </thead>
+                        <tbody id="editor-note-body">
+                            <tr><td colspan="3" style="text-align:center;padding:30px;color:var(--text-muted);">로드 중...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- 모바일 카드 -->
+                <div class="admin-card-list" id="editor-note-card-list"></div>
+                <!-- 페이지네이션 -->
+                <div id="editor-note-pagination" style="display:flex;justify-content:center;gap:6px;margin-top:12px;"></div>
+            </div>
+
             <!-- ③ 메일 발송 이력 -->
             <div class="stats-chart-block">
                 <div class="stats-chart-title">
