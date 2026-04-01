@@ -423,6 +423,8 @@ HTML;
 
 // ── 파일 저장 ─────────────────────────────────────────────
 file_put_contents($OUTPUT_FILE, $html);
+// Admin Panel(Apache/daemon)에서 편집자 노트 수정 시 write 가능하도록 퍼미션 설정
+@chmod($OUTPUT_FILE, 0664);
 log_msg("✓ 페이지 생성: {$OUTPUT_FILE}");
 
 // ── DB 기록 ───────────────────────────────────────────────
