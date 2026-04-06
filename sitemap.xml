@@ -165,5 +165,53 @@
     <changefreq>never</changefreq>
     <priority>0.8</priority>
   </url>
+
+  <!-- Signal 2026-04-01 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-01</loc>
+    <lastmod>2026-04-01</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Signal 2026-04-02 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-02</loc>
+    <lastmod>2026-04-02</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Signal 2026-04-03 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-03</loc>
+    <lastmod>2026-04-03</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Signal 2026-04-04 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-04</loc>
+    <lastmod>2026-04-04</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Signal 2026-04-05 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-05</loc>
+    <lastmod>2026-04-05</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Signal 2026-04-06 -->
+  <url>
+    <loc>https://vibestudio.prisincera.com/signal/2026-04-06</loc>
+    <lastmod>2026-04-06</lastmod>
+    <changefreq>never</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
 
